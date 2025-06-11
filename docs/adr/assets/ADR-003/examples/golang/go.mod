@@ -1,6 +1,7 @@
 module github-app-get-tokent
 
-go 1.21.0
+go 1.23.0
+
 toolchain go1.23.7
 
 require (
@@ -8,4 +9,4 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 )
 
-require golang.org/x/net v0.36.0 // indirect
+require golang.org/x/net v0.38.0 // indirect
