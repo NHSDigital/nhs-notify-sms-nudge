@@ -8,14 +8,6 @@ resource "aws_cloudwatch_event_rule" "inbound_event" {
       "source": [
         "//nhs.notify.uk/supplier-status/${var.core_environment}"
       ],
-      "data": {
-        "supplierStatus": [
-          "unnotified"
-        ],
-        "delayedFallback": [
-          true
-        ]
-      }
     }
   })
 }
