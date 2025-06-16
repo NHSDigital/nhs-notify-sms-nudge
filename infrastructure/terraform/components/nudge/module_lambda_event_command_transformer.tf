@@ -27,7 +27,6 @@ module "lambda_event_command_transformer" {
   memory                  = 128
   timeout                 = 5
   log_level               = var.log_level
-  lambda_at_edge          = true
 
   force_lambda_code_deploy = var.force_lambda_code_deploy
   enable_lambda_insights   = false
