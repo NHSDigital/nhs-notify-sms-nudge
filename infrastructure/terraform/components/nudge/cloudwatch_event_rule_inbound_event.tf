@@ -7,7 +7,7 @@ resource "aws_cloudwatch_event_rule" "inbound_event" {
     "detail": {
       "source": [
         "//nhs.notify.uk/supplier-status/${var.core_environment}"
-      ],
+      ]
     }
   })
 }
