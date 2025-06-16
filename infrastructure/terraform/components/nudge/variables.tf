@@ -75,12 +75,6 @@ variable "parent_eventbus_environment" {
   default     = "main"
 }
 
-variable "core_environment" {
-  type        = string
-  description = "The source environment in core that sends the unnotified messages to the nudge component"
-  default     = "internal-dev"
-}
-
 variable "log_level" {
   type        = string
   description = "The log level to be used in lambda functions within the component. Any log with a lower severity than the configured value will not be logged: https://docs.python.org/3/library/logging.html#levels"

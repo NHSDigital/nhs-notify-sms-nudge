@@ -5,8 +5,11 @@ resource "aws_cloudwatch_event_rule" "inbound_event" {
 
   event_pattern = jsonencode({
     "detail": {
-      "source": [
-        "//nhs.notify.uk/supplier-status/${var.core_environment}" ## For testing purposes only. Probably shouldn't be scoped to a specific environment
+      "type": [
+        "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1"
+      ],
+      "plane": [
+        "data"
       ]
     }
   })
