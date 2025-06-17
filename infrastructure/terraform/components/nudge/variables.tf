@@ -87,7 +87,7 @@ variable "force_lambda_code_deploy" {
   default     = false
 }
 
-variable "event_bus_account_id" {
+variable "eventbus_account_id" {
   type        = string
   description = "The AWS Account ID for the event bus"
 }

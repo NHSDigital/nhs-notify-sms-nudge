@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "sqs_inbound_event" {
     condition {
       test     = "ArnLike"
       variable = "aws:SourceArn"
-      values   = ["arn:aws:events:${var.region}:${var.event_bus_account_id}:rule/*-data-plane/*"]
+      values   = ["arn:aws:events:${var.region}:${var.eventbus_account_id}:rule/*-data-plane/*"]
     }
   }
 }
