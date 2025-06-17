@@ -36,9 +36,9 @@ data "aws_iam_policy_document" "sqs_inbound_event" {
     ]
 
     condition {
-      test     = "ArnEquals"
+      test     = "ArnLike"
       variable = "aws:SourceArn"
-      values   = [aws_cloudwatch_event_rule.inbound_event.arn]
+      values   = ["arn:aws:events:${var.region}:${var.event_bus_account_id}:rule/*-data-plane/*"]
     }
   }
 }

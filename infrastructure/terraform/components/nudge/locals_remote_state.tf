@@ -1,7 +1,6 @@
 locals {
   bootstrap = data.terraform_remote_state.bootstrap.outputs
   acct      = data.terraform_remote_state.acct.outputs
-  eventbus  = data.terraform_remote_state.eventbus.outputs
 }
 
 data "terraform_remote_state" "bootstrap" {
@@ -34,24 +33,6 @@ data "terraform_remote_state" "acct" {
       var.aws_account_id,
       "eu-west-2",
       var.parent_acct_environment
-    )
-
-    region = "eu-west-2"
-  }
-}
-
-data "terraform_remote_state" "eventbus" {
-  backend = "s3"
-
-  config = {
-    bucket = local.terraform_state_bucket
-
-    key = format(
-      "%s/%s/%s/%s/events.tfstate",
-      var.project,
-      var.aws_account_id,
-      "eu-west-2",
-      var.parent_eventbus_environment
     )
 
     region = "eu-west-2"
