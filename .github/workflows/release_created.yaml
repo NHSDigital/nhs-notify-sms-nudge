@@ -27,6 +27,6 @@ jobs:
       releaseVersion: ${{ github.event.release.tag_name }}
       targetWorkflow: "dispatch-deploy-static-notify-sms-nudge-env.yaml"
       targetEnvironment: "main"
-      targetAccountGroup: "nhs-notify-eventbus-nonprod"
+      targetAccountGroup: "nhs-notify-sharedinfra-nonprod"
       targetComponent: ${{ matrix.component }}
       terraformAction: "apply"
