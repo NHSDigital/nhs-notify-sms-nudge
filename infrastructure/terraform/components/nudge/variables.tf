@@ -38,7 +38,7 @@ variable "group" {
 variable "component" {
   type        = string
   description = "The variable encapsulating the name of this component"
-  default     = "acct"
+  default     = "nudge"
 }
 
 variable "default_tags" {
@@ -48,7 +48,7 @@ variable "default_tags" {
 }
 
 ##
-# Variables specific to the "dnsroot"component
+# Variables specific to the component
 ##
 
 variable "log_retention_in_days" {
@@ -57,8 +57,37 @@ variable "log_retention_in_days" {
   default     = 0
 }
 
-variable "root_domain_name" {
+variable "kms_deletion_window" {
   type        = string
-  description = "The service's root DNS root nameespace, like nonprod.nhsnotify.national.nhs.uk"
-  default     = "nonprod.nhsnotify.national.nhs.uk"
+  description = "When a kms key is deleted, how long should it wait in the pending deletion state?"
+  default     = "30"
+}
+
+variable "parent_acct_environment" {
+  type        = string
+  description = "Name of the environment responsible for the acct resources used, affects things like DNS zone. Useful for named dev environments"
+  default     = "main"
+}
+
+variable "parent_eventbus_environment" {
+  type        = string
+  description = "Name of the environment responsible for the eventbus resources used, affects things like eventbus arns and names. Useful for named dev environments"
+  default     = "main"
+}
+
+variable "log_level" {
+  type        = string
+  description = "The log level to be used in lambda functions within the component. Any log with a lower severity than the configured value will not be logged: https://docs.python.org/3/library/logging.html#levels"
+  default     = "INFO"
+}
+
+variable "force_lambda_code_deploy" {
+  type        = bool
+  description = "If the lambda package in s3 has the same commit id tag as the terraform build branch, the lambda will not update automatically. Set to True if making changes to Lambda code from on the same commit for example during development"
+  default     = false
+}
+
+variable "eventbus_account_id" {
+  type        = string
+  description = "The AWS Account ID for the event bus"
 }
