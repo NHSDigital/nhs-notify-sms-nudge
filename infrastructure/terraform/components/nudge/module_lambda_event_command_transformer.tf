@@ -23,7 +23,7 @@ module "lambda_event_command_transformer" {
   function_code_dir       = "event-command-transformer/dist"
   function_include_common = true
   handler_function_name   = "handler"
-  runtime                 = "nodejs20.x"
+  runtime                 = "nodejs22.x"
   memory                  = 128
   timeout                 = 5
   log_level               = var.log_level

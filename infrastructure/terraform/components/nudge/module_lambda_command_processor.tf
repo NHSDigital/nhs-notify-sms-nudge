@@ -23,7 +23,7 @@ module "lambda_command_processor" {
   function_code_dir       = "command-processor/dist"
   function_include_common = true
   handler_function_name   = "handler"
-  runtime                 = "nodejs20.x"
+  runtime                 = "nodejs22.x"
   memory                  = 128
   timeout                 = 5
   log_level               = var.log_level
