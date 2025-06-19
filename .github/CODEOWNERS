@@ -1,10 +1,10 @@
 # NHS Notify Code Owners
 
 # Notify default owners
-*                           @NHSDigital/nhs-notify-repository-template
+*                           @NHSDigital/nhs-notify-sms-nudge-admins
 
-/.github/                   @NHSDigital/nhs-notify-repository-template-admins
-*.code-workspace            @NHSDigital/nhs-notify-repository-template-admins
+/.github/                   @NHSDigital/nhs-notify-sms-nudge-admins
+*.code-workspace            @NHSDigital/nhs-notify-sms-nudge-admins
 /infrastructure/terraform/  @NHSDigital/nhs-notify-platform
 
 # Codeowners must be final check
