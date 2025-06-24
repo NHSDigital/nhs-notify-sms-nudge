@@ -4,7 +4,7 @@
     "esbuild": "^0.24.0"
   },
   "devDependencies": {
-    "@swc/core": "^1.11.13",
+    "@swc/core": "^1.12.6",
     "@swc/jest": "^0.2.37",
     "@tsconfig/node20": "^20.1.5",
     "@types/aws-lambda": "^8.10.148",
