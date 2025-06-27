@@ -1,8 +1,7 @@
 {
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.828.0",
-    "esbuild": "^0.24.0",
-    "zod": "^3.25.67"
+    "@aws-sdk/client-cloudwatch": "^3.835.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@aws-sdk/types": "3.609.0",
@@ -15,10 +14,11 @@
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"
   },
-  "name": "nhs-notify-sms-nudge-event-command-transformer",
+  "main": "src/index.ts",
+  "name": "@sms/utils",
   "private": true,
   "scripts": {
-    "lambda-build": "rm -rf dist && npx esbuild --bundle --minify --sourcemap --target=es2020 --platform=node --loader:.node=file --entry-names=[name] --outdir=dist src/index.ts",
+    "audit": "scripty",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test:unit": "jest",

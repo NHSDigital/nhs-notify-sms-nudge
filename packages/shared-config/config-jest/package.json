@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@comms/jest-circus-allure-environment": "1.0.2",
+    "@types/jest": "^29.0.0",
+    "allure-commandline": "^2.18.1",
+    "jest": "^29.3.1",
+    "jest-circus": "^29.2.2",
+    "jest-junit": "^14.0.1"
+  },
+  "description": "jest config used by the whole monorepo",
+  "devDependencies": {},
+  "eslintConfig": {
+    "extends": [
+      "@sms/eslint-config-comms/base"
+    ]
+  },
+  "files": [
+    "jest.config.js",
+    "setupAllure.js"
+  ],
+  "name": "@sms/config-jest",
+  "private": true,
+  "scripts": {
+    "test:unit": "echo this package contains no unit tests",
+    "test:unit:coverage": "echo this package contains no unit tests",
+    "typecheck": "echo this package contains no typescript"
+  },
+  "sideEffects": false,
+  "version": "0.0.1"
+}
