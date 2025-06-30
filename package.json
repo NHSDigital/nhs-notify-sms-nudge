@@ -20,6 +20,7 @@
     "jest-html-reporter": "^3.10.2",
     "jest-mock-extended": "^3.0.7",
     "lcov-result-merger": "^5.0.1",
+    "prettier": "^2.8.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3"
   },
@@ -42,7 +43,6 @@
   "workspaces": [
     "lambdas/event-command-transformer",
     "lambdas/command-processor",
-    "packages/shared-config/**",
-    "packages/libs/**"
+    "packages/**/*"
   ]
 }

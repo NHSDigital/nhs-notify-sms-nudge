@@ -1,4 +1,4 @@
-const { getConfig } = require('@comms/config-jest/jest.config');
+const { getConfig } = require('@sms/config-jest/jest.config');
 
 const componentName = '@sms/utils';
 const config = getConfig({ packageRoot: '.', componentName });
