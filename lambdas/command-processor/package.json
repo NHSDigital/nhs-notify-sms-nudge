@@ -3,8 +3,8 @@
     "esbuild": "^0.24.0"
   },
   "devDependencies": {
-    "@swc/core": "^1.11.13",
-    "@swc/jest": "^0.2.37",
+    "@comms/eslint-config-comms": "*",
+    "@sms/config-jest": "*",
     "@tsconfig/node20": "^20.1.5",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",
@@ -12,12 +12,19 @@
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"
   },
+  "eslintConfig": {
+    "extends": [
+      "@comms/eslint-config-comms/strict"
+    ]
+  },
   "name": "nhs-notify-sms-nudge-command-processor",
   "private": true,
   "scripts": {
     "lambda-build": "rm -rf dist && npx esbuild --bundle --minify --sourcemap --target=es2020 --platform=node --loader:.node=file --entry-names=[name] --outdir=dist src/index.ts",
-    "lint": "eslint .",
+    "lint": "pnpm lint:js && pnpm lint:fmt",
     "lint:fix": "eslint . --fix",
+    "lint:fmt": "prettier --check . --ignore-path $(git rev-parse --show-toplevel)/.prettierignore",
+    "lint:js": "eslint .",
     "test:unit": "jest",
     "typecheck": "tsc --noEmit"
   },

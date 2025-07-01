@@ -15,6 +15,21 @@
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"
   },
+  "eslintConfig": {
+    "extends": [
+      "@comms/eslint-config-comms/strict"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.test.*"
+        ],
+        "plugins": [
+          "jest"
+        ]
+      }
+    ]
+  },
   "name": "nhs-notify-sms-nudge-event-command-transformer",
   "private": true,
   "scripts": {
