@@ -3,9 +3,10 @@
     "@comms/jest-circus-allure-environment": "1.0.2"
   },
   "devDependencies": {
-    "@comms/eslint-config-comms": "*",
+    "@sms/eslint-config-comms": "*",
     "@tsconfig/node20": "^20.1.5",
     "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.34",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
     "lcov-result-merger": "^5.0.1",

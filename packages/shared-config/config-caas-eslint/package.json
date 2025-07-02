@@ -38,7 +38,7 @@
     "node.js",
     "strict.js"
   ],
-  "name": "@comms/eslint-config-comms",
+  "name": "@sms/eslint-config-comms",
   "private": true,
   "scripts": {
     "test:unit": "echo this package contains no unit tests",

@@ -3,7 +3,7 @@
     "esbuild": "^0.24.0"
   },
   "devDependencies": {
-    "@comms/eslint-config-comms": "*",
+    "@sms/eslint-config-comms": "*",
     "@sms/config-jest": "*",
     "@tsconfig/node20": "^20.1.5",
     "@types/aws-lambda": "^8.10.148",
@@ -14,7 +14,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "@comms/eslint-config-comms/strict"
+      "@sms/eslint-config-comms/strict"
     ]
   },
   "name": "nhs-notify-sms-nudge-command-processor",

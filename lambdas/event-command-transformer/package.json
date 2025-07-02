@@ -1,8 +1,9 @@
 {
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.828.0",
+    "@types/node": "^22.15.1",
     "esbuild": "^0.24.0",
-    "zod": "^3.25.67"
+    "@sms/util-aws": "*"
   },
   "devDependencies": {
     "@aws-sdk/types": "3.609.0",
@@ -17,7 +18,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "@comms/eslint-config-comms/strict"
+      "@sms/eslint-config-comms/strict"
     ],
     "overrides": [
       {

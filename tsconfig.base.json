@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@comms/*": [
+      "@sms/*": [
         "packages/*"
       ]
     },

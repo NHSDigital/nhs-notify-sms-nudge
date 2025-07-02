@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.base",
+  "compilerOptions": {
+    "outDir": "./target/tsc-output",
+    "declaration": true,
+    "baseUrl": "./src",
+    "composite": true,
+    "target": "es2020",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "isolatedModules": true,
+    "experimentalDecorators": true
+  }
+}

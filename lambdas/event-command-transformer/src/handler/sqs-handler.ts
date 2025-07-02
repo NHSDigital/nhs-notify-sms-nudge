@@ -1,43 +1,28 @@
-import { SQSEvent } from "aws-lambda";
+import { SqsRepository } from "@sms/util-aws";
+import { SQSEvent, SQSRecord } from "aws-lambda";
+import { filterUnnotifiedEvents } from "../app/event-filters";
+import { transformEvent } from "../app/event-transform";
+import { SupplierStatusChangeEvent } from "../domain/cloud-event";
+import { NudgeCommand } from "../domain/nudge-command";
+
 
 export type TransformDependencies = {
-
+  sqsRepository: SqsRepository;
+  commandsQueueUrl: string;
 };
 
-export const createHandler = ({ app, logger }: TransformDependencies) =>
+export const createHandler = ({ sqsRepository, commandsQueueUrl }: TransformDependencies) =>
   async function handler(event: SQSEvent) {
-  };
 
+    const transformedCommands: NudgeCommand[] = event.Records
+      .map(parseSqsRecord)
+      .filter(filterUnnotifiedEvents)
+      .map(transformEvent);
 
-
-
-const sqs = new SQSClient({});
-
-const COMMANDS_QUEUE_URL = process.env.COMMANDS_QUEUE_URL!;
-const EVENTS_DLQ_URL = process.env.EVENTS_DLQ_URL!;
-
-export const handler: SQSHandler = async (event) => {
-  for (const record of event.Records) {
-    try {
-      console.log('Received SQS message:', record.body);
-
-      // Forward message to the commands queue
-      await sqs.send(
-        new SendMessageCommand({
-          QueueUrl: COMMANDS_QUEUE_URL,
-          MessageBody: record.body,
-        })
-      );
-    } catch (error) {
-      console.error('Error processing message, sending to DLQ:', error);
-
-      // Send the failed message to the events DLQ
-      await sqs.send(
-        new SendMessageCommand({
-          QueueUrl: EVENTS_DLQ_URL,
-          MessageBody: record.body,
-        })
-      );
+    for (const command of transformedCommands) {
+      await sqsRepository.send(commandsQueueUrl, command); // assuming processEvent is async
     }
   }
-};
+
+const parseSqsRecord = (sqsRecord: SQSRecord): SupplierStatusChangeEvent =>
+  JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;
