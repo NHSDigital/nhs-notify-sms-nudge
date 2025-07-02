@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.828.0",
+    "@sms/util-aws": "*",
     "@types/node": "^22.15.1",
-    "esbuild": "^0.24.0",
-    "@sms/util-aws": "*"
+    "esbuild": "^0.24.0"
   },
   "devDependencies": {
     "@aws-sdk/types": "3.609.0",

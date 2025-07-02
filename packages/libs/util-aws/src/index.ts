@@ -20,4 +20,3 @@ export * from './sqsService';
 export * from './ssmClient';
 export * from './sts';
 export * from './types';
-

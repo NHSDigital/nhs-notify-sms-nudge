@@ -1,41 +1,4 @@
 {
-  "name": "@sms/util-aws",
-  "version": "0.0.1",
-  "private": true,
-  "main": "src/index.ts",
-  "scripts": {
-    "audit": "PACKAGE_DIR=$(pwd) pnpm --filter @comms/scripty-scripts run-audit",
-    "fix": "pnpm prettier -w . --ignore-path ../../../.prettierignore",
-    "lint": "pnpm lint:js && pnpm lint:fmt",
-    "lint:fmt": "prettier --check . --ignore-path ../../../.prettierignore",
-    "lint:js": "eslint .",
-    "test:unit": "jest  --runInBand",
-    "test:unit:coverage": "jest  --runInBand --coverage",
-    "typecheck": "tsc --project ./tsconfig.json"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@sms/eslint-config-comms/strict"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "*.test.*"
-        ],
-        "plugins": [
-          "jest"
-        ],
-        "rules": {
-          "@typescript-eslint/unbound-method": "off",
-          "jest/unbound-method": "error"
-        }
-      }
-    ],
-    "rules": {
-      "@typescript-eslint/unbound-method": "error"
-    }
-  },
-  "sideEffects": false,
   "dependencies": {
     "@aws-sdk/client-api-gateway": "3.821.0",
     "@aws-sdk/client-cloudwatch": "3.821.0",
@@ -55,9 +18,9 @@
     "@aws-sdk/lib-storage": "3.821.0",
     "@aws-sdk/types": "3.821.0",
     "@aws-sdk/util-dynamodb": "3.821.0",
+    "@redis/client": "^1.5.14",
     "@sms/util-logger": "*",
     "@sms/util-retry": "*",
-    "@redis/client": "^1.5.14",
     "@types/aws-lambda": "^8.10.119",
     "async-mutex": "^0.4.0",
     "fast-deep-equal": "3.1.3",
@@ -81,5 +44,42 @@
     "jest-junit": "^14.0.1",
     "jest-mock-extended": "^2.0.6",
     "typescript": "^4.8.4"
-  }
+  },
+  "eslintConfig": {
+    "extends": [
+      "@sms/eslint-config-comms/strict"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.test.*"
+        ],
+        "plugins": [
+          "jest"
+        ],
+        "rules": {
+          "@typescript-eslint/unbound-method": "off",
+          "jest/unbound-method": "error"
+        }
+      }
+    ],
+    "rules": {
+      "@typescript-eslint/unbound-method": "error"
+    }
+  },
+  "main": "src/index.ts",
+  "name": "@sms/util-aws",
+  "private": true,
+  "scripts": {
+    "audit": "PACKAGE_DIR=$(pwd) pnpm --filter @comms/scripty-scripts run-audit",
+    "fix": "pnpm prettier -w . --ignore-path ../../../.prettierignore",
+    "lint": "pnpm lint:js && pnpm lint:fmt",
+    "lint:fmt": "prettier --check . --ignore-path ../../../.prettierignore",
+    "lint:js": "eslint .",
+    "test:unit": "jest  --runInBand",
+    "test:unit:coverage": "jest  --runInBand --coverage",
+    "typecheck": "tsc --project ./tsconfig.json"
+  },
+  "sideEffects": false,
+  "version": "0.0.1"
 }
