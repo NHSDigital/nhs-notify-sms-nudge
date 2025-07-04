@@ -34,7 +34,7 @@ version:
 
 .install:
 	pnpm run configure-npm-mirror
-	pnpm install --frozen-lockfile --prefer-offline
+	pnpm install --no-frozen-lockfile --prefer-offline
 
 install: .install
 # ==============================================================================
