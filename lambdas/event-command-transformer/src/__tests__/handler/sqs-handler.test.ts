@@ -100,12 +100,10 @@ describe('Event to Command Transform Handler', () => {
   });
 
   it('should handle multiple records', async () => {
-    const multiEvent: SQSEvent = {
-      Records: [
-        createSQSEvent('id: test-body-1').Records[0],
-        createSQSEvent('id: test-body-2').Records[0],
-      ],
-    };
+    const multiEvent: SQSEvent = createSQSEventMulti([
+      createSQSRecord('id: test-body-1'),
+      createSQSRecord('id: test-body-2')
+    ]);
 
     mockedParse.mockImplementation((record: SQSRecord) => ({ parsed: record.body }));
     mockedFilter.mockReturnValue(true);

@@ -12,7 +12,7 @@ export type TransformDependencies = {
 };
 
 export const createHandler = ({ sqsRepository, commandsQueueUrl }: TransformDependencies) =>
-  async function handler(event: SQSEvent): Promise<Void> {
+  async function handler(event: SQSEvent) {
 
     const transformedCommands: NudgeCommand[] = event.Records
       .map(parseSqsRecord)
