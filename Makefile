@@ -33,8 +33,8 @@ version:
 	echo "{ \"schemaVersion\": 1, \"label\": \"version\", \"message\": \"$$(head -n 1 .version 2> /dev/null || echo unknown)\", \"color\": \"orange\" }" > version.json
 
 .install:
-	pnpm run configure-npm-mirror
-	pnpm install --frozen-lockfile --prefer-offline
+	npm run configure-npm-mirror
+	npm install --frozen-lockfile --prefer-offline
 
 install: .install
 # ==============================================================================

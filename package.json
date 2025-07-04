@@ -3,7 +3,6 @@
     "@comms/jest-circus-allure-environment": "1.0.2"
   },
   "devDependencies": {
-    "@sms/eslint-config-comms": "*",
     "@tsconfig/node20": "^20.1.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.34",
@@ -31,7 +30,7 @@
     "typecheck": "npm run typecheck --workspaces"
   },
   "workspaces": [
-    "lambdas/**/*",
-    "packages/**/*"
+    "lambdas/event-command-transformer",
+    "lambdas/command-processor"
   ]
 }

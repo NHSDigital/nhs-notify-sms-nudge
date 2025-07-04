@@ -1,9 +1,9 @@
-import { SqsRepository } from "@sms/util-aws";
-import { SQSEvent, SQSRecord } from "aws-lambda";
+import { SQSEvent } from "aws-lambda";
 import { filterUnnotifiedEvents } from "../app/event-filters";
 import { transformEvent } from "../app/event-transform";
-import { SupplierStatusChangeEvent } from "../domain/cloud-event";
+import { parseSqsRecord } from "../app/parse-cloud-event";
 import { NudgeCommand } from "../domain/nudge-command";
+import { SqsRepository } from "../infra/SqsRepository";
 
 
 export type TransformDependencies = {
@@ -12,7 +12,7 @@ export type TransformDependencies = {
 };
 
 export const createHandler = ({ sqsRepository, commandsQueueUrl }: TransformDependencies) =>
-  async function handler(event: SQSEvent) {
+  async function handler(event: SQSEvent): Promise<Void> {
 
     const transformedCommands: NudgeCommand[] = event.Records
       .map(parseSqsRecord)
@@ -20,9 +20,6 @@ export const createHandler = ({ sqsRepository, commandsQueueUrl }: TransformDepe
       .map(transformEvent);
 
     for (const command of transformedCommands) {
-      await sqsRepository.send(commandsQueueUrl, command); // assuming processEvent is async
+      await sqsRepository.send(commandsQueueUrl, command);
     }
   }
-
-const parseSqsRecord = (sqsRecord: SQSRecord): SupplierStatusChangeEvent =>
-  JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;

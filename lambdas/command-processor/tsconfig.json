@@ -1,8 +1,6 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./target/tsc-output",
-    "module": "commonjs",
-    "resolveJsonModule": true,
-  }
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "include": [
+    "src/**/*"
+  ]
 }

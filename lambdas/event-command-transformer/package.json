@@ -1,8 +1,6 @@
 {
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.828.0",
-    "@sms/util-aws": "*",
-    "@types/node": "^22.15.1",
     "esbuild": "^0.24.0"
   },
   "devDependencies": {
@@ -12,24 +10,10 @@
     "@tsconfig/node20": "^20.1.5",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.1",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@sms/eslint-config-comms/strict"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "*.test.*"
-        ],
-        "plugins": [
-          "jest"
-        ]
-      }
-    ]
   },
   "name": "nhs-notify-sms-nudge-event-command-transformer",
   "private": true,

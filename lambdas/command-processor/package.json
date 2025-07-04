@@ -3,19 +3,12 @@
     "esbuild": "^0.24.0"
   },
   "devDependencies": {
-    "@sms/config-jest": "*",
-    "@sms/eslint-config-comms": "*",
     "@tsconfig/node20": "^20.1.5",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@sms/eslint-config-comms/strict"
-    ]
   },
   "name": "nhs-notify-sms-nudge-command-processor",
   "private": true,
