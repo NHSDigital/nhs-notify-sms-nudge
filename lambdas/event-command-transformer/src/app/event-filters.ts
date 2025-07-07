@@ -1,18 +1,21 @@
+import { Logger } from "nhs-notify-sms-nudge-utils/logger";
 import { SupplierStatusChangeEvent } from "../domain/cloud-event";
 
 const expectedTypes = [
   "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
 ]
 
-export const filterUnnotifiedEvents = (event: SupplierStatusChangeEvent): boolean => {
+export const filterUnnotifiedEvents = (event: SupplierStatusChangeEvent, logger: Logger): boolean => {
+
+  logger.info(`Parsing cloud event id: ${event.id}`);
 
   if (!expectedTypes.includes(event.type)) {
-    console.log(`Skipping event ${event.id}: Unexpected event type`);
+    logger.warn('Skipping event %s: Unexpected event type %s', event.id, event.type);
     return false;
   }
 
   if (event.data.delayedFallback !== true) {
-    console.log(`Skipping event ${event.id}: Not delayed fallback`);
+    logger.info('Skipping event %s: Not delayed fallback', event.id);
     return false;
   }
 

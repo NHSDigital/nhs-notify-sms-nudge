@@ -1,3 +1,4 @@
+import { logger } from "nhs-notify-sms-nudge-utils/logger";
 import { TransformDependencies } from "../handler/sqs-handler";
 import { SqsRepository, } from "../infra/SqsRepository";
 import { sqsClient } from "../infra/sqs-client";
@@ -8,5 +9,5 @@ export const createContainer = (): TransformDependencies => {
 
   const sqsRepository = new SqsRepository(sqsClient);
 
-  return { sqsRepository, commandsQueueUrl: COMMANDS_QUEUE_URL }
+  return { sqsRepository, commandsQueueUrl: COMMANDS_QUEUE_URL, logger }
 }

@@ -1,13 +1,15 @@
+import { logger } from "nhs-notify-sms-nudge-utils/logger";
 import { transformEvent } from "../../app/event-transform";
 import { SupplierStatusChangeEvent } from "../../domain/cloud-event";
 import { NudgeCommand } from "../../domain/nudge-command";
 
-
+jest.mock('nhs-notify-sms-nudge-utils/logger');
+const mockLogger = jest.mocked(logger);
 
 describe('transformEvent', () => {
   it('transforms a supplier status event to a nudge command', () => {
     const statusChangeEvent: SupplierStatusChangeEvent = {
-      id: 'id',
+      id: 'event-id',
       source: '//nhs.notify.uk/supplier-status/env',
       specversion: '1.0',
       type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
@@ -30,6 +32,7 @@ describe('transformEvent', () => {
     }
 
     const expectedNudgeCommand: NudgeCommand = {
+      sourceEventId: 'event-id',
       nhsNumber: '9999999786',
       delayedFallback: true,
       sendingGroupId: 'sending-group-id',
@@ -40,6 +43,7 @@ describe('transformEvent', () => {
       requestItemPlanId: 'request-item-plan-id'
     }
 
-    expect(transformEvent(statusChangeEvent)).toEqual(expectedNudgeCommand);
-  })
+    expect(transformEvent(statusChangeEvent, mockLogger)).toEqual(expectedNudgeCommand);
+    expect(mockLogger.info).toHaveBeenCalledWith("Creating nudge command for event ID: %s", statusChangeEvent.id);
+  });
 });
