@@ -5,11 +5,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@sms/config-jest": "*",
-    "@sms/eslint-config-comms": "*",
-    "@sms/util-logger": "*",
-    "@sms/utils": "*",
-    "@tsconfig/node20": "^20.1.5",
+    "@tsconfig/node22": "^22.0.2",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",
     "jest": "^29.7.0",
