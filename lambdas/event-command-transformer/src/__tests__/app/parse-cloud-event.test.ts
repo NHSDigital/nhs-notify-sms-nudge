@@ -1,3 +1,4 @@
+import { ZodError } from 'zod';
 import { parseSqsRecord } from '../../app/parse-cloud-event';
 
 const statusChangeEvent = {
@@ -110,7 +111,7 @@ describe('parseSqsRecord', () => {
       body: badStatusUpdateJson
     }
 
-    expect(() => parseSqsRecord(badRecord)).toThrow(SyntaxError);
+    expect(() => parseSqsRecord(badRecord)).toThrow(ZodError);
   });
 
   it('throws error when message body is missing', () => {

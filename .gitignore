@@ -15,20 +15,10 @@ version.json
 # dependencies
 node_modules
 .node-version
-*/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 /build
 dist
 .DS_Store
-
-# don't track ephemeral local build files
-.webpack
-.next
-dist*/
-static_content/
-.turbo/
-reports/
-target/
-.build
-lerna-debug.log
+.reports

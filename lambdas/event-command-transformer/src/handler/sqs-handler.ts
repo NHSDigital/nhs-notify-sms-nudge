@@ -15,9 +15,9 @@ export const createHandler = ({ sqsRepository, commandsQueueUrl }: TransformDepe
   async function handler(event: SQSEvent) {
 
     const transformedCommands: NudgeCommand[] = event.Records
-      .map(parseSqsRecord)
-      .filter(filterUnnotifiedEvents)
-      .map(transformEvent);
+      .map((value, index) => parseSqsRecord(value))
+      .filter((value, index) => filterUnnotifiedEvents(value))
+      .map((value, index) => transformEvent(value));
 
     for (const command of transformedCommands) {
       await sqsRepository.send(commandsQueueUrl, command);
