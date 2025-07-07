@@ -1,28 +1,28 @@
-import jest from 'eslint-plugin-jest';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import prettierRecommended from 'eslint-plugin-prettier/recommended';
-import { importX } from 'eslint-plugin-import-x';
-import * as eslintImportResolverTypescript from 'eslint-import-resolver-typescript';
-import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
-import react from 'eslint-plugin-react';
-import security from 'eslint-plugin-security';
-import sonarjs from 'eslint-plugin-sonarjs';
-import json from 'eslint-plugin-json';
-import unicorn from 'eslint-plugin-unicorn';
-import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
-import html from 'eslint-plugin-html';
-import tseslint from 'typescript-eslint';
-import sortDestructureKeys from 'eslint-plugin-sort-destructure-keys';
 import {
   configs as airbnbConfigs,
   plugins as airbnbPlugins,
 } from 'eslint-config-airbnb-extended';
 import { rules as prettierConfigRules } from 'eslint-config-prettier';
+import * as eslintImportResolverTypescript from 'eslint-import-resolver-typescript';
+import html from 'eslint-plugin-html';
+import { importX } from 'eslint-plugin-import-x';
+import jest from 'eslint-plugin-jest';
+import json from 'eslint-plugin-json';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import react from 'eslint-plugin-react';
+import security from 'eslint-plugin-security';
+import sonarjs from 'eslint-plugin-sonarjs';
+import sortDestructureKeys from 'eslint-plugin-sort-destructure-keys';
+import unicorn from 'eslint-plugin-unicorn';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import tseslint from 'typescript-eslint';
 
+import { FlatCompat } from '@eslint/eslintrc';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FlatCompat } from '@eslint/eslintrc';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

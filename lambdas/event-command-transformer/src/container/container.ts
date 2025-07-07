@@ -1,5 +1,6 @@
-import { SqsRepository, sqsClient } from "@sms/util-aws";
 import { TransformDependencies } from "../handler/sqs-handler";
+import { SqsRepository, } from "../infra/SqsRepository";
+import { sqsClient } from "../infra/sqs-client";
 
 const COMMANDS_QUEUE_URL = process.env.COMMANDS_QUEUE_URL!;
 

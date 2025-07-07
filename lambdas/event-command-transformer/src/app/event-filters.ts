@@ -6,6 +6,15 @@ const expectedTypes = [
 
 export const filterUnnotifiedEvents = (event: SupplierStatusChangeEvent): boolean => {
 
-  return (event.type in expectedTypes)
-    && event.data.delayedFallback === true;
+  if (!expectedTypes.includes(event.type)) {
+    console.log(`Skipping event ${event.id}: Unexpected event type`);
+    return false;
+  }
+
+  if (event.data.delayedFallback !== true) {
+    console.log(`Skipping event ${event.id}: Not delayed fallback`);
+    return false;
+  }
+
+  return true;
 }
