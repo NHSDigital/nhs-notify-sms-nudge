@@ -1,4 +1,5 @@
 export type NudgeCommand = {
+  sourceEventId: string;
   nhsNumber: string;
   delayedFallback?: boolean;
   sendingGroupId: string;

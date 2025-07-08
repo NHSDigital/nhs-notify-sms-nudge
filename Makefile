@@ -32,11 +32,6 @@ version:
 	make version-create-effective-file dir=.
 	echo "{ \"schemaVersion\": 1, \"label\": \"version\", \"message\": \"$$(head -n 1 .version 2> /dev/null || echo unknown)\", \"color\": \"orange\" }" > version.json
 
-.install:
-	npm run configure-npm-mirror
-	npm install --frozen-lockfile --prefer-offline
-
-install: .install
 # ==============================================================================
 
 ${VERBOSE}.SILENT: \

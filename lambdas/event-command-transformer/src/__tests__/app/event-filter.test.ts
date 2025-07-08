@@ -1,3 +1,4 @@
+import { logger } from "nhs-notify-sms-nudge-utils/logger";
 import { filterUnnotifiedEvents } from '../../app/event-filters';
 import { SupplierStatusChangeEvent } from '../../domain/cloud-event';
 
@@ -24,9 +25,12 @@ const statusChangeEvent: SupplierStatusChangeEvent = {
   }
 }
 
+jest.mock('nhs-notify-sms-nudge-utils/logger');
+const mockLogger = jest.mocked(logger);
+
 describe('filterUnnotifiedEvents', () => {
   it('returns true for expected type and delayedFallback = true', () => {
-    expect(filterUnnotifiedEvents(statusChangeEvent)).toBe(true);
+    expect(filterUnnotifiedEvents(statusChangeEvent, mockLogger)).toBe(true);
   });
 
   it('returns false if type is not in expectedTypes', () => {
@@ -35,7 +39,9 @@ describe('filterUnnotifiedEvents', () => {
       type: 'uk.nhs.notify.channels.not.nhsapp.SupplierStatusChange.v1'
     }
 
-    expect(filterUnnotifiedEvents(badTypeEvent)).toBe(false);
+    expect(filterUnnotifiedEvents(badTypeEvent, mockLogger)).toBe(false);
+    expect(mockLogger.warn)
+      .toHaveBeenCalledWith('Skipping event %s: Unexpected event type %s', badTypeEvent.id, badTypeEvent.type)
   });
 
   it('returns false if delayedFallback is false', () => {
@@ -46,17 +52,21 @@ describe('filterUnnotifiedEvents', () => {
         delayedFallback: false
       }
     }
-    expect(filterUnnotifiedEvents(notDelayedEvent)).toBe(false);
+    expect(filterUnnotifiedEvents(notDelayedEvent, mockLogger)).toBe(false);
+    expect(mockLogger.info).toHaveBeenCalledWith('Skipping event %s: Not delayed fallback', notDelayedEvent.id)
   });
 
-  it('returns false if delayedFallback is undefined', () => {
+  it('returns false if delayedFallback is not defined', () => {
     const undefinedDelayedEvent = {
       ...statusChangeEvent,
       data: {
         ...statusChangeEvent.data,
-        delayedFallback: undefined
       }
     }
-    expect(filterUnnotifiedEvents(undefinedDelayedEvent)).toBe(false);
+
+    delete undefinedDelayedEvent.data.delayedFallback;
+
+    expect(filterUnnotifiedEvents(undefinedDelayedEvent, mockLogger)).toBe(false);
+    expect(mockLogger.info).toHaveBeenCalledWith('Skipping event %s: Not delayed fallback', undefinedDelayedEvent.id)
   });
 });

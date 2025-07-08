@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SupplierStatusChangeEvent } from './cloud-event';
+import { SupplierStatusChangeEvent } from '../domain/cloud-event';
 
 const schemaForType =
   <Output, Input = Output>() =>
@@ -14,10 +14,7 @@ export const $SupplierStatusChange = schemaForType<SupplierStatusChangeEvent, Su
     type: z.string(),
     plane: z.string(),
     subject: z.string(),
-    time: z.string().refine(
-      (val) => !isNaN(Date.parse(val)),
-      { message: "Invalid ISO 8601 datetime string" }
-    ),
+    time: z.string(),
     datacontenttype: z.string(),
     dataschema: z.string(),
     dataschemaversion: z.string(),

@@ -45,7 +45,6 @@
     "react": "^19.0.0"
   },
   "scripts": {
-    "configure-npm-mirror": "node ./ci_utils/pre-install.js",
     "generate-dependencies": "npm run generate-dependencies --workspaces --if-present",
     "lint": "npm run lint --workspaces",
     "lint:fix": "npm run lint:fix --workspaces",
@@ -54,6 +53,7 @@
   },
   "workspaces": [
     "lambdas/event-command-transformer",
-    "lambdas/command-processor"
+    "lambdas/command-processor",
+    "utils/utils"
   ]
 }

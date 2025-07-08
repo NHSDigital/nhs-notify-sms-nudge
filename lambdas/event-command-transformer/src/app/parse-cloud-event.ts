@@ -1,8 +1,21 @@
 import { SQSRecord } from "aws-lambda";
+import { Logger } from "nhs-notify-sms-nudge-utils/logger";
 import { SupplierStatusChangeEvent } from "../domain/cloud-event";
-import { $SupplierStatusChange } from "../domain/supplier-status-change-validator";
+import { $SupplierStatusChange } from "./supplier-status-change-validator";
 
-export const parseSqsRecord = (sqsRecord: SQSRecord): SupplierStatusChangeEvent => {
+export const parseSqsRecord = (sqsRecord: SQSRecord, logger: Logger): SupplierStatusChangeEvent => {
 
-  return $SupplierStatusChange.parse(JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent);
+  logger.info("Parsing SQS Record, messageID: %s", sqsRecord.messageId);
+  try {
+    const jsonParsed = JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;
+    const zodParsed = $SupplierStatusChange.parse(jsonParsed);
+
+    logger.info("SQS Record (%s) parsed as Supplier Status Change Event", sqsRecord.messageId);
+
+    return zodParsed;
+  } catch (error) {
+
+    logger.error("Failed to parse Cloud Event", error);
+    throw error
+  }
 }

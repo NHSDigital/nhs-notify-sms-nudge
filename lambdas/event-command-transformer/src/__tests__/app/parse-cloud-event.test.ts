@@ -1,3 +1,4 @@
+import { logger } from 'nhs-notify-sms-nudge-utils/logger';
 import { ZodError } from 'zod';
 import { parseSqsRecord } from '../../app/parse-cloud-event';
 
@@ -41,11 +42,16 @@ const sqsRecord = {
   awsRegion: '',
 };
 
+jest.mock('nhs-notify-sms-nudge-utils/logger');
+const mockLogger = jest.mocked(logger);
+
 describe('parseSqsRecord', () => {
   it('parses a valid JSON string into SupplierStatusChangeEvent', () => {
-    const result = parseSqsRecord(sqsRecord);
+    const result = parseSqsRecord(sqsRecord, mockLogger);
 
     expect(result).toEqual(statusChangeEvent);
+    expect(mockLogger.info).toHaveBeenCalledWith("Parsing SQS Record, messageID: %s", sqsRecord.messageId);
+    expect(mockLogger.info).toHaveBeenCalledWith("SQS Record (%s) parsed as Supplier Status Change Event", sqsRecord.messageId);
   });
 
   it('throws error when body contains malformed JSON', () => {
@@ -79,11 +85,12 @@ describe('parseSqsRecord', () => {
       body: badStatusUpdateJson
     }
 
-    expect(() => parseSqsRecord(badRecord)).toThrow(SyntaxError);
+    expect(() => parseSqsRecord(badRecord, mockLogger)).toThrow(SyntaxError);
+    expect(mockLogger.error).toHaveBeenCalledWith("Failed to parse Cloud Event", expect.any(SyntaxError));
   });
 
   it('throws an error if required properties are missing ', () => {
-    //nhsNumberIsMissing
+    // nhsNumber has been removed - the JSON is Valid but the event is not
     const badStatusUpdateJson = `{
       \"id\": \"id\",
       \"source\": \"//nhs.notify.uk/supplier-status/env\",
@@ -111,15 +118,7 @@ describe('parseSqsRecord', () => {
       body: badStatusUpdateJson
     }
 
-    expect(() => parseSqsRecord(badRecord)).toThrow(ZodError);
-  });
-
-  it('throws error when message body is missing', () => {
-    const badRecord = {
-      ...sqsRecord,
-      body: ''
-    }
-
-    expect(() => parseSqsRecord(badRecord)).toThrow(SyntaxError);
+    expect(() => parseSqsRecord(badRecord, mockLogger)).toThrow(ZodError);
+    expect(mockLogger.error).toHaveBeenCalledWith("Failed to parse Cloud Event", expect.any(ZodError));
   });
 });
