@@ -25,7 +25,7 @@ jobs:
             --arg releaseVersion "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
             --arg targetProject "nhs" \
             --arg targetEnvironment "pr${{ github.event.number }}" \
-            --arg targetAccountGroup "nhs-notify-supplier-smsnudge-dev" \
+            --arg targetAccountGroup "nhs-notify-smsnudge-dev" \
             --arg targetComponent "nudge" \
             --arg terraformAction "apply" \
             --arg overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
