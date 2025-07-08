@@ -46,6 +46,7 @@
   },
   "scripts": {
     "generate-dependencies": "npm run generate-dependencies --workspaces --if-present",
+    "lambda-build": "npm run lambda-build --workspace lambdas/",
     "lint": "npm run lint --workspaces",
     "lint:fix": "npm run lint:fix --workspaces",
     "test:unit": "npm run test:unit --workspaces",
