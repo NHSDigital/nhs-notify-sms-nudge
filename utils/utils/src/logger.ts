@@ -1,9 +1,9 @@
-import winston from 'winston';
+import winston from "winston";
 
-const { combine, timestamp, json, errors } = winston.format;
+const { combine, errors, json, timestamp } = winston.format;
 
 export const logger = winston.createLogger({
-  level: 'info',
+  level: "info",
   format: combine(timestamp(), json(), errors({ stack: true, cause: true })),
   transports: [
     new winston.transports.Stream({

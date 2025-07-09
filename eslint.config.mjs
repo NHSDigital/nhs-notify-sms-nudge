@@ -169,19 +169,6 @@ export default defineConfig([
     plugins: { html },
   },
 
-  // Next.js
-  ...compat.config({
-    extends: ['next', 'next/core-web-vitals', 'next/typescript'],
-    settings: {
-      next: {
-        rootDir: 'frontend',
-      },
-    },
-    rules: {
-      // needed because next lint rules look for a pages directory
-      '@next/next/no-html-link-for-pages': 0,
-    },
-  }),
 
   // json
   {
@@ -261,6 +248,7 @@ export default defineConfig([
       'no-await-in-loop': 0,
       'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
       'unicorn/prefer-top-level-await': 0, // top level await is not available in commonjs
+      'import-x/prefer-default-export': "off"
     },
   },
 ]);

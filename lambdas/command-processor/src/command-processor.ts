@@ -4,6 +4,4 @@
 
 import { SQSEvent } from "aws-lambda";
 
-export const handler = async (event: SQSEvent) => {
-
-}
+export const handler = async (_event: SQSEvent) => {};
