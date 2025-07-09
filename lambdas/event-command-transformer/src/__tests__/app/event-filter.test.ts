@@ -1,6 +1,6 @@
+import { filterUnnotifiedEvents } from "app/event-filters";
+import { SupplierStatusChangeEvent } from "domain/cloud-event";
 import { logger } from "nhs-notify-sms-nudge-utils/logger";
-import { filterUnnotifiedEvents } from "src/app/event-filters";
-import { SupplierStatusChangeEvent } from "src/domain/cloud-event";
 
 const statusChangeEvent: SupplierStatusChangeEvent = {
   id: "id",

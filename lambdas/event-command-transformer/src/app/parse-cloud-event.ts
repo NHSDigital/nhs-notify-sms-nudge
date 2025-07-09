@@ -1,7 +1,7 @@
+import { $SupplierStatusChange } from "app/supplier-status-change-validator";
 import { SQSRecord } from "aws-lambda";
+import { SupplierStatusChangeEvent } from "domain/cloud-event";
 import { Logger } from "nhs-notify-sms-nudge-utils/logger";
-import { $SupplierStatusChange } from "src/app/supplier-status-change-validator";
-import { SupplierStatusChangeEvent } from "src/domain/cloud-event";
 
 export const parseSqsRecord = (
   sqsRecord: SQSRecord,

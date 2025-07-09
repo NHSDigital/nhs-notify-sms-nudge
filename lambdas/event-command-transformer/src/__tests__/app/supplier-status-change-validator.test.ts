@@ -1,4 +1,4 @@
-import { $SupplierStatusChange } from "src/app/supplier-status-change-validator";
+import { $SupplierStatusChange } from "app/supplier-status-change-validator";
 
 describe("Supplier Status Change Validator Schema", () => {
   const validEvent = {

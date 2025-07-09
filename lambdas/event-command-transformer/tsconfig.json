@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "./"
+    "baseUrl": "./src/",
+    "isolatedModules": true
   },
   "exclude": [
     "node_modules"

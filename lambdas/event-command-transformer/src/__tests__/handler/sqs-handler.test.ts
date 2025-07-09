@@ -1,26 +1,26 @@
 import { SQSClient } from "@aws-sdk/client-sqs";
+import { filterUnnotifiedEvents } from "app/event-filters";
+import { transformEvent } from "app/event-transform";
+import { parseSqsRecord } from "app/parse-cloud-event";
 import { SQSEvent, SQSRecord } from "aws-lambda";
+import { CloudEvent, SupplierStatusChangeEvent } from "domain/cloud-event";
+import { NudgeCommand } from "domain/nudge-command";
+import { createHandler } from "handler/sqs-handler";
+import { SqsRepository } from "infra/sqs-repository";
 import { mock } from "jest-mock-extended";
 import { logger } from "nhs-notify-sms-nudge-utils/logger";
-import { filterUnnotifiedEvents } from "src/app/event-filters";
-import { transformEvent } from "src/app/event-transform";
-import { parseSqsRecord } from "src/app/parse-cloud-event";
-import { CloudEvent, SupplierStatusChangeEvent } from "src/domain/cloud-event";
-import { NudgeCommand } from "src/domain/nudge-command";
-import { createHandler } from "src/handler/sqs-handler";
-import { SqsRepository } from "src/infra/SqsRepository";
 
 const queue = "SQS_COMMAND_QUEUE";
 
-jest.mock("../../app/event-filters");
-jest.mock("../../app/event-transform");
-jest.mock("../../app/parse-cloud-event");
-jest.mock("../../infra/SqsRepository");
+jest.mock("app/event-filters");
+jest.mock("app/event-transform");
+jest.mock("app/parse-cloud-event");
+jest.mock("infra/sqs-repository");
 jest.mock("nhs-notify-sms-nudge-utils/logger");
 
-const mockedParse = parseSqsRecord;
-const mockedFilter = filterUnnotifiedEvents;
-const mockedTransform = transformEvent;
+const mockedParse = parseSqsRecord as jest.Mock;
+const mockedFilter = filterUnnotifiedEvents as jest.Mock;
+const mockedTransform = transformEvent as jest.Mock;
 const sqsRepository = new SqsRepository(mock<SQSClient>());
 const mockLogger = jest.mocked(logger);
 

@@ -1,4 +1,4 @@
-import { logger } from "src/src/logger";
+import { logger } from "logger";
 
 test("logger - should produce a logger", () => {
   expect(logger.info).toBeTruthy();
