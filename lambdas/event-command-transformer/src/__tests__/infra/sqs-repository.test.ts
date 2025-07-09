@@ -4,32 +4,32 @@ import {
   ListQueuesCommand,
   ListQueuesResult,
   SQSClient,
-} from '@aws-sdk/client-sqs';
-import { mock } from 'jest-mock-extended';
-import { SqsRepository } from '../../infra/SqsRepository';
+} from "@aws-sdk/client-sqs";
+import { SqsRepository } from "infra/sqs-repository";
+import { mock } from "jest-mock-extended";
 
 const mSqsClient = mock<SQSClient>();
 const sqsRepository = new SqsRepository(mSqsClient);
 
-const queuePrefix = 'sqs-api-comms-mgr';
-const queue = 'SQS_QUEUE';
+const queuePrefix = "sqs-api-comms-mgr";
+const queue = "SQS_QUEUE";
 
 const listQueueOutput: ListQueuesResult = {
-  QueueUrls: ['QUEUE_1', 'QUEUE_2'],
+  QueueUrls: ["QUEUE_1", "QUEUE_2"],
 };
 
 const getQueueAttributesOutput: GetQueueAttributesResult = {
   Attributes: {
-    ApproximateNumberOfMessagesNotVisible: '10',
+    ApproximateNumberOfMessagesNotVisible: "10",
   },
 };
 
-describe('SqsRepository', () => {
+describe("SqsRepository", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
-  describe('getAllQueueNamesByPrefix', () => {
-    it('calls underlying sqs client with correct payload and returns correct response', async () => {
+  describe("getAllQueueNamesByPrefix", () => {
+    it("calls underlying sqs client with correct payload and returns correct response", async () => {
       mSqsClient.send.mockImplementation(() => listQueueOutput);
 
       const res = await sqsRepository.getAllQueueNamesByPrefix(queuePrefix);
@@ -40,25 +40,25 @@ describe('SqsRepository', () => {
           input: {
             QueueNamePrefix: queuePrefix,
           },
-        } satisfies Partial<ListQueuesCommand>)
+        } satisfies Partial<ListQueuesCommand>),
       );
 
       expect(res).toEqual(listQueueOutput.QueueUrls);
     });
 
-    it('throws if underlying sqs client throws', async () => {
+    it("throws if underlying sqs client throws", async () => {
       mSqsClient.send.mockImplementation(() => {
-        throw new Error('Help');
+        throw new Error("Help");
       });
 
       await expect(
-        sqsRepository.getAllQueueNamesByPrefix(queuePrefix)
+        sqsRepository.getAllQueueNamesByPrefix(queuePrefix),
       ).rejects.toThrow();
 
       expect(mSqsClient.send).toHaveBeenCalledTimes(1);
     });
 
-    it('returns empty list if response does not contain QueueUrls', async () => {
+    it("returns empty list if response does not contain QueueUrls", async () => {
       mSqsClient.send.mockImplementation(() => [{} satisfies ListQueuesResult]);
 
       const res = await sqsRepository.getAllQueueNamesByPrefix(queuePrefix);
@@ -67,8 +67,8 @@ describe('SqsRepository', () => {
     });
   });
 
-  describe('getNumberOfMessagesNotVisible', () => {
-    it('calls underlying sqs client with correct payload and returns correct response', async () => {
+  describe("getNumberOfMessagesNotVisible", () => {
+    it("calls underlying sqs client with correct payload and returns correct response", async () => {
       mSqsClient.send.mockImplementation(() => getQueueAttributesOutput);
 
       const res = await sqsRepository.getNumberOfMessagesNotVisible(queue);
@@ -78,40 +78,40 @@ describe('SqsRepository', () => {
         expect.objectContaining({
           input: {
             QueueUrl: queue,
-            AttributeNames: ['ApproximateNumberOfMessagesNotVisible'],
+            AttributeNames: ["ApproximateNumberOfMessagesNotVisible"],
           },
-        } satisfies Partial<GetQueueAttributesCommand>)
+        } satisfies Partial<GetQueueAttributesCommand>),
       );
 
       expect(res).toEqual(
         getQueueAttributesOutput.Attributes
-          ?.ApproximateNumberOfMessagesNotVisible
+          ?.ApproximateNumberOfMessagesNotVisible,
       );
     });
 
-    it('throws if underlying sqs client throws', async () => {
+    it("throws if underlying sqs client throws", async () => {
       mSqsClient.send.mockImplementation(() => {
-        throw new Error('Help');
+        throw new Error("Help");
       });
 
       await expect(
-        sqsRepository.getNumberOfMessagesNotVisible(queue)
+        sqsRepository.getNumberOfMessagesNotVisible(queue),
       ).rejects.toThrow();
 
       expect(mSqsClient.send).toHaveBeenCalledTimes(1);
     });
   });
 
-  test('send', async () => {
-    await sqsRepository.send('queue-url', {});
+  test("send", async () => {
+    await sqsRepository.send("queue-url", {});
 
     expect(mSqsClient.send).toHaveBeenCalledWith(
       expect.objectContaining({
         input: {
-          QueueUrl: 'queue-url',
-          MessageBody: '{}',
+          QueueUrl: "queue-url",
+          MessageBody: "{}",
         },
-      })
+      }),
     );
   });
 });

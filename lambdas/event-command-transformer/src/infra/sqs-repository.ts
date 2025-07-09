@@ -3,7 +3,7 @@ import {
   ListQueuesCommand,
   SQSClient,
   SendMessageCommand,
-} from '@aws-sdk/client-sqs';
+} from "@aws-sdk/client-sqs";
 
 export class SqsRepository {
   constructor(private readonly sqsClient: SQSClient) {}
@@ -12,7 +12,7 @@ export class SqsRepository {
     const { QueueUrls } = await this.sqsClient.send(
       new ListQueuesCommand({
         QueueNamePrefix: prefix,
-      })
+      }),
     );
 
     return QueueUrls ?? [];
@@ -22,8 +22,8 @@ export class SqsRepository {
     const { Attributes } = await this.sqsClient.send(
       new GetQueueAttributesCommand({
         QueueUrl: queueUrl,
-        AttributeNames: ['ApproximateNumberOfMessagesNotVisible'],
-      })
+        AttributeNames: ["ApproximateNumberOfMessagesNotVisible"],
+      }),
     );
 
     return Attributes?.ApproximateNumberOfMessagesNotVisible;
@@ -34,7 +34,7 @@ export class SqsRepository {
       new SendMessageCommand({
         QueueUrl: queueUrl,
         MessageBody: JSON.stringify(item),
-      })
+      }),
     );
   }
 }

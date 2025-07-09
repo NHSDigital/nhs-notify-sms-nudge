@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@eslint/compat": "^1.3.1",
+    "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.30.1",
     "@stylistic/eslint-plugin": "^3.1.0",
     "@stylistic/eslint-plugin-ts": "^4.4.1",
@@ -11,7 +13,6 @@
     "esbuild": "^0.24.0",
     "eslint": "^9.30.1",
     "eslint-config-airbnb-extended": "^1.0.11",
-    "eslint-config-next": "^15.3.2",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.4.2",
     "eslint-plugin-html": "^8.1.3",
@@ -31,6 +32,7 @@
     "jest-html-reporter": "^3.10.2",
     "jest-mock-extended": "^3.0.7",
     "lcov-result-merger": "^5.0.1",
+    "prettier": "^3.6.2",
     "ts-jest": "^29.3.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
@@ -46,6 +48,7 @@
   },
   "scripts": {
     "generate-dependencies": "npm run generate-dependencies --workspaces --if-present",
+    "lambda-build": "npm run lambda-build --workspace lambdas/",
     "lint": "npm run lint --workspaces",
     "lint:fix": "npm run lint:fix --workspaces",
     "test:unit": "npm run test:unit --workspaces",

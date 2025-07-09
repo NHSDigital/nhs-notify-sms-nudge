@@ -1,4 +1,3 @@
-
 export type CloudEvent = {
   id: string;
   source: string;

@@ -1,12 +1,15 @@
-import { z } from 'zod';
-import { SupplierStatusChangeEvent } from '../domain/cloud-event';
+import { SupplierStatusChangeEvent } from "domain/cloud-event";
+import { z } from "zod";
 
 const schemaForType =
   <Output, Input = Output>() =>
-    <S extends z.ZodType<Output, z.ZodTypeDef, Input>>(schema: S) =>
-      schema;
+  <S extends z.ZodType<Output, z.ZodTypeDef, Input>>(schema: S) =>
+    schema;
 
-export const $SupplierStatusChange = schemaForType<SupplierStatusChangeEvent, SupplierStatusChangeEvent>()(
+export const $SupplierStatusChange = schemaForType<
+  SupplierStatusChangeEvent,
+  SupplierStatusChangeEvent
+>()(
   z.object({
     id: z.string(),
     source: z.string(),
@@ -30,5 +33,5 @@ export const $SupplierStatusChange = schemaForType<SupplierStatusChangeEvent, Su
       requestItemId: z.string(),
       requestItemPlanId: z.string(),
     }),
-  })
+  }),
 );
