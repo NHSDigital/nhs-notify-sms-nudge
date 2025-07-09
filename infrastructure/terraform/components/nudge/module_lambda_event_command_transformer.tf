@@ -31,6 +31,10 @@ module "lambda_event_command_transformer" {
   force_lambda_code_deploy = var.force_lambda_code_deploy
   enable_lambda_insights   = false
 
+  send_to_firehose          = true
+  log_destination_arn       = "arn:aws:firehose:${var.region}:${var.aws_account_id}:deliverystream/nhs-main-obs-splunk-logs-firehose"
+  log_subscription_role_arn = local.acct.log_subscription_role_arn
+
   lambda_env_vars = {
     COMMANDS_QUEUE_URL = module.sqs_command.sqs_queue_url
     EVENTS_DLQ_URL     = module.sqs_inbound_event.sqs_dlq_url
