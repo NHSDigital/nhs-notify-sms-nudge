@@ -1,9 +1,10 @@
-import type { IncomingQueueMessage } from './incoming-queue-message';
-import type { DataEvent } from './data-event';
+import type { NudgeCommand } from './nudge-command';
+import type { Request } from './request';
+import { ROUTING_PLAN_ID } from '../constants'
 
-export function mapQueueToDataEvent(
-  msg: IncomingQueueMessage
-): DataEvent {
+export function mapQueueToRequest(
+  msg: NudgeCommand
+): Request {
   const billingReference = [
     msg.clientId,
     msg.campaignId,
@@ -13,7 +14,7 @@ export function mapQueueToDataEvent(
   const messageReference = `${msg.requestItemId.trim()}-${msg.requestItemPlanId.trim()}`;
 
   return {
-    routingPlanId: 'fc4f8c6b-1547-4216-9237-c7027c97ae60',
+    routingPlanId: ROUTING_PLAN_ID,
     messageReference,
     billingReference,
     recipient: {

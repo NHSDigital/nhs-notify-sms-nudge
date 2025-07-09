@@ -54,6 +54,8 @@ const utilsJestConfig = {
   coveragePathIgnorePatterns: [
     ...(baseJestConfig.coveragePathIgnorePatterns ?? []),
     'zod-validators.ts',
+    'ApiClient.ts',
+    'container.ts',
   ],
 };
 

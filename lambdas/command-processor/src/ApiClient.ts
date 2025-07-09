@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { randomUUID } from 'node:crypto';
-import type { DataEvent } from './domain/data-event';
+import type { Request } from './domain/request';
 
 export class ApiClient {
   constructor(
   ) {}
 
-    async sendRequest(apiRequest: DataEvent) {
+    async sendRequest(apiRequest: Request) {
       const apiUrl = "https://sandbox.api.service.nhs.uk/comms/v1/messages";
       const correlationId = randomUUID();
 

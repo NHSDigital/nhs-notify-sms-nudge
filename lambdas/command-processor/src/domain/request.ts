@@ -1,4 +1,4 @@
-export type DataEvent = {
+export type Request = {
   routingPlanId: string;
   messageReference: string;
   billingReference: string;

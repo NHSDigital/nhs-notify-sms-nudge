@@ -1,6 +1,11 @@
-import type { SQSHandler } from 'aws-lambda';
-export const handler: SQSHandler = async (event) => {
-  for (const record of event.Records) {
-    console.log('Received SQS message:', record.body);
-  }
+// This is a Lambda entrypoint file.
+
+import type { SQSEvent } from 'aws-lambda';
+import { createContainer } from './container';
+import { createHandler as createSqsHandler } from './handler/sqs-handler';
+
+export const handler = async (event: SQSEvent) => {
+  const container = await createContainer();
+  const sqsHandler = createSqsHandler(container);
+  return sqsHandler(event);
 };

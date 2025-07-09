@@ -1,4 +1,4 @@
-export type IncomingQueueMessage = {
+export type NudgeCommand = {
   nhsNumber: string;
   delayedFallback?: boolean;
   sendingGroupId: string;

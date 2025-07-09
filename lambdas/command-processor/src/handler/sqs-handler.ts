@@ -1,7 +1,7 @@
 import type { SQSEvent} from 'aws-lambda';
 import type { CommandProcessorService } from '../app/command-processor-service';
-import type { IncomingQueueMessage } from '../domain/incoming-queue-message';
-import { mapQueueToDataEvent } from '../domain/mapper';
+import type { NudgeCommand } from '../domain/nudge-command';
+import { mapQueueToRequest } from '../domain/mapper';
 
 export interface CommandDependencies {
   commandProcessorService: CommandProcessorService;
@@ -13,9 +13,9 @@ export const createHandler = ({
   async function handler(event: SQSEvent): Promise<void> {
     await Promise.all(
       event.Records.map(async ({ body }) => {
-        const incoming = JSON.parse(body) as IncomingQueueMessage;
-        const dataEvent = mapQueueToDataEvent(incoming);
-        await commandProcessorService.process(dataEvent);
+        const incoming = JSON.parse(body) as NudgeCommand;
+        const request = mapQueueToRequest(incoming);
+        await commandProcessorService.process(request);
       })
     );
   };
