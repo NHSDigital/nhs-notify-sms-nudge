@@ -90,10 +90,6 @@ describe("parseSqsRecord", () => {
     };
 
     expect(() => parseSqsRecord(badRecord, mockLogger)).toThrow(SyntaxError);
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      "Failed to parse Cloud Event",
-      expect.any(SyntaxError),
-    );
   });
 
   it("throws an error if required properties are missing", () => {
@@ -126,9 +122,5 @@ describe("parseSqsRecord", () => {
     };
 
     expect(() => parseSqsRecord(badRecord, mockLogger)).toThrow(ZodError);
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      "Failed to parse Cloud Event",
-      expect.any(ZodError),
-    );
   });
 });

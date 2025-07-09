@@ -8,18 +8,14 @@ export const parseSqsRecord = (
   logger: Logger,
 ): SupplierStatusChangeEvent => {
   logger.info("Parsing SQS Record, messageID: %s", sqsRecord.messageId);
-  try {
-    const jsonParsed = JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;
-    const zodParsed = $SupplierStatusChange.parse(jsonParsed);
 
-    logger.info(
-      "SQS Record (%s) parsed as Supplier Status Change Event",
-      sqsRecord.messageId,
-    );
+  const jsonParsed = JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;
+  const zodParsed = $SupplierStatusChange.parse(jsonParsed);
 
-    return zodParsed;
-  } catch (error) {
-    logger.error("Failed to parse Cloud Event", error);
-    throw error;
-  }
+  logger.info(
+    "SQS Record (%s) parsed as Supplier Status Change Event",
+    sqsRecord.messageId,
+  );
+
+  return zodParsed;
 };
