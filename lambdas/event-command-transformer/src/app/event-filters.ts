@@ -5,7 +5,7 @@ const expectedTypes = new Set([
   "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
 ]);
 
-const filterUnnotifiedEvents = (
+export const filterUnnotifiedEvents = (
   event: SupplierStatusChangeEvent,
   logger: Logger,
 ): boolean => {
@@ -27,5 +27,3 @@ const filterUnnotifiedEvents = (
 
   return true;
 };
-
-export default filterUnnotifiedEvents;
