@@ -5,8 +5,8 @@ resource "aws_cloudwatch_composite_alarm" "composite" {
     aws_cloudwatch_metric_alarm.sqs_inbound_event_dlq
   ]
 
-  alarm_name        = "${local.csi}-${each.value.name}"
-  alarm_description = each.value.description
+  alarm_name        = "${local.csi}-event-command-transformer-reliability"
+  alarm_description = "RELIABILITY: Composite for the event to command transformer component of SMS Nudge"
 
   actions_enabled = "false"
   alarm_actions   = []
