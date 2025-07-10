@@ -1,6 +1,6 @@
-import { logger } from "logger";
+import { logger } from 'logger';
 
-test("logger - should produce a logger", () => {
+test('logger - should produce a logger', () => {
   expect(logger.info).toBeTruthy();
   expect(logger.error).toBeTruthy();
   expect(logger.warn).toBeTruthy();

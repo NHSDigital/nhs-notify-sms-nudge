@@ -1,9 +1,9 @@
-import winston from "winston";
+import winston from 'winston';
 
 const { combine, errors, json, splat, timestamp } = winston.format;
 
 export const logger = winston.createLogger({
-  level: "info",
+  level: 'info',
   format: combine(
     splat(),
     timestamp(),

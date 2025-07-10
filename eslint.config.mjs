@@ -140,7 +140,7 @@ export default defineConfig([
 
   // prettier
   prettierRecommended,
-  { rules: { ...prettierConfigRules, 'prettier/prettier': 2 } },
+  { rules: { ...prettierConfigRules, 'prettier/prettier': ['error', { singleQuote: true }] } },
 
   // jsxA11y
   {
