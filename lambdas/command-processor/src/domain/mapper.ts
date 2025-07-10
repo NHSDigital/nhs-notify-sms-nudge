@@ -1,25 +1,29 @@
-import type { NudgeCommand } from './nudge-command';
-import type { Request } from './request';
-import { ROUTING_PLAN_ID } from '../constants'
+import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import type { NudgeCommand } from 'domain/nudge-command';
+import type { Request } from 'domain/request';
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
+import { ROUTING_PLAN_ID } from '../constants';
 
-export function mapQueueToRequest(
-  msg: NudgeCommand
-): Request {
+export function mapQueueToRequest(command: NudgeCommand): Request {
+  const messageReference = `${command.requestItemId.trim()}-${command.requestItemPlanId.trim()}`;
+
+  logger.info('Mapping sqsEvent % to request', messageReference);
+
   const billingReference = [
-    msg.clientId,
-    msg.campaignId,
-    msg.billingReference
-  ].filter(part => part?.trim()).join('-');
+    command.clientId,
+    command.campaignId,
+    command.billingReference,
+  ]
+    .filter((part) => part?.trim())
+    .join('-');
 
-  const messageReference = `${msg.requestItemId.trim()}-${msg.requestItemPlanId.trim()}`;
-
-  return {
+  const request: Request = {
     routingPlanId: ROUTING_PLAN_ID,
     messageReference,
     billingReference,
     recipient: {
-      nhsNumber: msg.nhsNumber,
+      nhsNumber: command.nhsNumber,
     },
-    personalisation: {},
   };
+  return request;
 }

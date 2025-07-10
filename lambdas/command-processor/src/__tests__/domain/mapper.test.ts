@@ -1,55 +1,79 @@
-import { mapQueueToRequest } from '../../domain/mapper';
-import type { NudgeCommand } from '../../domain/nudge-command';
-import type { Request } from '../../domain/request';
-import { expectedRequest, expectedNudgeCommand } from '../test-data/data-event';
+import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { mockNudgeCommand, mockRequest } from '__tests__/constants';
+import { mapQueueToRequest } from 'domain/mapper';
+import type { NudgeCommand } from 'domain/nudge-command';
+
+jest.mock('nhs-notify-sms-nudge-utils/logger');
+
+const mockLogger = jest.mocked(logger);
 
 describe('mapQueueToRequest', () => {
-  it('correctly maps expectedNudgeCommand → expectedRequest', () => {
-    const result = mapQueueToRequest(expectedNudgeCommand as NudgeCommand);
-    expect(result).toEqual(expectedRequest as Request);
+  it('correctly maps mockNudgeCommand → mockRequest', () => {
+    const result = mapQueueToRequest(mockNudgeCommand);
+
+    expect(result).toEqual(mockRequest);
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      'Mapping sqsEvent % to request',
+      mockRequest.messageReference,
+    );
   });
-  it('correctly maps expectedNudgeCommand to expectedRequest when campaignId is not provided', () => {
+  it('correctly maps mockNudgeCommand to mockRequest when campaignId is not provided', () => {
     const NudgeCommand = {
-      ...expectedNudgeCommand,
-      campaignId: ''
+      ...mockNudgeCommand,
+      campaignId: '',
     };
 
     const request = {
-      ...expectedRequest,
-      billingReference: 'test_client_id-test_billing_reference'
+      ...mockRequest,
+      billingReference: 'test_client_id-test_billing_reference',
     };
 
-    const result = mapQueueToRequest(NudgeCommand as NudgeCommand);
-    expect(result).toEqual(request as Request);
+    const result = mapQueueToRequest(NudgeCommand);
+
+    expect(result).toEqual(request);
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      'Mapping sqsEvent % to request',
+      request.messageReference,
+    );
   });
-  it('correctly maps expectedNudgeCommand to expectedRequest when billingReference is not provided', () => {
+  it('correctly maps mockNudgeCommand to mockRequest when billingReference is not provided', () => {
     const NudgeCommand = {
-      ...expectedNudgeCommand,
-      billingReference: ''
-    };
-
-    const request = {
-      ...expectedRequest,
-      billingReference: 'test_client_id-test_campaign_id'
-    };
-
-    const result = mapQueueToRequest(NudgeCommand as NudgeCommand);
-    expect(result).toEqual(request as Request);
-  });
-  it('correctly maps expectedNudgeCommand to expectedRequest when billingReference and campaignId are not provided', () => {
-    const NudgeCommand = {
-      ...expectedNudgeCommand,
+      ...mockNudgeCommand,
       billingReference: '',
-      campaignId: ''
     };
 
     const request = {
-      ...expectedRequest,
-      billingReference: 'test_client_id'
+      ...mockRequest,
+      billingReference: 'test_client_id-test_campaign_id',
     };
 
-    const result = mapQueueToRequest(NudgeCommand as NudgeCommand);
-    expect(result).toEqual(request as Request);
+    const result = mapQueueToRequest(NudgeCommand);
+
+    expect(result).toEqual(request);
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      'Mapping sqsEvent % to request',
+      request.messageReference,
+    );
+  });
+  it('correctly maps mockNudgeCommand to mockRequest when billingReference and campaignId are not provided', () => {
+    const NudgeCommand = {
+      ...mockNudgeCommand,
+      billingReference: '',
+      campaignId: '',
+    };
+
+    const request = {
+      ...mockRequest,
+      billingReference: 'test_client_id',
+    };
+
+    const result = mapQueueToRequest(NudgeCommand);
+
+    expect(result).toEqual(request);
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      'Mapping sqsEvent % to request',
+      request.messageReference,
+    );
   });
   it('throws when required fields are missing', () => {
     const invalidMessage = {} as NudgeCommand;

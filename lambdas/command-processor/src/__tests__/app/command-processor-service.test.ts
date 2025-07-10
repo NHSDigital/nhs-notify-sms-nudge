@@ -1,13 +1,19 @@
-import { CommandProcessorService } from '../../app/command-processor-service';
-import type { ApiClient } from '../../ApiClient';
-import { expectedRequest } from '../test-data/data-event';
+import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { CommandProcessorService } from 'app/command-processor-service';
+import type { ApiClient } from 'api-client';
+import { mockRequest } from '__tests__/constants';
+
+jest.mock('nhs-notify-sms-nudge-utils/logger');
 
 const mockClient = {
   sendRequest: jest.fn(),
 } as unknown as jest.Mocked<ApiClient>;
 
+const mockLogger = jest.mocked(logger);
+
 const commandProcessorService = new CommandProcessorService({
   nhsNotifyClient: mockClient,
+  logger: mockLogger,
 });
 
 describe('CommandProcessorService', () => {
@@ -17,15 +23,35 @@ describe('CommandProcessorService', () => {
   it('completes when the API client succeeds', async () => {
     mockClient.sendRequest.mockResolvedValue({ status: 'ok' });
 
-    await expect(commandProcessorService.process(expectedRequest)).resolves.toBeUndefined();
+    await expect(
+      commandProcessorService.process(mockRequest),
+    ).resolves.toBeUndefined();
 
     expect(mockClient.sendRequest).toHaveBeenCalledTimes(1);
-    expect(mockClient.sendRequest).toHaveBeenCalledWith(expectedRequest);
+    expect(mockClient.sendRequest).toHaveBeenCalledWith(mockRequest);
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      'Processing request %s',
+      mockRequest.messageReference,
+    );
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      'Successfully processed request %s',
+      mockRequest.messageReference,
+    );
   });
   it('re-throws when the API client fails', async () => {
     const err = new Error('API failure');
     mockClient.sendRequest.mockRejectedValue(err);
 
-    await expect(commandProcessorService.process(expectedRequest)).rejects.toThrow(err);
+    await expect(commandProcessorService.process(mockRequest)).rejects.toThrow(
+      err,
+    );
+
+    expect(mockLogger.error).toHaveBeenCalledWith(
+      'Failed processing request %s',
+      mockRequest.messageReference,
+      err.message,
+    );
   });
 });

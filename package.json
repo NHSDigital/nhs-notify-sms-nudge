@@ -55,8 +55,8 @@
     "typecheck": "npm run typecheck --workspaces"
   },
   "workspaces": [
-    "lambdas/event-command-transformer",
     "lambdas/command-processor",
+    "lambdas/event-command-transformer",
     "utils/utils"
   ]
 }

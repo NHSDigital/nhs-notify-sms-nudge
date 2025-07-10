@@ -3,7 +3,9 @@
     "@aws-sdk/client-sqs": "^3.828.0",
     "aws-lambda": "^1.0.7",
     "axios": "1.10.0",
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.0",
+    "nhs-notify-sms-nudge-utils": "*",
+    "zod": "^3.25.75"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

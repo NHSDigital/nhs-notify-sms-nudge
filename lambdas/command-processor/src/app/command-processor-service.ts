@@ -1,21 +1,36 @@
-import type { ApiClient } from '../ApiClient';
-import type { Request } from '../domain/request';
+import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import type { ApiClient } from 'api-client';
+import type { Request } from 'domain/request';
 
 type Dependencies = {
   nhsNotifyClient: ApiClient;
+  logger: Logger;
 };
 
 export class CommandProcessorService {
   private readonly nhsNotifyClient: ApiClient;
 
-  constructor({ nhsNotifyClient }: Dependencies) {
+  private readonly logger: Logger;
+
+  constructor({ logger, nhsNotifyClient }: Dependencies) {
     this.nhsNotifyClient = nhsNotifyClient;
+    this.logger = logger;
   }
 
   public async process(event: Request): Promise<void> {
+    this.logger.info('Processing request %s', event.messageReference);
     try {
       await this.nhsNotifyClient.sendRequest(event);
-    } catch (error) {
+      this.logger.info(
+        'Successfully processed request %s',
+        event.messageReference,
+      );
+    } catch (error: any) {
+      this.logger.error(
+        'Failed processing request %s',
+        event.messageReference,
+        error.message,
+      );
       throw error;
     }
   }

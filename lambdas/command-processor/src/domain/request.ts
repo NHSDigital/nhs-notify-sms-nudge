@@ -5,5 +5,4 @@ export type Request = {
   recipient: {
     nhsNumber: string;
   };
-  personalisation?: Record<string, string>
-}
+};
