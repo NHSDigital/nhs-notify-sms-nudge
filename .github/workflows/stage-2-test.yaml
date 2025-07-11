@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v4
       - name: "Repo setup"
         run: |
-          npm ci
+          npm ci --verbose
       - name: "Generate dependencies"
         run: |
           npm run generate-dependencies --workspaces --if-present
