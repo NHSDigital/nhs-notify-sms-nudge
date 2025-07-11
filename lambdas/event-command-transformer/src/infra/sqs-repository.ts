@@ -3,7 +3,7 @@ import {
   ListQueuesCommand,
   SQSClient,
   SendMessageCommand,
-} from "@aws-sdk/client-sqs";
+} from '@aws-sdk/client-sqs';
 
 export class SqsRepository {
   constructor(private readonly sqsClient: SQSClient) {}
@@ -22,7 +22,7 @@ export class SqsRepository {
     const { Attributes } = await this.sqsClient.send(
       new GetQueueAttributesCommand({
         QueueUrl: queueUrl,
-        AttributeNames: ["ApproximateNumberOfMessagesNotVisible"],
+        AttributeNames: ['ApproximateNumberOfMessagesNotVisible'],
       }),
     );
 

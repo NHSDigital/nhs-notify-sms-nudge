@@ -1,22 +1,22 @@
-import { SQSClient } from "@aws-sdk/client-sqs";
-import { filterUnnotifiedEvents } from "app/event-filters";
-import { transformEvent } from "app/event-transform";
-import { parseSqsRecord } from "app/parse-cloud-event";
-import { SQSEvent, SQSRecord } from "aws-lambda";
-import { CloudEvent, SupplierStatusChangeEvent } from "domain/cloud-event";
-import { NudgeCommand } from "domain/nudge-command";
-import { createHandler } from "handler/sqs-handler";
-import { SqsRepository } from "infra/sqs-repository";
-import { mock } from "jest-mock-extended";
-import { logger } from "nhs-notify-sms-nudge-utils/logger";
+import { SQSClient } from '@aws-sdk/client-sqs';
+import { filterUnnotifiedEvents } from 'app/event-filters';
+import { transformEvent } from 'app/event-transform';
+import { parseSqsRecord } from 'app/parse-cloud-event';
+import { SQSEvent, SQSRecord } from 'aws-lambda';
+import { CloudEvent, SupplierStatusChangeEvent } from 'domain/cloud-event';
+import { NudgeCommand } from 'domain/nudge-command';
+import { createHandler } from 'handler/sqs-handler';
+import { SqsRepository } from 'infra/sqs-repository';
+import { mock } from 'jest-mock-extended';
+import { logger } from 'nhs-notify-sms-nudge-utils/logger';
 
-const queue = "SQS_COMMAND_QUEUE";
+const queue = 'SQS_COMMAND_QUEUE';
 
-jest.mock("app/event-filters");
-jest.mock("app/event-transform");
-jest.mock("app/parse-cloud-event");
-jest.mock("infra/sqs-repository");
-jest.mock("nhs-notify-sms-nudge-utils/logger");
+jest.mock('app/event-filters');
+jest.mock('app/event-transform');
+jest.mock('app/parse-cloud-event');
+jest.mock('infra/sqs-repository');
+jest.mock('nhs-notify-sms-nudge-utils/logger');
 
 const mockedParse = parseSqsRecord as jest.Mock;
 const mockedFilter = filterUnnotifiedEvents as jest.Mock;
@@ -31,71 +31,71 @@ const handler = createHandler({
   logger: mockLogger,
 });
 
-describe("Event to Command Transform Handler", () => {
+describe('Event to Command Transform Handler', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   const command: NudgeCommand = {
-    sourceEventId: "event-id",
-    nhsNumber: "9999999786",
+    sourceEventId: 'event-id',
+    nhsNumber: '9999999786',
     delayedFallback: true,
-    sendingGroupId: "sending-group-id",
-    clientId: "test-client-id",
-    supplierStatus: "unnotified",
-    requestItemId: "request-item-id",
-    requestItemPlanId: "request-item-plan-id",
+    sendingGroupId: 'sending-group-id',
+    clientId: 'test-client-id',
+    supplierStatus: 'unnotified',
+    requestItemId: 'request-item-id',
+    requestItemPlanId: 'request-item-plan-id',
   };
 
   const cloudEvent: CloudEvent = {
-    id: "event-id",
-    source: "//nhs.notify.uk/supplier-status/env",
-    specversion: "1.0",
-    type: "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
-    plane: "data",
-    subject: "request-item-plan-id",
-    time: "2025-07-03T14:23:30+0000",
-    datacontenttype: "application/json",
-    dataschema: "https://notify.nhs.uk/events/schemas/supplier-status/v1.json",
-    dataschemaversion: "1.0.0",
+    id: 'event-id',
+    source: '//nhs.notify.uk/supplier-status/env',
+    specversion: '1.0',
+    type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
+    plane: 'data',
+    subject: 'request-item-plan-id',
+    time: '2025-07-03T14:23:30+0000',
+    datacontenttype: 'application/json',
+    dataschema: 'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
+    dataschemaversion: '1.0.0',
   };
 
   const statusChangeEvent: SupplierStatusChangeEvent = {
     ...cloudEvent,
     data: {
-      nhsNumber: "9999999786",
+      nhsNumber: '9999999786',
       delayedFallback: true,
-      sendingGroupId: "sending-group-id",
-      clientId: "client-id",
-      supplierStatus: "unnotified",
-      previousSupplierStatus: "received",
-      requestItemId: "request-item-id",
-      requestItemPlanId: "request-item-plan-id",
+      sendingGroupId: 'sending-group-id',
+      clientId: 'client-id',
+      supplierStatus: 'unnotified',
+      previousSupplierStatus: 'received',
+      requestItemId: 'request-item-id',
+      requestItemPlanId: 'request-item-plan-id',
     },
   };
 
   const unnotifiedSQSRecord: SQSRecord = {
-    messageId: "message-id-1",
-    receiptHandle: "abc",
+    messageId: 'message-id-1',
+    receiptHandle: 'abc',
     body: JSON.stringify(statusChangeEvent),
     attributes: {
-      ApproximateReceiveCount: "1",
-      SentTimestamp: "2025-07-03T14:23:30Z",
-      SenderId: "sender-id",
-      ApproximateFirstReceiveTimestamp: "2025-07-03T14:23:30Z",
+      ApproximateReceiveCount: '1',
+      SentTimestamp: '2025-07-03T14:23:30Z',
+      SenderId: 'sender-id',
+      ApproximateFirstReceiveTimestamp: '2025-07-03T14:23:30Z',
     },
     messageAttributes: {},
-    md5OfBody: "",
-    eventSource: "aws:sqs",
-    eventSourceARN: "",
-    awsRegion: "",
+    md5OfBody: '',
+    eventSource: 'aws:sqs',
+    eventSourceARN: '',
+    awsRegion: '',
   };
 
   const sqsEvent = {
     Records: [unnotifiedSQSRecord],
   };
 
-  it("should parse, filter, transform and send command for valid event", async () => {
+  it('should parse, filter, transform and send command for valid event', async () => {
     mockedParse.mockReturnValue(statusChangeEvent);
     mockedFilter.mockReturnValue(true);
     mockedTransform.mockReturnValue(command);
@@ -108,16 +108,16 @@ describe("Event to Command Transform Handler", () => {
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command);
 
     expect(mockLogger.info).toHaveBeenCalledWith(
-      "Received SQS Event of %s record(s)",
+      'Received SQS Event of %s record(s)',
       sqsEvent.Records.length,
     );
     expect(mockLogger.info).toHaveBeenCalledWith(
-      "Sending nudge for event ID: %s",
+      'Sending nudge for event ID: %s',
       command.sourceEventId,
     );
   });
 
-  it("should skip filtered-out events", async () => {
+  it('should skip filtered-out events', async () => {
     mockedParse.mockReturnValue(statusChangeEvent);
     mockedFilter.mockReturnValue(false);
 
@@ -125,24 +125,24 @@ describe("Event to Command Transform Handler", () => {
 
     expect(mockedTransform).not.toHaveBeenCalled();
     expect(mockLogger.info).toHaveBeenCalledWith(
-      "There are no Nudge Commands to issue",
+      'There are no Nudge Commands to issue',
     );
     expect(sqsRepository.send).not.toHaveBeenCalled();
   });
 
-  it("should handle multiple records", async () => {
+  it('should handle multiple records', async () => {
     const statusChangeEvent2 = {
       ...statusChangeEvent,
-      id: "message-id-2",
+      id: 'message-id-2',
       data: {
         ...statusChangeEvent.data,
-        nhsNumber: "9999999787",
+        nhsNumber: '9999999787',
       },
     };
 
     const unnotifiedSQSRecord2 = {
       ...unnotifiedSQSRecord,
-      messageId: "message-id-2",
+      messageId: 'message-id-2',
       body: JSON.stringify(statusChangeEvent2),
     };
 
@@ -182,11 +182,11 @@ describe("Event to Command Transform Handler", () => {
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command2);
   });
 
-  it("should throw an error if parsing throws an error", async () => {
+  it('should throw an error if parsing throws an error', async () => {
     mockedParse.mockImplementationOnce(() => {
-      throw new Error("Test Error");
+      throw new Error('Test Error');
     });
 
-    await expect(handler(sqsEvent)).rejects.toThrow("Test Error");
+    await expect(handler(sqsEvent)).rejects.toThrow('Test Error');
   });
 });

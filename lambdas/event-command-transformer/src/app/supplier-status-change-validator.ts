@@ -1,5 +1,5 @@
-import { SupplierStatusChangeEvent } from "domain/cloud-event";
-import { z } from "zod";
+import { SupplierStatusChangeEvent } from 'domain/cloud-event';
+import { z } from 'zod';
 
 const schemaForType =
   <Output, Input = Output>() =>

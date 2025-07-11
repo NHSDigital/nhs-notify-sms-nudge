@@ -1,11 +1,11 @@
-import { SQSClient, SQSClientConfig } from "@aws-sdk/client-sqs";
+import { SQSClient, SQSClientConfig } from '@aws-sdk/client-sqs';
 
-export const region = process.env.AWS_REGION || "eu-west-2";
+export const region = process.env.AWS_REGION || 'eu-west-2';
 
 export function getSqsClient(additionalOptions: Partial<SQSClientConfig> = {}) {
   return new SQSClient({
     region,
-    retryMode: "standard",
+    retryMode: 'standard',
     maxAttempts: 5,
     ...additionalOptions,
   });
