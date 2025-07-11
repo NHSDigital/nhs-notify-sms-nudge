@@ -1,7 +1,6 @@
-import { handler } from '../index';
+import { handler } from '..';
 
 describe('handler', () => {
-  const OLD_LOG = console.log;
   let logSpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -14,10 +13,7 @@ describe('handler', () => {
 
   it('logs each SQS message body', async () => {
     const event = {
-      Records: [
-        { body: 'message-1' },
-        { body: 'message-2' }
-      ]
+      Records: [{ body: 'message-1' }, { body: 'message-2' }],
     } as any;
 
     await handler(event, {} as any, jest.fn());
