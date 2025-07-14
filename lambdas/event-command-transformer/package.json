@@ -7,6 +7,7 @@
     "zod": "^3.25.75"
   },
   "devDependencies": {
+    "@aws-sdk/types": "^3.840.0",
     "@tsconfig/node22": "^22.0.2",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",
