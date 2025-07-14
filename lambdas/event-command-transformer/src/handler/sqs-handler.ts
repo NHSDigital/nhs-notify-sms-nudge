@@ -3,8 +3,7 @@ import { transformEvent } from 'app/event-transform';
 import { parseSqsRecord } from 'app/parse-cloud-event';
 import { SQSEvent } from 'aws-lambda';
 import { NudgeCommand } from 'domain/nudge-command';
-import { SqsRepository } from 'infra/sqs-repository';
-import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { Logger, SqsRepository } from 'nhs-notify-sms-nudge-utils';
 
 export type TransformDependencies = {
   sqsRepository: SqsRepository;

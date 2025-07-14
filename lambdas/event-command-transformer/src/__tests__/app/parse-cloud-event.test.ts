@@ -1,5 +1,5 @@
 import { parseSqsRecord } from 'app/parse-cloud-event';
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 import { ZodError } from 'zod';
 
 const statusChangeEvent = {

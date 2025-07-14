@@ -1,6 +1,6 @@
 import { SupplierStatusChangeEvent } from 'domain/cloud-event';
 import { NudgeCommand } from 'domain/nudge-command';
-import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { Logger } from 'nhs-notify-sms-nudge-utils';
 
 export const transformEvent = (
   event: SupplierStatusChangeEvent,

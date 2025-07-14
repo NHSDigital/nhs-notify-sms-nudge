@@ -6,17 +6,15 @@ import { SQSEvent, SQSRecord } from 'aws-lambda';
 import { CloudEvent, SupplierStatusChangeEvent } from 'domain/cloud-event';
 import { NudgeCommand } from 'domain/nudge-command';
 import { createHandler } from 'handler/sqs-handler';
-import { SqsRepository } from 'infra/sqs-repository';
 import { mock } from 'jest-mock-extended';
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { SqsRepository, logger } from 'nhs-notify-sms-nudge-utils';
 
 const queue = 'SQS_COMMAND_QUEUE';
 
 jest.mock('app/event-filters');
 jest.mock('app/event-transform');
 jest.mock('app/parse-cloud-event');
-jest.mock('infra/sqs-repository');
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 
 const mockedParse = parseSqsRecord as jest.Mock;
 const mockedFilter = filterUnnotifiedEvents as jest.Mock;

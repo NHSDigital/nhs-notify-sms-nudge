@@ -1,7 +1,7 @@
 import { transformEvent } from 'app/event-transform';
 import { SupplierStatusChangeEvent } from 'domain/cloud-event';
 import { NudgeCommand } from 'domain/nudge-command';
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 
 jest.mock('nhs-notify-sms-nudge-utils/logger');
 const mockLogger = jest.mocked(logger);

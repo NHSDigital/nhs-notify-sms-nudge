@@ -1,5 +1,5 @@
 import { SupplierStatusChangeEvent } from 'domain/cloud-event';
-import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { Logger } from 'nhs-notify-sms-nudge-utils';
 
 const expectedTypes = new Set([
   'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
