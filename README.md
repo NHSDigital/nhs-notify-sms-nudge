@@ -78,7 +78,7 @@ This will install required tools via ASDF and enable repository standards such a
 
 ### Dependencies
 
-Dependencies are managed via NPM workspaces. From the project root folder you can run the following command to install dependencies:
+Dependencies are managed via npm workspaces. From the project root folder you can run the following command to install dependencies:
 
 ```shell
 npm install
@@ -96,7 +96,25 @@ After a successful installation, provide an informative example of how this proj
 
 ### Testing
 
-There are `make` tasks for you to configure to run your tests.  Run `make test` to see how they work.  You should be able to use the same entry points for local development as in your CI pipeline.
+Code quality tasks can be run via make:
+
+```shell
+make test
+```
+
+This will execute wrappers found in the `script/tests`. These are wrappers for the following npm scripts:
+
+```shell
+npm run test:unit
+npm run lint
+npm run typecheck
+```
+
+The workspace flag can be used to target specific areas of the project:
+
+```shell
+npm run test:unit -w lambdas/event-command-transformer
+```
 
 ## Design
 
