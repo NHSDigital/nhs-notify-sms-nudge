@@ -52,6 +52,7 @@
     "lambda-build": "npm run lambda-build --workspace lambdas/",
     "lint": "npm run lint --workspaces",
     "lint:fix": "npm run lint:fix --workspaces",
+    "test:component": "npm run test:component --workspace tests/playwright",
     "test:unit": "npm run test:unit --workspaces",
     "typecheck": "npm run typecheck --workspaces"
   },
