@@ -41,9 +41,14 @@ describe('filterUnnotifiedEvents', () => {
 
     expect(filterUnnotifiedEvents(badTypeEvent, mockLogger)).toBe(false);
     expect(mockLogger.warn).toHaveBeenCalledWith(
-      'Skipping event %s: Unexpected event type %s',
-      badTypeEvent.id,
-      badTypeEvent.type,
+      'Skipping event. Unexpected event type',
+      {
+        cloudEventId: badTypeEvent.id,
+        cloudEventType: badTypeEvent.type,
+        cloudData: {
+          delayedFallback: badTypeEvent.data.delayedFallback,
+        },
+      },
     );
   });
 
@@ -57,8 +62,14 @@ describe('filterUnnotifiedEvents', () => {
     };
     expect(filterUnnotifiedEvents(notDelayedEvent, mockLogger)).toBe(false);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Skipping event %s: Not delayed fallback',
-      notDelayedEvent.id,
+      'Skipping event. Not delayed fallback',
+      {
+        cloudEventId: notDelayedEvent.id,
+        cloudEventType: notDelayedEvent.type,
+        cloudData: {
+          delayedFallback: notDelayedEvent.data.delayedFallback,
+        },
+      },
     );
   });
 
@@ -76,8 +87,14 @@ describe('filterUnnotifiedEvents', () => {
       false,
     );
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Skipping event %s: Not delayed fallback',
-      undefinedDelayedEvent.id,
+      'Skipping event. Not delayed fallback',
+      {
+        cloudEventId: undefinedDelayedEvent.id,
+        cloudEventType: undefinedDelayedEvent.type,
+        cloudData: {
+          delayedFallback: undefinedDelayedEvent.data.delayedFallback,
+        },
+      },
     );
   });
 });

@@ -106,13 +106,13 @@ describe('Event to Command Transform Handler', () => {
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command);
 
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Received SQS Event of %s record(s)',
-      sqsEvent.Records.length,
+      'Received SQS Event of 1 record(s)',
     );
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'Sending nudge for event ID: %s',
-      command.sourceEventId,
-    );
+    expect(mockLogger.info).toHaveBeenCalledWith('Sending Nudge Command', {
+      cloudEventId: 'event-id',
+      requestItemId: 'request-item-id',
+      requestItemPlanId: 'request-item-plan-id',
+    });
   });
 
   it('should skip filtered-out events', async () => {

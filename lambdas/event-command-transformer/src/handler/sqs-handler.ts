@@ -17,7 +17,7 @@ export const createHandler = ({
   sqsRepository,
 }: TransformDependencies) =>
   async function handler(event: SQSEvent) {
-    logger.info('Received SQS Event of %s record(s)', event.Records.length);
+    logger.info(`Received SQS Event of ${event.Records.length} record(s)`);
 
     const transformedCommands: NudgeCommand[] = event.Records.map(
       (value, _index) => parseSqsRecord(value, logger),
@@ -30,7 +30,11 @@ export const createHandler = ({
     }
 
     for (const command of transformedCommands) {
-      logger.info('Sending nudge for event ID: %s', command.sourceEventId);
+      logger.info('Sending Nudge Command', {
+        cloudEventId: command.sourceEventId,
+        requestItemId: command.requestItemId,
+        requestItemPlanId: command.requestItemPlanId,
+      });
       await sqsRepository.send(commandsQueueUrl, command);
     }
   };

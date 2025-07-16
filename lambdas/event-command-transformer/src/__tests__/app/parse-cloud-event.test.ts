@@ -50,13 +50,17 @@ describe('parseSqsRecord', () => {
     const result = parseSqsRecord(sqsRecord, mockLogger);
 
     expect(result).toEqual(statusChangeEvent);
+    expect(mockLogger.info).toHaveBeenCalledWith('Parsing SQS Record', {
+      messageId: '1',
+    });
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Parsing SQS Record, messageID: %s',
-      sqsRecord.messageId,
-    );
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'SQS Record (%s) parsed as Supplier Status Change Event',
-      sqsRecord.messageId,
+      'Parsed SQS Record as Supplier Status Change Event',
+      {
+        cloudEventId: 'id',
+        cloudEventSpecVersion: '1.0',
+        cloudEventType: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
+        messageId: '1',
+      },
     );
   });
 

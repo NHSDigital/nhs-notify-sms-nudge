@@ -7,15 +7,19 @@ export const parseSqsRecord = (
   sqsRecord: SQSRecord,
   logger: Logger,
 ): SupplierStatusChangeEvent => {
-  logger.info('Parsing SQS Record, messageID: %s', sqsRecord.messageId);
+  logger.info('Parsing SQS Record', {
+    messageId: sqsRecord.messageId,
+  });
 
   const jsonParsed = JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;
   const zodParsed = $SupplierStatusChange.parse(jsonParsed);
 
-  logger.info(
-    'SQS Record (%s) parsed as Supplier Status Change Event',
-    sqsRecord.messageId,
-  );
+  logger.info('Parsed SQS Record as Supplier Status Change Event', {
+    messageId: sqsRecord.messageId,
+    cloudEventId: zodParsed.id,
+    cloudEventType: zodParsed.type,
+    cloudEventSpecVersion: zodParsed.specversion,
+  });
 
   return zodParsed;
 };

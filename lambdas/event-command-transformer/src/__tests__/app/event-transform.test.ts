@@ -47,9 +47,8 @@ describe('transformEvent', () => {
     expect(transformEvent(statusChangeEvent, mockLogger)).toEqual(
       expectedNudgeCommand,
     );
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'Creating nudge command for event ID: %s',
-      statusChangeEvent.id,
-    );
+    expect(mockLogger.info).toHaveBeenCalledWith('Creating Nudge Command ', {
+      cloudEventId: 'event-id',
+    });
   });
 });
