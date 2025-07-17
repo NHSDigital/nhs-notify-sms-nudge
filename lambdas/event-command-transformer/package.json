@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "@aws-sdk/client-sqs": "*",
+    "@aws-sdk/client-sqs": "^3.828.0",
     "aws-lambda": "^1.0.7",
     "esbuild": "^0.24.0",
     "nhs-notify-sms-nudge-utils": "*",
     "zod": "^3.25.75"
   },
   "devDependencies": {
+    "@aws-sdk/types": "^3.840.0",
     "@tsconfig/node22": "^22.0.2",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",

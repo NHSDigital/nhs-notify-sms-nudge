@@ -6,17 +6,15 @@ import { SQSEvent, SQSRecord } from 'aws-lambda';
 import { CloudEvent, SupplierStatusChangeEvent } from 'domain/cloud-event';
 import { NudgeCommand } from 'domain/nudge-command';
 import { createHandler } from 'handler/sqs-handler';
-import { SqsRepository } from 'infra/sqs-repository';
 import { mock } from 'jest-mock-extended';
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { SqsRepository, logger } from 'nhs-notify-sms-nudge-utils';
 
 const queue = 'SQS_COMMAND_QUEUE';
 
 jest.mock('app/event-filters');
 jest.mock('app/event-transform');
 jest.mock('app/parse-cloud-event');
-jest.mock('infra/sqs-repository');
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 
 const mockedParse = parseSqsRecord as jest.Mock;
 const mockedFilter = filterUnnotifiedEvents as jest.Mock;
@@ -108,13 +106,13 @@ describe('Event to Command Transform Handler', () => {
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command);
 
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Received SQS Event of %s record(s)',
-      sqsEvent.Records.length,
+      'Received SQS Event of 1 record(s)',
     );
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'Sending nudge for event ID: %s',
-      command.sourceEventId,
-    );
+    expect(mockLogger.info).toHaveBeenCalledWith('Sending Nudge Command', {
+      cloudEventId: 'event-id',
+      requestItemId: 'request-item-id',
+      requestItemPlanId: 'request-item-plan-id',
+    });
   });
 
   it('should skip filtered-out events', async () => {

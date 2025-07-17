@@ -5,8 +5,8 @@ import {
   ListQueuesResult,
   SQSClient,
 } from '@aws-sdk/client-sqs';
-import { SqsRepository } from 'infra/sqs-repository';
 import { mock } from 'jest-mock-extended';
+import { SqsRepository } from 'sqs-utils';
 
 const mSqsClient = mock<SQSClient>();
 const sqsRepository = new SqsRepository(mSqsClient);

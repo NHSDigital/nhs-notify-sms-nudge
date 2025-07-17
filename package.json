@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@aws-sdk/client-sqs": "^3.828.0",
+    "@aws-sdk/types": "^3.840.0",
     "@eslint/compat": "^1.3.1",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.30.1",
@@ -52,12 +52,12 @@
     "lambda-build": "npm run lambda-build --workspace lambdas/",
     "lint": "npm run lint --workspaces",
     "lint:fix": "npm run lint:fix --workspaces",
+    "test:component": "npm run test:component --workspace tests/playwright",
     "test:unit": "npm run test:unit --workspaces",
     "typecheck": "npm run typecheck --workspaces"
   },
   "workspaces": [
-    "lambdas/command-processor",
-    "lambdas/event-command-transformer",
-    "utils/utils"
+    "utils/utils",
+    "tests/playwright"
   ]
 }
