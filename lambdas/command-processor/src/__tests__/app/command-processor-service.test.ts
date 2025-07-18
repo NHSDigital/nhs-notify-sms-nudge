@@ -30,14 +30,15 @@ describe('CommandProcessorService', () => {
     expect(mockClient.sendRequest).toHaveBeenCalledTimes(1);
     expect(mockClient.sendRequest).toHaveBeenCalledWith(mockRequest);
 
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'Processing request %s',
-      mockRequest.messageReference,
-    );
+    expect(mockLogger.info).toHaveBeenCalledWith('Processing request', {
+      messageReference: 'request_item_id-request_item_plan_id',
+    });
 
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Successfully processed request %s',
-      mockRequest.messageReference,
+      'Successfully processed request',
+      {
+        messageReference: 'request_item_id-request_item_plan_id',
+      },
     );
   });
   it('re-throws when the API client fails', async () => {
@@ -48,10 +49,9 @@ describe('CommandProcessorService', () => {
       err,
     );
 
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      'Failed processing request %s',
-      mockRequest.messageReference,
-      err.message,
-    );
+    expect(mockLogger.error).toHaveBeenCalledWith('Failed processing request', {
+      messageReference: 'request_item_id-request_item_plan_id',
+      error: 'API failure',
+    });
   });
 });

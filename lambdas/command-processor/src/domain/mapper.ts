@@ -7,7 +7,7 @@ import { ROUTING_PLAN_ID } from '../constants';
 export function mapQueueToRequest(command: NudgeCommand): Request {
   const messageReference = `${command.requestItemId.trim()}-${command.requestItemPlanId.trim()}`;
 
-  logger.info('Mapping sqsEvent % to request', messageReference);
+  logger.info(`Mapping sqsEvent ${messageReference} to request`);
 
   const billingReference = [
     command.clientId,

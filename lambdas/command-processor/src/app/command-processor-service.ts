@@ -18,19 +18,19 @@ export class CommandProcessorService {
   }
 
   public async process(event: Request): Promise<void> {
-    this.logger.info('Processing request %s', event.messageReference);
+    this.logger.info('Processing request', {
+      messageReference: event.messageReference,
+    });
     try {
       await this.nhsNotifyClient.sendRequest(event);
-      this.logger.info(
-        'Successfully processed request %s',
-        event.messageReference,
-      );
+      this.logger.info('Successfully processed request', {
+        messageReference: event.messageReference,
+      });
     } catch (error: any) {
-      this.logger.error(
-        'Failed processing request %s',
-        event.messageReference,
-        error.message,
-      );
+      this.logger.error('Failed processing request', {
+        messageReference: event.messageReference,
+        error: error.message,
+      });
       throw error;
     }
   }

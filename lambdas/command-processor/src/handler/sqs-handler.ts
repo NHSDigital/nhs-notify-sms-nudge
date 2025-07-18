@@ -19,7 +19,7 @@ export const createHandler = ({
   logger,
 }: CommandDependencies) =>
   async function handler(sqsEvent: SQSEvent): Promise<SQSBatchResponse> {
-    logger.info('Received SQS Event of %s record(s)', sqsEvent.Records.length);
+    logger.info(`Received SQS Event of ${sqsEvent.Records.length} record(s)`);
     const batchItemFailures: SQSBatchItemFailure[] = [];
     await Promise.all(
       sqsEvent.Records.map(async (sqsRecord: SQSRecord) => {
@@ -27,10 +27,11 @@ export const createHandler = ({
           const incoming = parseSqsRecord(sqsRecord, logger);
           const request = mapQueueToRequest(incoming);
           await commandProcessorService.process(request);
-        } catch (error) {
+        } catch (error: any) {
           logger.error({
-            err: error,
+            error: error.message,
             description: 'Failed processing message',
+            messageId: sqsRecord.messageId,
           });
           batchItemFailures.push({ itemIdentifier: sqsRecord.messageId });
         }

@@ -43,8 +43,7 @@ describe('SQS Handler', () => {
     expect(mockedMapper).toHaveBeenCalledWith(mockNudgeCommand);
     expect(mockService.process).toHaveBeenCalledWith(mockRequest);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Received SQS Event of %s record(s)',
-      1,
+      'Received SQS Event of 1 record(s)',
     );
     expect(response).toEqual({ batchItemFailures: [] });
   });
@@ -94,8 +93,7 @@ describe('SQS Handler', () => {
     expect(mockService.process).toHaveBeenCalledWith(request2);
 
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Received SQS Event of %s record(s)',
-      2,
+      'Received SQS Event of 2 record(s)',
     );
 
     expect(response).toEqual({ batchItemFailures: [] });
@@ -113,8 +111,9 @@ describe('SQS Handler', () => {
     const result = await handler(sqsEvent);
 
     expect(mockLogger.error).toHaveBeenCalledWith({
-      err: expect.any(Error),
+      error: 'Test Error',
       description: 'Failed processing message',
+      messageId: 'msg-1',
     });
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], logger);
 

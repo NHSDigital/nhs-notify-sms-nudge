@@ -11,13 +11,15 @@ describe('parseSqsRecord', () => {
     const result = parseSqsRecord(sqsRecord, mockLogger);
 
     expect(result).toEqual(mockNudgeCommand);
+    expect(mockLogger.info).toHaveBeenCalledWith('Parsing SQS Record', {
+      messageId: '1',
+    });
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Parsing SQS Record, messageID: %s',
-      sqsRecord.messageId,
-    );
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'SQS Record (%s) parsed as Nudge Command Event',
-      sqsRecord.messageId,
+      'Parsed SQS Record as Nudge Command Event',
+      {
+        messageId: '1',
+        sourceEventId: 'test-event-id',
+      },
     );
   });
 
@@ -40,10 +42,6 @@ describe('parseSqsRecord', () => {
     };
 
     expect(() => parseSqsRecord(badRecord, mockLogger)).toThrow(SyntaxError);
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      'Failed to parse Nudge Command Event',
-      expect.any(SyntaxError),
-    );
   });
 
   it('throws an error if required properties are missing', () => {
@@ -64,9 +62,5 @@ describe('parseSqsRecord', () => {
     };
 
     expect(() => parseSqsRecord(badRecord, mockLogger)).toThrow(ZodError);
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      'Failed to parse Nudge Command Event',
-      expect.any(ZodError),
-    );
   });
 });

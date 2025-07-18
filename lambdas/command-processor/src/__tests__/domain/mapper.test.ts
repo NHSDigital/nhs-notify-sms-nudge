@@ -13,8 +13,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(mockRequest);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent % to request',
-      mockRequest.messageReference,
+      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
     );
   });
   it('correctly maps mockNudgeCommand to mockRequest when campaignId is not provided', () => {
@@ -32,8 +31,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent % to request',
-      request.messageReference,
+      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
     );
   });
   it('correctly maps mockNudgeCommand to mockRequest when billingReference is not provided', () => {
@@ -51,8 +49,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent % to request',
-      request.messageReference,
+      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
     );
   });
   it('correctly maps mockNudgeCommand to mockRequest when billingReference and campaignId are not provided', () => {
@@ -71,8 +68,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent % to request',
-      request.messageReference,
+      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
     );
   });
   it('throws when required fields are missing', () => {

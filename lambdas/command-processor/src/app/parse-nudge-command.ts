@@ -7,19 +7,17 @@ export const parseSqsRecord = (
   sqsRecord: SQSRecord,
   logger: Logger,
 ): NudgeCommand => {
-  logger.info('Parsing SQS Record, messageID: %s', sqsRecord.messageId);
-  try {
-    const jsonParsed = JSON.parse(sqsRecord.body) as NudgeCommand;
-    const zodParsed = $NudgeCommand.parse(jsonParsed);
+  logger.info('Parsing SQS Record', {
+    messageId: sqsRecord.messageId,
+  });
 
-    logger.info(
-      'SQS Record (%s) parsed as Nudge Command Event',
-      sqsRecord.messageId,
-    );
+  const jsonParsed = JSON.parse(sqsRecord.body) as NudgeCommand;
+  const zodParsed = $NudgeCommand.parse(jsonParsed);
 
-    return zodParsed;
-  } catch (error) {
-    logger.error('Failed to parse Nudge Command Event', error);
-    throw error;
-  }
+  logger.info('Parsed SQS Record as Nudge Command Event', {
+    messageId: sqsRecord.messageId,
+    sourceEventId: zodParsed.sourceEventId,
+  });
+
+  return zodParsed;
 };
