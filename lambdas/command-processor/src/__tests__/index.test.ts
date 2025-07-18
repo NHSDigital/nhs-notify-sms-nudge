@@ -1,4 +1,4 @@
-import type { SQSEvent } from 'aws-lambda';
+import type { SQSBatchResponse, SQSEvent } from 'aws-lambda';
 import { createContainer } from 'container';
 import { createHandler as createSqsHandler } from 'handler/sqs-handler';
 import { handler } from '..';
@@ -7,7 +7,7 @@ jest.mock('../container');
 jest.mock('../handler/sqs-handler');
 
 const mockContainer = {} as Awaited<ReturnType<typeof createContainer>>;
-const mockInnerHandler = jest.fn<Promise<void>, [SQSEvent]>();
+const mockInnerHandler = jest.fn<Promise<SQSBatchResponse>, [SQSEvent]>();
 
 const mockCreateContainer = jest.mocked(createContainer);
 const mockCreateSqsHandler = jest.mocked(createSqsHandler);
@@ -22,14 +22,14 @@ beforeEach(() => {
 const sqsEvent = { Records: [] } as SQSEvent;
 
 it('should load the container, build the SQS handler, and invoke it with the sqsEvent', async () => {
-  mockInnerHandler.mockResolvedValue();
+  mockInnerHandler.mockResolvedValue({ batchItemFailures: [] });
 
-  const result = await handler(sqsEvent);
+  const response = await handler(sqsEvent);
 
   expect(mockCreateContainer).toHaveBeenCalledTimes(1);
   expect(mockCreateSqsHandler).toHaveBeenCalledWith(mockContainer);
   expect(mockInnerHandler).toHaveBeenCalledWith(sqsEvent);
-  expect(result).toBeUndefined();
+  expect(response).toEqual({ batchItemFailures: [] });
 });
 
 it('should propagate errors from the inner handler', async () => {

@@ -120,6 +120,6 @@ describe('SQS Handler', () => {
 
     expect(result).toEqual({
       batchItemFailures: [{ itemIdentifier: 'msg-1' }],
-    });;
+    });
   });
 });

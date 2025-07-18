@@ -1,8 +1,8 @@
 import type {
+  SQSBatchItemFailure,
+  SQSBatchResponse,
   SQSEvent,
   SQSRecord,
-  SQSBatchResponse,
-  SQSBatchItemFailure,
 } from 'aws-lambda';
 import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
 import { mapQueueToRequest } from 'domain/mapper';
@@ -27,16 +27,15 @@ export const createHandler = ({
           const incoming = parseSqsRecord(sqsRecord, logger);
           const request = mapQueueToRequest(incoming);
           await commandProcessorService.process(request);
-        } catch (e) {
+        } catch (error) {
           logger.error({
-            err: e,
-            description:
-              'Failed processing message',
+            err: error,
+            description: 'Failed processing message',
           });
           batchItemFailures.push({ itemIdentifier: sqsRecord.messageId });
         }
       }),
     );
 
-    return {batchItemFailures};
+    return { batchItemFailures };
   };
