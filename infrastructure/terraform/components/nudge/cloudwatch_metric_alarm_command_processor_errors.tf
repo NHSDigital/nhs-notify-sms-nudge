@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_metric_alarm" "command_processor_errors" {
-  alarm_name          = "${local.csi}-event-command-transformer-errors"
+  alarm_name          = "${local.csi}-command-processor-errors"
   alarm_description   = "RELIABILITY: Alarm for Command Processor Lambda function errors"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
