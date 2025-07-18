@@ -17,7 +17,6 @@ jobs:
       - name: Trigger nhs-notify-internal dynamic environment workflow
         shell: bash
         run: |
-          set -x
           this_repo_name=$(echo ${{ github.repository }} | cut -d'/' -f2)
 
           DISPATCH_EVENT=$(jq -ncM \
