@@ -37,7 +37,7 @@ describe('SQS Handler', () => {
     mockedParse.mockReturnValueOnce(mockNudgeCommand);
     mockService.process.mockResolvedValueOnce();
 
-    await handler(sqsEvent);
+    const response = await handler(sqsEvent);
 
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], mockLogger);
     expect(mockedMapper).toHaveBeenCalledWith(mockNudgeCommand);
@@ -46,6 +46,7 @@ describe('SQS Handler', () => {
       'Received SQS Event of %s record(s)',
       1,
     );
+    expect(response).toEqual({ batchItemFailures: [] });
   });
 
   it('processes two records', async () => {
@@ -81,7 +82,7 @@ describe('SQS Handler', () => {
     mockService.process.mockResolvedValueOnce();
     mockService.process.mockResolvedValueOnce();
 
-    await handler(sqsEvent);
+    const response = await handler(sqsEvent);
 
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], mockLogger);
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[1], mockLogger);
@@ -96,6 +97,8 @@ describe('SQS Handler', () => {
       'Received SQS Event of %s record(s)',
       2,
     );
+
+    expect(response).toEqual({ batchItemFailures: [] });
   });
 
   it('should throw an error if parseSqsRecord throws', async () => {
@@ -107,8 +110,16 @@ describe('SQS Handler', () => {
       Records: [{ messageId: 'msg-1', body: '{}' }],
     } as unknown as SQSEvent;
 
-    await expect(handler(sqsEvent)).rejects.toThrow('Test Error');
+    const result = await handler(sqsEvent);
 
+    expect(mockLogger.error).toHaveBeenCalledWith({
+      err: expect.any(Error),
+      description: 'Failed processing message',
+    });
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], logger);
+
+    expect(result).toEqual({
+      batchItemFailures: [{ itemIdentifier: 'msg-1' }],
+    });;
   });
 });
