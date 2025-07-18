@@ -58,6 +58,7 @@
   },
   "workspaces": [
     "lambdas/command-processor",
+    "lambdas/event-command-transformer",
     "utils/utils",
     "tests/playwright"
   ]
