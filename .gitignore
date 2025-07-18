@@ -16,9 +16,8 @@ version.json
 node_modules
 .node-version
 **/node_modules
-/.pnp
-.pnp.js
 /build
 dist
-.DS_Store
 .reports
+**/playwright-report
+**/test-results
