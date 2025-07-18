@@ -1,5 +1,15 @@
 import { test } from '@playwright/test';
 
+function sleep(seconds: number) {
+  return new Promise<void>((resolve) => {
+    if (seconds > 0) {
+      setTimeout(resolve, seconds * 1000);
+    } else {
+      resolve();
+    }
+  });
+}
+
 const latestCaughtObjects: Map<symbol, unknown> = new Map();
 
 test.beforeEach(() => {
@@ -31,15 +41,13 @@ export async function expectToPassEventually<R>(
   const startTime = Date.now();
   const timeout = 30;
   const delay = 1;
-  let attempt = 0;
 
   for (;;) {
     try {
-      attempt += 1;
       const result = await expectationFunction();
       latestCaughtObjects.delete(invocationToken);
       return result;
-    } catch (exception: unknown) {
+    } catch (error: unknown) {
       latestCaughtObjects.delete(invocationToken);
       if (Date.now() - startTime > timeout * 1000) {
         console.log('Failed to finish test in time', {
@@ -47,22 +55,12 @@ export async function expectToPassEventually<R>(
           timeout,
           delay,
         });
-        console.error(exception);
-        throw exception;
+        console.error(error);
+        throw error;
       } else {
-        latestCaughtObjects.set(invocationToken, exception);
+        latestCaughtObjects.set(invocationToken, error);
         await sleep(delay);
       }
     }
   }
-}
-
-function sleep(seconds: number) {
-  return new Promise<void>((resolve) => {
-    if (seconds > 0) {
-      setTimeout(resolve, seconds * 1000);
-    } else {
-      resolve();
-    }
-  });
 }

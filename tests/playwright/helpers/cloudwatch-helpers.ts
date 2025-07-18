@@ -8,11 +8,11 @@ const client = new CloudWatchLogsClient({ region: AWS_REGION });
 
 export async function getLogsFromCloudwatch(
   logGroupName: string,
-  pattern: string
+  pattern: string,
 ): Promise<unknown[]> {
   const filterEvents = new FilterLogEventsCommand({
     logGroupName,
-    startTime: new Date().getTime() - 30 * 1000,
+    startTime: Date.now() - 30 * 1000,
     filterPattern: pattern,
     limit: 50,
   });
@@ -20,6 +20,6 @@ export async function getLogsFromCloudwatch(
   const { events = [] } = await client.send(filterEvents);
 
   return events.flatMap(({ message }) =>
-    message ? [JSON.parse(message)] : []
+    message ? [JSON.parse(message)] : [],
   );
 }

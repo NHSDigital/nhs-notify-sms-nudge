@@ -18,8 +18,7 @@ expect.extend({
       };
     }
 
-    const [min, max] = [...range].sort();
-
+    const [min, max] = [...range].sort((a, b) => a.getTime() - b.getTime());
     const minMs = Math.floor(min.valueOf() / 1000) * 1000; // round min down to the nearest second
     const maxMs = Math.ceil(max.valueOf() / 1000) * 1000; // round max up to the nearest second
     const receivedDown = Math.floor(date.valueOf() / 1000) * 1000; // round the received number down to the nearest second
