@@ -10,9 +10,10 @@ import { sendMessagetoSqs } from 'helpers/sqs-helpers';
 
 test.describe('SMS Nudge', () => {
   test('should transform and send a communication', async () => {
-    const eventId = randomUUID();
+    const requestItemId = randomUUID();
+    const requestItemPlanId = randomUUID();
     const supplierStatusChangeEvent = {
-      id: eventId,
+      id: 'id',
       source: '//nhs.notify.uk/supplier-status/env',
       specversion: '1.0',
       type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
@@ -30,19 +31,20 @@ test.describe('SMS Nudge', () => {
         clientId: 'test-client-id',
         supplierStatus: 'unnotified',
         previousSupplierStatus: 'received',
-        requestItemId: 'request-item-id',
-        requestItemPlanId: 'request-item-plan-id',
+        requestItemId,
+        requestItemPlanId,
       },
     };
 
     await sendMessagetoSqs(INBOUND_QUEUE_NAME, supplierStatusChangeEvent);
 
     const logGroupName = `/aws/lambda/${COMMAND_LAMBDA_NAME}`;
+    const messageReference = `${requestItemId}-${requestItemPlanId}`;
 
     await expectToPassEventually(async () => {
       const filteredLogs = await getLogsFromCloudwatch(
         logGroupName,
-        `{ $.sourceEventId = ${JSON.stringify(eventId)} }`,
+        `{ $.messageReference = ${JSON.stringify(messageReference)} && $.message = "Successfully processed request" }`,
       );
 
       expect(filteredLogs.length).toBeGreaterThan(0);
