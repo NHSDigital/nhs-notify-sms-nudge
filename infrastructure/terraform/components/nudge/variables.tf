@@ -30,6 +30,7 @@ variable "group" {
 variable "queue_batch_size" {
   type        = number
   description = "maximum number of queue items to process"
+  default     = 10
 }
 
 variable "queue_batch_window_seconds" {
