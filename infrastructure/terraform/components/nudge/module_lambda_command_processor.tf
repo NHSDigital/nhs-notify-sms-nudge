@@ -1,7 +1,7 @@
 module "lambda_command_processor" {
   source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
 
-  function_name = "command-transformer"
+  function_name = "command-processor"
   description   = "A function for processing command messages from SQS"
 
   aws_account_id = var.aws_account_id
@@ -36,6 +36,7 @@ module "lambda_command_processor" {
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
   lambda_env_vars = {
+    "SEND_MESSAGE_URL" = var.send_message_url
   }
 }
 

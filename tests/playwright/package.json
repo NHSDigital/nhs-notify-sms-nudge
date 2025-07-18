@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.844.0",
+    "@aws-sdk/client-lambda": "^3.844.0",
+    "@aws-sdk/client-sqs": "^3.844.0",
+    "@faker-js/faker": "^9.6.0",
+    "@playwright/test": "^1.51.1",
+    "nhs-notify-sms-nudge-utils": "*"
+  },
+  "name": "nhs-notify-web-template-management-ui-tests",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "test:component": "playwright test -c config/component/component.config.ts",
+    "test:unit": "echo \"Unit tests not required\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "version": "0.0.1"
+}
