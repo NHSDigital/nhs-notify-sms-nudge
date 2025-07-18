@@ -1,21 +1,18 @@
 import { expect, test } from '@playwright/test';
+import { randomUUID } from 'node:crypto';
 import {
   COMMAND_LAMBDA_NAME,
   INBOUND_QUEUE_NAME,
 } from 'constants/backend-constants';
 import { getLogsFromCloudwatch } from 'helpers/cloudwatch-helpers';
+import { expectToPassEventually } from 'helpers/expectations';
 import { sendMessagetoSqs } from 'helpers/sqs-helpers';
 
 test.describe('SMS Nudge', () => {
-  let testStartTime: Date;
-
-  test.beforeEach(() => {
-    testStartTime = new Date();
-  });
-
   test('should transform and send a communication', async () => {
+    const eventId = randomUUID();
     const supplierStatusChangeEvent = {
-      id: 'event-id',
+      id: eventId,
       source: '//nhs.notify.uk/supplier-status/env',
       specversion: '1.0',
       type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
@@ -40,21 +37,15 @@ test.describe('SMS Nudge', () => {
 
     await sendMessagetoSqs(INBOUND_QUEUE_NAME, supplierStatusChangeEvent);
 
-    // TODO: Fix Log lookups
     const logGroupName = `/aws/lambda/${COMMAND_LAMBDA_NAME}`;
 
-    const foundLogs = await getLogsFromCloudwatch(logGroupName, 1);
-
-    const filteredLogs = foundLogs.filter((log: any) => {
-      // log conditions go here
-      return (
-        log.level === 'info' &&
-        log.message === 'Received event' &&
-        log.target === 'https://sandbox.api.service.nhs.uk/comms/v1/messages' &&
-        new Date(log.timestamp) > testStartTime
+    await expectToPassEventually(async () => {
+      const filteredLogs = await getLogsFromCloudwatch(
+        logGroupName,
+        `{ $.sourceEventId = ${JSON.stringify(eventId)} }`,
       );
-    });
 
-    expect(filteredLogs.length).toBeGreaterThan(0);
+      expect(filteredLogs.length).toBeGreaterThan(0);
+    });
   });
 });

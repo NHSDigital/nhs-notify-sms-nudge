@@ -1,64 +1,25 @@
 import {
   CloudWatchLogsClient,
-  DescribeLogStreamsCommand,
-  GetLogEventsCommand
+  FilterLogEventsCommand,
 } from '@aws-sdk/client-cloudwatch-logs';
 
 const AWS_REGION = process.env.AWS_REGION || 'eu-west-2';
-
 const client = new CloudWatchLogsClient({ region: AWS_REGION });
 
-const getLatestStreams = async (logGroupName: string, count: number) => {
-  const describeStreams = new DescribeLogStreamsCommand({
-    logGroupName,
-    orderBy: 'LastEventTime',
-    descending: true,
-    limit: count,
-  });
-
-  const streamResult = await client.send(describeStreams);
-  if (!streamResult.logStreams || streamResult.logStreams.length === 0) {
-    throw new Error('No log streams found.');
-  }
-
-  return streamResult.logStreams;
-};
-
-const getLogsFromStream = async (
-  logGroupName: string,
-  logStreamName: string,
-): Promise<any[]> => {
-  const command = new GetLogEventsCommand({
-    logGroupName,
-    logStreamName,
-    startFromHead: true,
-  });
-
-  const { events = [] } = await client.send(command);
-
-  return events.flatMap((e) => (e.message ? [JSON.parse(e.message)] : []));
-};
-
-/*
- * FilterLogCommand has not been returning logs, even when no/generous range or filters are specified
- * Therefore get the latest streamCount streams and return those log messages for search
- */
 export async function getLogsFromCloudwatch(
   logGroupName: string,
-  lastStreamsNumber = 3,
+  pattern: string
 ): Promise<unknown[]> {
-  const latestLogStreamName = await getLatestStreams(
+  const filterEvents = new FilterLogEventsCommand({
     logGroupName,
-    lastStreamsNumber,
-  );
+    startTime: new Date().getTime() - 30 * 1000,
+    filterPattern: pattern,
+    limit: 50,
+  });
 
-  const latestLogs = await Promise.all(
-    latestLogStreamName.flatMap((stream) =>
-      stream.logStreamName
-        ? getLogsFromStream(logGroupName, stream.logStreamName)
-        : [],
-    ),
-  );
+  const { events = [] } = await client.send(filterEvents);
 
-  return latestLogs.flat();
+  return events.flatMap(({ message }) =>
+    message ? [JSON.parse(message)] : []
+  );
 }
