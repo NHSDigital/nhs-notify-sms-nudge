@@ -1,4 +1,4 @@
-resource "aws_cloudwatch_composite_alarm" "composite" {
+resource "aws_cloudwatch_composite_alarm" "command-processor-composite" {
 
   depends_on = [
     aws_cloudwatch_metric_alarm.command_processor_errors,
