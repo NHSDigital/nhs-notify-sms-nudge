@@ -23,8 +23,13 @@ describe('mapQueueToRequest', () => {
     };
 
     const request = {
-      ...mockRequest,
-      billingReference: 'test_client_id-test_billing_reference',
+      data: {
+        ...mockRequest.data,
+        attributes: {
+          ...mockRequest.data.attributes,
+          billingReference: 'test_client_id-test_billing_reference',
+        },
+      },
     };
 
     const result = mapQueueToRequest(NudgeCommand);
@@ -41,8 +46,13 @@ describe('mapQueueToRequest', () => {
     };
 
     const request = {
-      ...mockRequest,
-      billingReference: 'test_client_id-test_campaign_id',
+      data: {
+        ...mockRequest.data,
+        attributes: {
+          ...mockRequest.data.attributes,
+          billingReference: 'test_client_id-test_campaign_id',
+        },
+      },
     };
 
     const result = mapQueueToRequest(NudgeCommand);
@@ -60,8 +70,13 @@ describe('mapQueueToRequest', () => {
     };
 
     const request = {
-      ...mockRequest,
-      billingReference: 'test_client_id',
+      data: {
+        ...mockRequest.data,
+        attributes: {
+          ...mockRequest.data.attributes,
+          billingReference: 'test_client_id',
+        },
+      },
     };
 
     const result = mapQueueToRequest(NudgeCommand);

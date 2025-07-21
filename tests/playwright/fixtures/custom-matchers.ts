@@ -6,7 +6,7 @@ expect.extend({
    * "Roughly" means that the received value can be within 1 second either side of the range.
    * This helps deal with local machines being out of sync with remote servers
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   async toBeDateRoughlyBetween(received: any, range: [Date, Date]) {
     const date = new Date(received);
 

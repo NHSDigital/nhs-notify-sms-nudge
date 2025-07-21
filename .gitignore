@@ -21,3 +21,6 @@ dist
 .reports
 **/playwright-report
 **/test-results
+
+# don't track environment files
+.env

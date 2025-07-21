@@ -18,11 +18,16 @@ export function mapQueueToRequest(command: NudgeCommand): Request {
     .join('-');
 
   const request: Request = {
-    routingPlanId: ROUTING_PLAN_ID,
-    messageReference,
-    billingReference,
-    recipient: {
-      nhsNumber: command.nhsNumber,
+    data: {
+      type: 'Message',
+      attributes: {
+        routingPlanId: ROUTING_PLAN_ID,
+        messageReference,
+        billingReference,
+        recipient: {
+          nhsNumber: command.nhsNumber,
+        },
+      },
     },
   };
   return request;

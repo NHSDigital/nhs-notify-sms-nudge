@@ -19,11 +19,17 @@ export const mockNudgeCommand: NudgeCommand = {
 };
 
 export const mockRequest: Request = {
-  routingPlanId: ROUTING_PLAN_ID,
-  messageReference: 'request_item_id-request_item_plan_id',
-  billingReference: 'test_client_id-test_campaign_id-test_billing_reference',
-  recipient: {
-    nhsNumber: '9999999786',
+  data: {
+    type: 'Message',
+    attributes: {
+      routingPlanId: ROUTING_PLAN_ID,
+      messageReference: 'request_item_id-request_item_plan_id',
+      billingReference:
+        'test_client_id-test_campaign_id-test_billing_reference',
+      recipient: {
+        nhsNumber: '9999999786',
+      },
+    },
   },
 };
 
