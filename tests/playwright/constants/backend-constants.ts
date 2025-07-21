@@ -1,14 +1,12 @@
 // Envar Based
 // Environment Configuration
-export const PROJECT = process.env.PROJECT || 'nhs';
 export const ENV = process.env.ENVIRONMENT || 'main';
-export const COMPONENT = process.env.COMPONENT || 'nudge';
 
 // Test Overrides
 export const FORCE_SANDBOX = process.env.FORCE_SANDBOX || true;
 
 // Compound Scope Indicator
-export const CSI = `${PROJECT}-${ENV}-${COMPONENT}`;
+export const CSI = `nhs-${ENV}-nudge`;
 
 // Lambda Names
 export const TRANSFORM_LAMBDA_NAME = `${CSI}-event-command-transformer`;
