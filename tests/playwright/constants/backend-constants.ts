@@ -12,7 +12,7 @@ export const CSI = `${PROJECT}-${ENV}-${COMPONENT}`;
 
 // Lambda Names
 export const TRANSFORM_LAMBDA_NAME = `${CSI}-event-command-transformer`;
-export const COMMAND_LAMBDA_NAME = `${CSI}-command-transformer`;
+export const COMMAND_LAMBDA_NAME = `${CSI}-command-processor`;
 
 // Queue Names
 export const INBOUND_QUEUE_NAME = `${CSI}-inbound-event-queue`;
