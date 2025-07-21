@@ -25,7 +25,7 @@ No requirements.
 | <a name="input_queue_batch_size"></a> [queue\_batch\_size](#input\_queue\_batch\_size) | maximum number of queue items to process | `number` | `10` | no |
 | <a name="input_queue_batch_window_seconds"></a> [queue\_batch\_window\_seconds](#input\_queue\_batch\_window\_seconds) | maximum time in seconds between processing events | `number` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | The AWS Region | `string` | n/a | yes |
-| <a name="input_send_message_url"></a> [send\_message\_url](#input\_send\_message\_url) | The NHS Notify send message target for nudge communications. Defaults to sandbox | `string` | `"https://sandbox.api.service.nhs.uk/comms/v1/messages"` | no |
+| <a name="input_send_message_url"></a> [send\_message\_url](#input\_send\_message\_url) | The NHS Notify send message target for nudge communications. Defaults to sandbox | `string` | `"https://internal-dev-sandbox.api.service.nhs.uk/comms/v1/messages"` | no |
 ## Modules
 
 | Name | Source | Version |

@@ -19,4 +19,4 @@ export const COMMAND_QUEUE_NAME = `${CSI}-command-queue`;
 // Comms API Target
 export const SEND_MSG_URL_ENVAR = 'SEND_MESSAGE_URL';
 export const SANDBOX_URL =
-  'https://sandbox.api.service.nhs.uk/comms/v1/messages';
+  'https://internal-dev-sandbox.api.service.nhs.uk/comms/v1/messages';
