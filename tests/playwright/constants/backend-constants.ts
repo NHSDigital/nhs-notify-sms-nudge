@@ -2,7 +2,7 @@
 // Environment Configuration
 export const PROJECT = process.env.PROJECT || 'nhs';
 export const ENV = process.env.ENVIRONMENT || 'main';
-export const COMPONENT = process.env.COMPONENT || 'app';
+export const COMPONENT = process.env.COMPONENT || 'nudge';
 
 // Test Overrides
 export const FORCE_SANDBOX = process.env.FORCE_SANDBOX || true;

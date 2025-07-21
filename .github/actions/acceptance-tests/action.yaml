@@ -19,7 +19,7 @@ inputs:
 
   targetComponent:
     description: Name of the component under test
-    default: app
+    default: nudge
 
 runs:
   using: "composite"

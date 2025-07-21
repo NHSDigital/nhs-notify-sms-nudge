@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        component: [app]
+        component: [nudge]
 
     uses: ./.github/workflows/reusable_internal_repo_build.yaml
     secrets: inherit

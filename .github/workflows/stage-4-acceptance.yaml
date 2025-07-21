@@ -22,4 +22,4 @@ jobs:
       targetWorkflow: dispatch-contextual-tests-dynamic-env.yaml
       targetEnvironment: pr${{ github.event.pull_request.number || github.event.number }}
       targetAccountGroup: nhs-notify-smsnudge-dev
-      targetComponent: app
+      targetComponent: nudge

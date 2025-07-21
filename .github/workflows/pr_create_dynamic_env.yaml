@@ -25,7 +25,7 @@ jobs:
             --arg targetProject "nhs" \
             --arg targetEnvironment "pr${{ github.event.number }}" \
             --arg targetAccountGroup "nhs-notify-smsnudge-dev" \
-            --arg targetComponent "app" \
+            --arg targetComponent "nudge" \
             --arg terraformAction "apply" \
             --arg overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
             '{ "ref": "main",
@@ -63,7 +63,7 @@ jobs:
                 | select(.name
                 | contains("'pr${{ github.event.number }}'") and
                   contains("'nhs-notify-smsnudge-dev'") and
-                  contains("'app'") and
+                  contains("'nudge'") and
                   contains("'apply'"))
                 | .url')
 

@@ -50,7 +50,7 @@ variable "queue_batch_window_seconds" {
 variable "component" {
   type        = string
   description = "The variable encapsulating the name of this component"
-  default     = "app"
+  default     = "nudge"
 }
 
 variable "default_tags" {
