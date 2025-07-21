@@ -13,7 +13,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(mockRequest);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
+      'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
   it('correctly maps mockNudgeCommand to mockRequest when campaignId is not provided', () => {
@@ -27,7 +27,7 @@ describe('mapQueueToRequest', () => {
         ...mockRequest.data,
         attributes: {
           ...mockRequest.data.attributes,
-          billingReference: 'test_client_id-test_billing_reference',
+          billingReference: 'test-client-id_test-billing-reference',
         },
       },
     };
@@ -36,7 +36,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
+      'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
   it('correctly maps mockNudgeCommand to mockRequest when billingReference is not provided', () => {
@@ -50,7 +50,7 @@ describe('mapQueueToRequest', () => {
         ...mockRequest.data,
         attributes: {
           ...mockRequest.data.attributes,
-          billingReference: 'test_client_id-test_campaign_id',
+          billingReference: 'test-client-id_test-campaign-id',
         },
       },
     };
@@ -59,7 +59,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
+      'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
   it('correctly maps mockNudgeCommand to mockRequest when billingReference and campaignId are not provided', () => {
@@ -74,7 +74,7 @@ describe('mapQueueToRequest', () => {
         ...mockRequest.data,
         attributes: {
           ...mockRequest.data.attributes,
-          billingReference: 'test_client_id',
+          billingReference: 'test-client-id',
         },
       },
     };
@@ -83,7 +83,7 @@ describe('mapQueueToRequest', () => {
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
-      'Mapping sqsEvent request_item_id-request_item_plan_id to request',
+      'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
   it('throws when required fields are missing', () => {

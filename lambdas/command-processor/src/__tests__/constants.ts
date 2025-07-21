@@ -9,13 +9,13 @@ export const mockNudgeCommand: NudgeCommand = {
   nhsNumber: '9999999786',
   delayedFallback: true,
   sendingGroupId: 'sending-group-id',
-  clientId: 'test_client_id',
-  campaignId: 'test_campaign_id',
+  clientId: 'test-client-id',
+  campaignId: 'test-campaign-id',
   supplierStatus: 'unnotified',
-  billingReference: 'test_billing_reference',
+  billingReference: 'test-billing-reference',
   previousSupplierStatus: 'received',
-  requestItemId: 'request_item_id',
-  requestItemPlanId: 'request_item_plan_id',
+  requestItemId: 'request-item-id',
+  requestItemPlanId: 'request-item-plan-id',
 };
 
 export const mockRequest: Request = {
@@ -23,9 +23,9 @@ export const mockRequest: Request = {
     type: 'Message',
     attributes: {
       routingPlanId: ROUTING_PLAN_ID,
-      messageReference: 'request_item_id-request_item_plan_id',
+      messageReference: 'request-item-id_request-item-plan-id',
       billingReference:
-        'test_client_id-test_campaign_id-test_billing_reference',
+        'test-client-id_test-campaign-id_test-billing-reference',
       recipient: {
         nhsNumber: '9999999786',
       },

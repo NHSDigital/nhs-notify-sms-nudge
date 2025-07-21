@@ -5,7 +5,7 @@ import type { Request } from 'domain/request';
 import { ROUTING_PLAN_ID } from '../constants';
 
 export function mapQueueToRequest(command: NudgeCommand): Request {
-  const messageReference = `${command.requestItemId.trim()}-${command.requestItemPlanId.trim()}`;
+  const messageReference = `${command.requestItemId.trim()}_${command.requestItemPlanId.trim()}`;
 
   logger.info(`Mapping sqsEvent ${messageReference} to request`);
 
@@ -15,7 +15,7 @@ export function mapQueueToRequest(command: NudgeCommand): Request {
     command.billingReference,
   ]
     .filter((part) => part?.trim())
-    .join('-');
+    .join('_');
 
   const request: Request = {
     data: {

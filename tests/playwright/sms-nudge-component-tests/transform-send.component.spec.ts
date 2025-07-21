@@ -39,7 +39,7 @@ test.describe('SMS Nudge', () => {
     await sendMessagetoSqs(INBOUND_QUEUE_NAME, supplierStatusChangeEvent);
 
     const logGroupName = `/aws/lambda/${COMMAND_LAMBDA_NAME}`;
-    const messageReference = `${requestItemId}-${requestItemPlanId}`;
+    const messageReference = `${requestItemId}_${requestItemPlanId}`;
 
     await expectToPassEventually(async () => {
       const filteredLogs = await getLogsFromCloudwatch(

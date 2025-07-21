@@ -31,13 +31,13 @@ describe('CommandProcessorService', () => {
     expect(mockClient.sendRequest).toHaveBeenCalledWith(mockRequest);
 
     expect(mockLogger.info).toHaveBeenCalledWith('Processing request', {
-      messageReference: 'request_item_id-request_item_plan_id',
+      messageReference: 'request-item-id_request-item-plan-id',
     });
 
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Successfully processed request',
       {
-        messageReference: 'request_item_id-request_item_plan_id',
+        messageReference: 'request-item-id_request-item-plan-id',
       },
     );
   });
@@ -50,7 +50,7 @@ describe('CommandProcessorService', () => {
     );
 
     expect(mockLogger.error).toHaveBeenCalledWith('Failed processing request', {
-      messageReference: 'request_item_id-request_item_plan_id',
+      messageReference: 'request-item-id_request-item-plan-id',
       error: 'API failure',
     });
   });
