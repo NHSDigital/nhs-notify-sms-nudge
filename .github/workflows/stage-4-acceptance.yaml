@@ -20,6 +20,6 @@ jobs:
       infraRepoName: nhs-notify-sms-nudge
       releaseVersion: ${{ github.head_ref || github.ref_name }}
       targetWorkflow: dispatch-contextual-tests-dynamic-env.yaml
-      targetEnvironment: pr${{ github.event.number }}
+      targetEnvironment: pr${{ github.event.pull_request.number || github.event.number }}
       targetAccountGroup: nhs-notify-smsnudge-dev
       targetComponent: app
