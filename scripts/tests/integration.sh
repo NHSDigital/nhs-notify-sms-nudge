@@ -6,6 +6,6 @@ cd "$(git rev-parse --show-toplevel)"
 
 npx playwright install --with-deps > /dev/null
 
-cd tests
+cd tests/playwright
 
 npm run test:component

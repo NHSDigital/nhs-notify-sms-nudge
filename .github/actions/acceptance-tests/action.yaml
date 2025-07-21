@@ -25,6 +25,11 @@ runs:
   using: "composite"
 
   steps:
+    - name: "Repo setup"
+      shell: bash
+      run: |
+        npm ci
+
     - name: Run test - ${{ inputs.testType }}
       shell: bash
       run: |
