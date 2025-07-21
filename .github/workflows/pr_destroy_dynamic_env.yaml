@@ -26,7 +26,7 @@ jobs:
             --arg targetProject "nhs" \
             --arg targetEnvironment "pr${{ github.event.number }}" \
             --arg targetAccountGroup "nhs-notify-smsnudge-dev" \
-            --arg targetComponent "nudge" \
+            --arg targetComponent "app" \
             --arg terraformAction "destroy" \
             '{ "ref": "main",
               "inputs": {
