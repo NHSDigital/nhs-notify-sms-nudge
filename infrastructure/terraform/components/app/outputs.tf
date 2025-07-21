@@ -1,1 +1,11 @@
-# Define the outputs for the component. The outputs may well be referenced by other component in the same or different environments using terraform_remote_state data sources...
+output "deployment" {
+  description = "Deployment details used for post-deployment scripts"
+  value = {
+    aws_region     = var.region
+    aws_account_id = var.aws_account_id
+    project        = var.project
+    environment    = var.environment
+    group          = var.group
+    component      = var.component
+  }
+}
