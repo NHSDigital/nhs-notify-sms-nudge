@@ -1,8 +1,6 @@
 import type { Request } from 'domain/request';
 import type { NudgeCommand } from 'domain/nudge-command';
 import type { SQSRecord } from 'aws-lambda';
-// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
-import { ROUTING_PLAN_ID } from '../constants';
 
 export const mockNudgeCommand: NudgeCommand = {
   sourceEventId: 'test-event-id',
@@ -18,11 +16,13 @@ export const mockNudgeCommand: NudgeCommand = {
   requestItemPlanId: 'request-item-plan-id',
 };
 
+export const mockRoutingPlanId = 'routing-plan-id';
+
 export const mockRequest: Request = {
   data: {
     type: 'Message',
     attributes: {
-      routingPlanId: ROUTING_PLAN_ID,
+      routingPlanId: mockRoutingPlanId,
       messageReference: 'request-item-id_request-item-plan-id',
       billingReference:
         'test-client-id_test-campaign-id_test-billing-reference',

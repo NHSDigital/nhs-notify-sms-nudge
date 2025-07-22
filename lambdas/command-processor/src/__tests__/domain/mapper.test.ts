@@ -1,5 +1,9 @@
 import { logger } from 'nhs-notify-sms-nudge-utils/logger';
-import { mockNudgeCommand, mockRequest } from '__tests__/constants';
+import {
+  mockNudgeCommand,
+  mockRequest,
+  mockRoutingPlanId,
+} from '__tests__/constants';
 import { mapQueueToRequest } from 'domain/mapper';
 import type { NudgeCommand } from 'domain/nudge-command';
 
@@ -9,7 +13,7 @@ const mockLogger = jest.mocked(logger);
 
 describe('mapQueueToRequest', () => {
   it('correctly maps mockNudgeCommand → mockRequest', () => {
-    const result = mapQueueToRequest(mockNudgeCommand);
+    const result = mapQueueToRequest(mockNudgeCommand, mockRoutingPlanId);
 
     expect(result).toEqual(mockRequest);
     expect(mockLogger.info).toHaveBeenCalledWith(
@@ -32,7 +36,7 @@ describe('mapQueueToRequest', () => {
       },
     };
 
-    const result = mapQueueToRequest(NudgeCommand);
+    const result = mapQueueToRequest(NudgeCommand, mockRoutingPlanId);
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
@@ -55,7 +59,7 @@ describe('mapQueueToRequest', () => {
       },
     };
 
-    const result = mapQueueToRequest(NudgeCommand);
+    const result = mapQueueToRequest(NudgeCommand, mockRoutingPlanId);
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
@@ -79,7 +83,7 @@ describe('mapQueueToRequest', () => {
       },
     };
 
-    const result = mapQueueToRequest(NudgeCommand);
+    const result = mapQueueToRequest(NudgeCommand, mockRoutingPlanId);
 
     expect(result).toEqual(request);
     expect(mockLogger.info).toHaveBeenCalledWith(
@@ -88,6 +92,8 @@ describe('mapQueueToRequest', () => {
   });
   it('throws when required fields are missing', () => {
     const invalidMessage = {} as NudgeCommand;
-    expect(() => mapQueueToRequest(invalidMessage)).toThrow();
+    expect(() =>
+      mapQueueToRequest(invalidMessage, mockRoutingPlanId),
+    ).toThrow();
   });
 });

@@ -1,10 +1,11 @@
 import { logger } from 'nhs-notify-sms-nudge-utils/logger';
 import type { NudgeCommand } from 'domain/nudge-command';
 import type { Request } from 'domain/request';
-// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
-import { ROUTING_PLAN_ID } from '../constants';
 
-export function mapQueueToRequest(command: NudgeCommand): Request {
+export function mapQueueToRequest(
+  command: NudgeCommand,
+  routingPlanId: string,
+): Request {
   const messageReference = `${command.requestItemId.trim()}_${command.requestItemPlanId.trim()}`;
 
   logger.info(`Mapping sqsEvent ${messageReference} to request`);
@@ -21,7 +22,7 @@ export function mapQueueToRequest(command: NudgeCommand): Request {
     data: {
       type: 'Message',
       attributes: {
-        routingPlanId: ROUTING_PLAN_ID,
+        routingPlanId,
         messageReference,
         billingReference,
         recipient: {
