@@ -2,6 +2,10 @@ name: Acceptance stage
 
 on:
   workflow_call:
+    inputs:
+      pullRequestNumber:
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -20,6 +24,6 @@ jobs:
       infraRepoName: nhs-notify-sms-nudge
       releaseVersion: ${{ github.head_ref || github.ref_name }}
       targetWorkflow: dispatch-contextual-tests-dynamic-env.yaml
-      targetEnvironment: pr${{ github.event.pull_request.number || github.event.number }}
+      targetEnvironment: pr${{ inputs.pullRequestNumber }}
       targetAccountGroup: nhs-notify-smsnudge-dev
       targetComponent: nudge
