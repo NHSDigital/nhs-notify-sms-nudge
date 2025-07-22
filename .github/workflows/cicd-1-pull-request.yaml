@@ -120,4 +120,4 @@ jobs:
     if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     secrets: inherit
     with:
-      pullRequestNumber: ${{ github.event.number }}
+      pullRequestNumber: ${{ github.event.pull_request.number || github.event.number }}
