@@ -55,6 +55,7 @@ const utilsJestConfig = {
     ...(baseJestConfig.coveragePathIgnorePatterns ?? []),
     'sqs-client.ts',
     'lambda-client.ts',
+    'ssm-client.ts',
   ],
 
   moduleDirectories: ['node_modules', 'src'],

@@ -37,6 +37,8 @@ module "lambda_command_processor" {
 
   lambda_env_vars = {
     "SEND_MESSAGE_URL" = var.send_message_url
+    "APIM_ACCESS_TOKEN_SSM_PARAMETER_NAME" = var.apim_access_token_ssm_parameter_name
+    "APIM_BASE_URL" = var.apim_base_url
   }
 }
 
