@@ -1,7 +1,12 @@
 import { logger } from 'nhs-notify-sms-nudge-utils/logger';
 import type { SQSEvent } from 'aws-lambda';
 import { mock } from 'jest-mock-extended';
-import { mockNudgeCommand, mockRequest, sqsRecord } from '__tests__/constants';
+import {
+  mockNudgeCommand,
+  mockRequest,
+  mockRoutingPlanId,
+  sqsRecord,
+} from '__tests__/constants';
 import type { CommandProcessorService } from 'app/command-processor-service';
 import { parseSqsRecord } from 'app/parse-nudge-command';
 import { createHandler } from 'handler/sqs-handler';
@@ -20,6 +25,7 @@ const mockLogger = jest.mocked(logger);
 
 const handler = createHandler({
   commandProcessorService: mockService,
+  routingPlanId: mockRoutingPlanId,
   logger: mockLogger,
 });
 
@@ -40,7 +46,10 @@ describe('SQS Handler', () => {
     const response = await handler(sqsEvent);
 
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], mockLogger);
-    expect(mockedMapper).toHaveBeenCalledWith(mockNudgeCommand);
+    expect(mockedMapper).toHaveBeenCalledWith(
+      mockNudgeCommand,
+      mockRoutingPlanId,
+    );
     expect(mockService.process).toHaveBeenCalledWith(mockRequest);
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Received SQS Event of 1 record(s)',
@@ -86,8 +95,8 @@ describe('SQS Handler', () => {
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], mockLogger);
     expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[1], mockLogger);
 
-    expect(mockedMapper).toHaveBeenCalledWith(incoming1);
-    expect(mockedMapper).toHaveBeenCalledWith(incoming2);
+    expect(mockedMapper).toHaveBeenCalledWith(incoming1, mockRoutingPlanId);
+    expect(mockedMapper).toHaveBeenCalledWith(incoming2, mockRoutingPlanId);
 
     expect(mockService.process).toHaveBeenCalledWith(request1);
     expect(mockService.process).toHaveBeenCalledWith(request2);

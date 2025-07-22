@@ -37,6 +37,7 @@ module "lambda_command_processor" {
 
   lambda_env_vars = {
     "SEND_MESSAGE_URL" = var.send_message_url
+    "ROUTING_PLAN_ID"  = local.is_sandbox ? "b838b13c-f98c-4def-93f0-515d4e4f4ee1" : "fc4f8c6b-1547-4216-9237-c7027c97ae60"
   }
 }
 

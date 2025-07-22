@@ -6,7 +6,7 @@ import type { Logger } from 'nhs-notify-sms-nudge-utils/logger';
 export class ApiClient {
   constructor(
     private readonly logger: Logger,
-    private readonly apiUrl = 'https://internal-dev-sandbox.api.service.nhs.uk/comms/v1/messages',
+    private readonly apiUrl: string,
   ) {}
 
   async sendRequest(apiRequest: Request): Promise<unknown> {
