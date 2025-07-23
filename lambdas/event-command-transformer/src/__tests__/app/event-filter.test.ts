@@ -25,7 +25,7 @@ const statusChangeEvent: SupplierStatusChangeEvent = {
   },
 };
 
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 const mockLogger = jest.mocked(logger);
 
 describe('filterUnnotifiedEvents', () => {

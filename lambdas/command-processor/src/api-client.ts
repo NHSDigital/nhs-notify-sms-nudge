@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { randomUUID } from 'node:crypto';
 import type { Request } from 'domain/request';
-import type { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import type { Logger } from 'nhs-notify-sms-nudge-utils';
 
 export class ApiClient {
   constructor(

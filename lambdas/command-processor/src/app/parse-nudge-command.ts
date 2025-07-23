@@ -1,5 +1,5 @@
 import { SQSRecord } from 'aws-lambda';
-import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { Logger } from 'nhs-notify-sms-nudge-utils';
 import { NudgeCommand } from 'domain/nudge-command';
 import { $NudgeCommand } from 'app/nudge-command-validator';
 

@@ -1,4 +1,4 @@
-import type { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import type { Logger } from 'nhs-notify-sms-nudge-utils';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import type { Readable } from 'node:stream';
 import { randomUUID } from 'node:crypto';

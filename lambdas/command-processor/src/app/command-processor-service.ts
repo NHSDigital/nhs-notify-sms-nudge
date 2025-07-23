@@ -1,4 +1,4 @@
-import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { Logger } from 'nhs-notify-sms-nudge-utils';
 import type { NotifyClient } from 'notify-api-client';
 import type { Request } from 'domain/request';
 

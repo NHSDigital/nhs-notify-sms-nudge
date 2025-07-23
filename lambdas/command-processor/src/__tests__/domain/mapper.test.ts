@@ -1,4 +1,4 @@
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 import {
   mockNudgeCommand,
   mockRequest,
@@ -7,7 +7,7 @@ import {
 import { mapQueueToRequest } from 'domain/mapper';
 import type { NudgeCommand } from 'domain/nudge-command';
 
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 
 const mockLogger = jest.mocked(logger);
 

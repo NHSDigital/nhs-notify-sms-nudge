@@ -1,7 +1,7 @@
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
 import {
   ParameterStoreCache,
   createGetApimAccessToken,
+  logger,
 } from 'nhs-notify-sms-nudge-utils';
 import { NotifyClient } from 'notify-api-client';
 import { CommandProcessorService } from 'app/command-processor-service';

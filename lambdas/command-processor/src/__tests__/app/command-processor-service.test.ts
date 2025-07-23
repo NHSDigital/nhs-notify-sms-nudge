@@ -1,9 +1,9 @@
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 import { CommandProcessorService } from 'app/command-processor-service';
 import type { ApiClient } from 'api-client';
 import { mockRequest } from '__tests__/constants';
 
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 
 const mockClient = {
   sendRequest: jest.fn(),

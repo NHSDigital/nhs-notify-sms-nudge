@@ -1,9 +1,9 @@
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 import { ZodError } from 'zod';
 import { parseSqsRecord } from 'app/parse-nudge-command';
 import { mockNudgeCommand, sqsRecord } from '__tests__/constants';
 
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 const mockLogger = jest.mocked(logger);
 
 describe('parseSqsRecord', () => {

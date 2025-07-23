@@ -3,7 +3,7 @@ import { SupplierStatusChangeEvent } from 'domain/cloud-event';
 import { NudgeCommand } from 'domain/nudge-command';
 import { logger } from 'nhs-notify-sms-nudge-utils';
 
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 const mockLogger = jest.mocked(logger);
 
 describe('transformEvent', () => {

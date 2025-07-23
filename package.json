@@ -60,6 +60,8 @@
     "lambdas/command-processor",
     "lambdas/event-command-transformer",
     "utils/utils",
-    "tests/playwright"
+    "tests/playwright",
+    "lambdas/key-generation",
+    "lambdas/refresh-apim-access-token"
   ]
 }

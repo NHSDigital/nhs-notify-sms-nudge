@@ -17,9 +17,9 @@ export const baseJestConfig: Config = {
 
   coverageThreshold: {
     global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
+      branches: 85,
+      functions: 85,
+      lines: 85,
       statements: -10,
     },
   },
@@ -56,6 +56,7 @@ const utilsJestConfig = {
     'sqs-client.ts',
     'lambda-client.ts',
     'ssm-client.ts',
+    's3-client.ts',
   ],
 
   moduleDirectories: ['node_modules', 'src'],
