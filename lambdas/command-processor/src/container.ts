@@ -20,19 +20,7 @@ export async function createContainer(): Promise<CommandDependencies> {
     ),
   };
 
-  const notifyClient = new NotifyClient(config, accessTokenRepository, logger);
-
-  const apiUrl = process.env.APIM_BASE_URL;
-
-  if (!apiUrl) {
-    throw new Error('APIM_BASE_URL is not configured');
-  }
-
-  const routingPlanId = process.env.ROUTING_PLAN_ID;
-
-  if (!routingPlanId) {
-    throw new Error('ROUTING_PLAN_ID is not configured');
-  }
+  const notifyClient = new NotifyClient(config.apimBaseUrl, accessTokenRepository, logger);
 
   const commandProcessorService = new CommandProcessorService({
     nhsNotifyClient: notifyClient,
@@ -42,6 +30,6 @@ export async function createContainer(): Promise<CommandDependencies> {
   return {
     commandProcessorService,
     logger,
-    routingPlanId,
+    routingPlanId: config.routingPlanId,
   };
 }

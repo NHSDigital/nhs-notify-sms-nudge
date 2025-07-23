@@ -9,10 +9,6 @@ export interface IAccessTokenRepository {
   getAccessToken(): Promise<string>;
 }
 
-export type NotifyClientConfig = {
-  apimBaseUrl: string;
-};
-
 export type Response = {
   data: Readable;
 };
@@ -25,12 +21,12 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
   private client: AxiosInstance;
 
   constructor(
-    private config: NotifyClientConfig,
+    private apimBaseUrl: string,
     private accessTokenRepository: IAccessTokenRepository,
     private logger: Logger,
   ) {
     this.client = axios.create({
-      baseURL: this.config.apimBaseUrl,
+      baseURL: this.apimBaseUrl,
     });
   }
 

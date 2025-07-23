@@ -6,6 +6,7 @@ export function loadConfig() {
       'APIM_ACCESS_TOKEN_SSM_PARAMETER_NAME',
     ),
     apimBaseUrl: defaultConfigReader.getValue('APIM_BASE_URL'),
+    routingPlanId: defaultConfigReader.getValue('ROUTING_PLAN_ID'),
   };
 }
 
