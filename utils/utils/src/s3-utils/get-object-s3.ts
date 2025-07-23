@@ -6,7 +6,7 @@ import {
   ListObjectsV2CommandInput,
   _Object,
 } from '@aws-sdk/client-s3';
-import { s3Client } from 's3-utils/s3-client';
+import { s3Client } from './s3-client';
 
 export function isReadable(
   body: Readable | ReadableStream | Blob | undefined,

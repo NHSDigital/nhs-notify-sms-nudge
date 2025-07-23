@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/different-types-comparison */
 import { Parameter } from '@aws-sdk/client-ssm';
-import { NonNullSSMParam } from 'ssm-utils/types';
+import { NonNullSSMParam } from './types';
 
 export const nonNullParameterFilter = (
   param: Parameter,

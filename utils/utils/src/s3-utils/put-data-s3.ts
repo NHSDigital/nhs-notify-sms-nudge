@@ -8,8 +8,8 @@ import {
   PutObjectCommandInput,
   PutObjectCommandOutput,
 } from '@aws-sdk/client-s3';
-import type { S3Location } from 's3-utils/get-object-s3';
-import { s3Client } from 's3-utils/s3-client';
+import type { S3Location } from './get-object-s3';
+import { s3Client } from './s3-client';
 
 export async function putDataS3(
   fileData: Record<string, unknown>,

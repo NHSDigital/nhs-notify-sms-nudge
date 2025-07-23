@@ -1,4 +1,4 @@
-import { defaultConfigReader as config } from 'config-reader';
+import { defaultConfigReader as config } from '../config-reader';
 
 type Result<T> = {
   value: T;
