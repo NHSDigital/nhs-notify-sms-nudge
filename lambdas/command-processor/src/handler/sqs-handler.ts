@@ -11,12 +11,14 @@ import type { CommandProcessorService } from 'app/command-processor-service';
 
 export interface CommandDependencies {
   commandProcessorService: CommandProcessorService;
+  routingPlanId: string;
   logger: Logger;
 }
 
 export const createHandler = ({
   commandProcessorService,
   logger,
+  routingPlanId,
 }: CommandDependencies) =>
   async function handler(sqsEvent: SQSEvent): Promise<SQSBatchResponse> {
     logger.info(`Received SQS Event of ${sqsEvent.Records.length} record(s)`);
@@ -25,7 +27,7 @@ export const createHandler = ({
       sqsEvent.Records.map(async (sqsRecord: SQSRecord) => {
         try {
           const incoming = parseSqsRecord(sqsRecord, logger);
-          const request = mapQueueToRequest(incoming);
+          const request = mapQueueToRequest(incoming, routingPlanId);
           await commandProcessorService.process(request);
         } catch (error: any) {
           logger.error({

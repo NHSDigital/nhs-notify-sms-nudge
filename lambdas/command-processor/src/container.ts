@@ -22,6 +22,18 @@ export async function createContainer(): Promise<CommandDependencies> {
 
   const notifyClient = new NotifyClient(config, accessTokenRepository, logger);
 
+  const apiUrl = process.env.SEND_MESSAGE_URL;
+
+  if (!apiUrl) {
+    throw new Error('SEND_MESSAGE_URL is not configured');
+  }
+
+  const routingPlanId = process.env.ROUTING_PLAN_ID;
+
+  if (!routingPlanId) {
+    throw new Error('ROUTING_PLAN_ID is not configured');
+  }
+
   const commandProcessorService = new CommandProcessorService({
     nhsNotifyClient: notifyClient,
     logger,
@@ -30,5 +42,6 @@ export async function createContainer(): Promise<CommandDependencies> {
   return {
     commandProcessorService,
     logger,
+    routingPlanId,
   };
 }
