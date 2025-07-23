@@ -3,7 +3,7 @@ import {
   ParameterStoreCache,
   createGetApimAccessToken,
 } from 'nhs-notify-sms-nudge-utils';
-import { NotifyClient } from 'notify-api-client';
+import { NotifyClient } from 'app/notify-api-client';
 import { CommandProcessorService } from 'app/command-processor-service';
 import type { CommandDependencies } from 'handler/sqs-handler';
 import { loadConfig } from 'config';

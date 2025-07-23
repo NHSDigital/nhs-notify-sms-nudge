@@ -1,9 +1,10 @@
-import type { Logger } from 'nhs-notify-sms-nudge-utils/logger';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import type { Readable } from 'node:stream';
 import { randomUUID } from 'node:crypto';
+import { constants as HTTP2_CONSTANTS } from 'node:http2';
 import type { Request } from 'domain/request';
-import { IAccessibleService } from 'nhs-notify-sms-nudge-utils';
+import { conditionalRetry, IAccessibleService, RetryConfig } from 'nhs-notify-sms-nudge-utils';
+import type { Logger } from 'nhs-notify-sms-nudge-utils';
 
 export interface IAccessTokenRepository {
   getAccessToken(): Promise<string>;
@@ -24,6 +25,12 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
     private apimBaseUrl: string,
     private accessTokenRepository: IAccessTokenRepository,
     private logger: Logger,
+    private backoffConfig: RetryConfig = {
+      maxDelayMs: 10_000,
+      intervalMs: 1_000,
+      exponentialRate: 2,
+      maxAttempts: 10,
+    },
   ) {
     this.client = axios.create({
       baseURL: this.apimBaseUrl,
@@ -32,25 +39,41 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
 
   public async sendRequest(
     apiRequest: Request,
-    providedCorrelationId?: string,
+    correlationId: string,
   ): Promise<Response> {
-    const accessToken = await this.accessTokenRepository.getAccessToken();
-    const correlationId = providedCorrelationId || randomUUID();
-
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-      'X-Correlation-ID': correlationId,
-    };
 
     try {
-      const response: AxiosResponse = await this.client.post(
-        '/comms/v1/messages',
-        apiRequest,
-        { headers },
-      );
+      return await conditionalRetry(
+        async (attempt) => {
+          const accessToken = await this.accessTokenRepository.getAccessToken();
 
-      return { data: response.data };
+          this.logger.debug({
+            correlationId,
+            description: 'Sending request',
+            attempt,
+          });
+
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+            'X-Correlation-ID': correlationId,
+          };
+          const response: AxiosResponse = await this.client.post(
+            '/comms/v1/messages',
+            apiRequest,
+            { headers },
+          );
+
+          return { data: response.data };
+        },
+        (err) =>
+          Boolean(
+            isAxiosError(err) &&
+            err.response?.status ===
+            HTTP2_CONSTANTS.HTTP_STATUS_TOO_MANY_REQUESTS
+          ),
+        this.backoffConfig
+      );
     } catch (error: any) {
       this.logger.error({
         description: 'Failed sending SMS request',

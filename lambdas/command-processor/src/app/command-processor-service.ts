@@ -1,5 +1,5 @@
 import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
-import type { NotifyClient } from 'notify-api-client';
+import type { NotifyClient } from 'app/notify-api-client';
 import type { Request } from 'domain/request';
 
 type Dependencies = {
@@ -18,14 +18,15 @@ export class CommandProcessorService {
   }
 
   public async process(
-    messageReference: string,
     payload: Request,
   ): Promise<void> {
+    const messageReference = payload.data.attributes.messageReference;
+
     this.logger.info('Processing request', {
-      messageReference,
+      messageReference
     });
     try {
-      await this.nhsNotifyClient.sendRequest(payload);
+      await this.nhsNotifyClient.sendRequest(payload, messageReference);
       this.logger.info('Successfully processed request', {
         messageReference,
       });
