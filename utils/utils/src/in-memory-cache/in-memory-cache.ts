@@ -1,6 +1,6 @@
 import { Mutex } from 'async-mutex';
-import { logger } from 'logger';
-import { CacheItem } from 'in-memory-cache/cache-item';
+import { logger } from '../logger';
+import { CacheItem } from './cache-item';
 
 export type LockReleaser = () => void;
 

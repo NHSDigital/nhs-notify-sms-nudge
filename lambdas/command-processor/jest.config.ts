@@ -54,7 +54,7 @@ const utilsJestConfig = {
   coveragePathIgnorePatterns: [
     ...(baseJestConfig.coveragePathIgnorePatterns ?? []),
     'src/container.ts',
-    'src/api-client.ts',
+    'src/config.ts',
   ],
 
   moduleDirectories: ['node_modules', 'src'],

@@ -3,7 +3,7 @@ import {
   createGetApimAccessToken,
   logger,
 } from 'nhs-notify-sms-nudge-utils';
-import { NotifyClient } from 'notify-api-client';
+import { NotifyClient } from 'app/notify-api-client';
 import { CommandProcessorService } from 'app/command-processor-service';
 import type { CommandDependencies } from 'handler/sqs-handler';
 import { loadConfig } from 'config';
@@ -20,7 +20,11 @@ export async function createContainer(): Promise<CommandDependencies> {
     ),
   };
 
-  const notifyClient = new NotifyClient(config.apimBaseUrl, accessTokenRepository, logger);
+  const notifyClient = new NotifyClient(
+    config.apimBaseUrl,
+    accessTokenRepository,
+    logger,
+  );
 
   const commandProcessorService = new CommandProcessorService({
     nhsNotifyClient: notifyClient,

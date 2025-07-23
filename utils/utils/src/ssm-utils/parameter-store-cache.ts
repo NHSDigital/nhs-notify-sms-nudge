@@ -4,13 +4,13 @@ import {
   ParameterType,
   SSMClient,
 } from '@aws-sdk/client-ssm';
-import { type ICache, InMemoryCache } from 'in-memory-cache';
-import { ParameterStore } from 'ssm-utils/parameter-store';
+import { type ICache, InMemoryCache } from '../in-memory-cache';
+import { ParameterStore } from './parameter-store';
 import type {
   GetAllParametersOptions,
   GetParameterOptions,
   IParameterStore,
-} from 'ssm-utils/types';
+} from './types';
 
 type ParameterOrError = Parameter | ParameterNotFound;
 

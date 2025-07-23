@@ -1,6 +1,6 @@
-import type { ApimAccessToken } from 'lambda-utils/types';
-import { Logger } from 'logger';
-import { IParameterStore } from 'ssm-utils/types';
+import type { Logger } from '../logger';
+import type { ApimAccessToken } from './types';
+import { IParameterStore } from '../ssm-utils/types';
 
 export const doesAccessTokenNeedRefresh = (
   token: ApimAccessToken,

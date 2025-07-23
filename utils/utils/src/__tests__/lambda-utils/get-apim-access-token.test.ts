@@ -1,5 +1,5 @@
 import { mockDeep } from 'jest-mock-extended';
-import { IParameterStore } from 'ssm-utils/types';
+import { IParameterStore } from 'ssm-utils';
 import { logger } from 'logger';
 import { createGetApimAccessToken } from 'lambda-utils';
 import type { ApimAccessToken } from 'lambda-utils/types';
@@ -47,7 +47,7 @@ function setup() {
   const getApimAccessToken = createGetApimAccessToken(
     tokenPath,
     log,
-    parameterStore
+    parameterStore,
   );
 
   return { getApimAccessToken, mocks };
@@ -88,16 +88,16 @@ describe('createGetApimAccessToken', () => {
     expect(mocks.parameterStore.getParameter).toHaveBeenCalledTimes(2);
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       1,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       2,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledTimes(1);
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledWith(
       tokenPath,
-      1
+      1,
     );
 
     expect(accessToken).toEqual(validAccessToken.access_token);
@@ -114,6 +114,19 @@ describe('createGetApimAccessToken', () => {
     await expect(getApimAccessToken()).rejects.toThrow('Invalid token');
   });
 
+  test('access token parameter is not found in SSM', async () => {
+    const { getApimAccessToken, mocks } = setup();
+
+    mocks.parameterStore.getParameter.mockResolvedValue({
+      Value: undefined,
+      Version: 1,
+    });
+
+    await expect(getApimAccessToken()).rejects.toThrow(
+      `APIM access token parameter "/ssm/path/token" not found in SSM`,
+    );
+  });
+
   test('access token cannot be refreshed but is not expired', async () => {
     const { getApimAccessToken, mocks } = setup();
 
@@ -127,16 +140,16 @@ describe('createGetApimAccessToken', () => {
     expect(mocks.parameterStore.getParameter).toHaveBeenCalledTimes(2);
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       1,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       2,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledTimes(1);
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledWith(
       tokenPath,
-      1
+      1,
     );
 
     expect(accessToken).toEqual(expiringAccessToken.access_token);
@@ -151,22 +164,22 @@ describe('createGetApimAccessToken', () => {
     });
 
     await expect(getApimAccessToken()).rejects.toThrow(
-      'Failed to update token'
+      'Failed to update token',
     );
 
     expect(mocks.parameterStore.getParameter).toHaveBeenCalledTimes(2);
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       1,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       2,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledTimes(1);
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledWith(
       tokenPath,
-      1
+      1,
     );
   });
 });

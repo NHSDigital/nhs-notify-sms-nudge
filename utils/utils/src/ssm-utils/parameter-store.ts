@@ -8,12 +8,12 @@ import {
   SSMClient,
   paginateGetParametersByPath,
 } from '@aws-sdk/client-ssm';
-import { ssmClient } from 'ssm-utils/ssm-client';
+import { ssmClient } from './ssm-client';
 import {
   GetAllParametersOptions,
   GetParameterOptions,
   IParameterStore,
-} from 'ssm-utils/types';
+} from './types';
 
 export class ParameterStore implements IParameterStore {
   private ssmClient: SSMClient;
