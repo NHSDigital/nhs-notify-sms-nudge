@@ -49,7 +49,7 @@ jobs:
       - name: "Upload artefact 1"
         run: |
           echo "Uploading artefact 1 ..."
-          # TODO: Use either action/cache or action/upload-artifact
+          # Use either action/cache or action/upload-artifact
   artefact-n:
     name: "Artefact n"
     runs-on: ubuntu-latest
@@ -66,4 +66,4 @@ jobs:
       - name: "Upload artefact n"
         run: |
           echo "Uploading artefact n ..."
-          # TODO: Use either action/cache or action/upload-artifact
+          # Use either action/cache or action/upload-artifact
