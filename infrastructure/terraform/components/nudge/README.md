@@ -10,7 +10,7 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_apim_access_token_ssm_parameter_name"></a> [apim\_access\_token\_ssm\_parameter\_name](#input\_apim\_access\_token\_ssm\_parameter\_name) | Name of the APIM Access Token SSM Parameter | `string` | n/a | yes |
-| <a name="input_apim_base_url"></a> [apim\_base\_url](#input\_apim\_base\_url) | The APIM base url | `string` | n/a | yes |
+| <a name="input_apim_base_url"></a> [apim\_base\_url](#input\_apim\_base\_url) | The NHS Notify send message target for nudge communications. Defaults to sandbox | `string` | `"https://internal-dev-sandbox.api.service.nhs.uk"` | no |
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | The AWS Account ID (numeric) | `string` | n/a | yes |
 | <a name="input_component"></a> [component](#input\_component) | The variable encapsulating the name of this component | `string` | `"nudge"` | no |
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | A map of default tags to apply to all taggable resources within the component | `map(string)` | `{}` | no |
@@ -27,7 +27,6 @@ No requirements.
 | <a name="input_queue_batch_size"></a> [queue\_batch\_size](#input\_queue\_batch\_size) | maximum number of queue items to process | `number` | `10` | no |
 | <a name="input_queue_batch_window_seconds"></a> [queue\_batch\_window\_seconds](#input\_queue\_batch\_window\_seconds) | maximum time in seconds between processing events | `number` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | The AWS Region | `string` | n/a | yes |
-| <a name="input_send_message_url"></a> [send\_message\_url](#input\_send\_message\_url) | The NHS Notify send message target for nudge communications. Defaults to sandbox | `string` | `"https://internal-dev-sandbox.api.service.nhs.uk/comms/v1/messages"` | no |
 ## Modules
 
 | Name | Source | Version |

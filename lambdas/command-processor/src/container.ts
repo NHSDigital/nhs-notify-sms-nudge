@@ -22,10 +22,10 @@ export async function createContainer(): Promise<CommandDependencies> {
 
   const notifyClient = new NotifyClient(config, accessTokenRepository, logger);
 
-  const apiUrl = process.env.SEND_MESSAGE_URL;
+  const apiUrl = process.env.APIM_BASE_URL;
 
   if (!apiUrl) {
-    throw new Error('SEND_MESSAGE_URL is not configured');
+    throw new Error('APIM_BASE_URL is not configured');
   }
 
   const routingPlanId = process.env.ROUTING_PLAN_ID;

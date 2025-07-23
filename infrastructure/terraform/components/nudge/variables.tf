@@ -104,12 +104,6 @@ variable "eventbus_account_id" {
   description = "The AWS Account ID for the event bus"
 }
 
-variable "send_message_url" {
-  type        = string
-  description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
-  default     = "https://internal-dev-sandbox.api.service.nhs.uk/comms/v1/messages"
-}
-
 variable "apim_access_token_ssm_parameter_name" {
   type        = string
   description = "Name of the APIM Access Token SSM Parameter"
@@ -117,5 +111,6 @@ variable "apim_access_token_ssm_parameter_name" {
 
 variable "apim_base_url" {
   type        = string
-  description = "The APIM base url"
+  description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
+  default     = "https://internal-dev-sandbox.api.service.nhs.uk"
 }

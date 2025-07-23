@@ -49,7 +49,7 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
 
     try {
       const response: AxiosResponse = await this.client.post(
-        '/v1/notifications/sms',
+        '/comms/v1/messages',
         apiRequest,
         { headers },
       );

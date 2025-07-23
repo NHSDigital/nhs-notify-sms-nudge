@@ -14,4 +14,4 @@ export const INBOUND_QUEUE_NAME = `${CSI}-inbound-event-queue`;
 export const COMMAND_QUEUE_NAME = `${CSI}-command-queue`;
 
 // Comms API Target
-export const SEND_MSG_URL_ENVAR = 'SEND_MESSAGE_URL';
+export const SEND_MSG_URL_ENVAR = 'APIM_BASE_URL';
