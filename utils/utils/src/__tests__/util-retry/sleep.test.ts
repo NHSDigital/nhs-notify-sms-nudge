@@ -1,4 +1,4 @@
-import { sleep, sleepMs } from '../../util-retry/sleep';
+import { sleep, sleepMs } from 'util-retry/sleep';
 
 beforeEach(() => {
   jest.useFakeTimers();
@@ -7,10 +7,8 @@ beforeEach(() => {
 
 describe('sleep', () => {
   it('should sleep in seconds', async () => {
-    const setTimeOutSpy = jest.spyOn(global, 'setTimeout');
+    const setTimeOutSpy = jest.spyOn(globalThis, 'setTimeout');
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     setTimeOutSpy.mockImplementationOnce((cb: () => void) => {
       cb();
       return {} as NodeJS.Timeout;
@@ -18,23 +16,22 @@ describe('sleep', () => {
 
     await sleep(60);
 
-    expect(setTimeOutSpy).toBeCalledWith(expect.any(Function), 60000);
+    expect(setTimeOutSpy).toHaveBeenCalledWith(expect.any(Function), 60_000);
   });
 
   it('should not sleep for <= 0 seconds>', async () => {
-    const setTimeOutSpy = jest.spyOn(global, 'setTimeout');
+    const setTimeOutSpy = jest.spyOn(globalThis, 'setTimeout');
 
     await sleep(0);
 
-    expect(setTimeOutSpy).not.toBeCalled();
+    expect(setTimeOutSpy).not.toHaveBeenCalled();
   });
 });
 
 describe('sleepMs', () => {
   it('should sleep in ms', async () => {
-    const setTimeOutSpy = jest.spyOn(global, 'setTimeout');
+    const setTimeOutSpy = jest.spyOn(globalThis, 'setTimeout');
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setTimeOutSpy.mockImplementationOnce((cb: () => void) => {
       cb();
@@ -43,14 +40,14 @@ describe('sleepMs', () => {
 
     await sleepMs(60);
 
-    expect(setTimeOutSpy).toBeCalledWith(expect.any(Function), 60);
+    expect(setTimeOutSpy).toHaveBeenCalledWith(expect.any(Function), 60);
   });
 
   it('should not sleep for <= 0ms>', async () => {
-    const setTimeOutSpy = jest.spyOn(global, 'setTimeout');
+    const setTimeOutSpy = jest.spyOn(globalThis, 'setTimeout');
 
     await sleepMs(0);
 
-    expect(setTimeOutSpy).not.toBeCalled();
+    expect(setTimeOutSpy).not.toHaveBeenCalled();
   });
 });

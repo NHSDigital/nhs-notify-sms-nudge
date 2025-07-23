@@ -17,13 +17,11 @@ export class CommandProcessorService {
     this.logger = logger;
   }
 
-  public async process(
-    payload: Request,
-  ): Promise<void> {
-    const messageReference = payload.data.attributes.messageReference;
+  public async process(payload: Request): Promise<void> {
+    const { messageReference } = payload.data.attributes;
 
     this.logger.info('Processing request', {
-      messageReference
+      messageReference,
     });
     try {
       await this.nhsNotifyClient.sendRequest(payload, messageReference);

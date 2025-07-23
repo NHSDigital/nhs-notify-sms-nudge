@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { mock } from 'jest-mock-extended';
 import axios, {
-  type AxiosResponse,
   type AxiosInstance,
+  type AxiosResponse,
   type AxiosStatic,
 } from 'axios';
 import {
@@ -10,8 +10,8 @@ import {
   conditionalRetry as _retry,
 } from 'nhs-notify-sms-nudge-utils';
 import type { Logger } from 'nhs-notify-sms-nudge-utils';
-import { IAccessTokenRepository, NotifyClient } from '../../app/notify-api-client';
 import { mockRequest } from '__tests__/constants';
+import { IAccessTokenRepository, NotifyClient } from 'app/notify-api-client';
 
 jest.mock('nhs-notify-sms-nudge-utils');
 jest.mock('node:crypto');
@@ -25,7 +25,7 @@ const mockRetry = async <T>(
   fn: (attempt: number) => Promise<T>,
   isRetryable: RetryErrorConditionFn,
   _: unknown,
-  attempt = 1
+  attempt = 1,
 ): Promise<T> => {
   try {
     return await fn(attempt);
@@ -37,7 +37,7 @@ const mockRetry = async <T>(
   }
 };
 
-const conditionalRetry = jest.mocked(_retry).mockImplementation(mockRetry);
+jest.mocked(_retry).mockImplementation(mockRetry);
 
 beforeEach(() => {
   jest.useFakeTimers();
@@ -86,14 +86,11 @@ describe('Accessibility', () => {
 
     const actual = await client.isAccessible();
 
-    expect(mocks.axiosInstance.head).toHaveBeenCalledWith(
-      '/',
-      {
-        headers: {
-          Authorization: 'Bearer fake-access-token',
-        },
-      }
-    );
+    expect(mocks.axiosInstance.head).toHaveBeenCalledWith('/', {
+      headers: {
+        Authorization: 'Bearer fake-access-token',
+      },
+    });
 
     expect(actual).toBe(true);
   });
@@ -106,14 +103,11 @@ describe('Accessibility', () => {
 
     const actual = await client.isAccessible();
 
-    expect(mocks.axiosInstance.head).toHaveBeenCalledWith(
-      '/',
-      {
-        headers: {
-          Authorization: 'Bearer fake-access-token',
-        },
-      }
-    );
+    expect(mocks.axiosInstance.head).toHaveBeenCalledWith('/', {
+      headers: {
+        Authorization: 'Bearer fake-access-token',
+      },
+    });
 
     expect(actual).toBe(false);
   });
@@ -130,7 +124,10 @@ describe('sendRequest', () => {
 
     mocks.axiosInstance.post.mockResolvedValueOnce(response);
 
-    const { data } = await client.sendRequest(mockRequest, mockRequest.data.attributes.messageReference);
+    const { data } = await client.sendRequest(
+      mockRequest,
+      mockRequest.data.attributes.messageReference,
+    );
 
     expect(mocks.accessTokenRepository.getAccessToken).toHaveBeenCalledTimes(1);
     expect(mocks.axiosInstance.post).toHaveBeenCalledTimes(1);
@@ -145,7 +142,7 @@ describe('sendRequest', () => {
           'Content-Type': 'application/json',
           'X-Correlation-ID': 'request-item-id_request-item-plan-id',
         },
-      }
+      },
     );
 
     expect(data).toBe(response.data);
@@ -168,7 +165,10 @@ describe('sendRequest', () => {
       .mockRejectedValueOnce(error)
       .mockResolvedValueOnce(response);
 
-    await client.sendRequest(mockRequest, mockRequest.data.attributes.messageReference);
+    await client.sendRequest(
+      mockRequest,
+      mockRequest.data.attributes.messageReference,
+    );
 
     expect(mocks.accessTokenRepository.getAccessToken).toHaveBeenCalledTimes(2);
     expect(mocks.axiosInstance.post).toHaveBeenCalledTimes(2);
@@ -186,10 +186,13 @@ describe('sendRequest', () => {
 
       mocks.axiosInstance.post.mockRejectedValue(error);
 
-      await expect(client.sendRequest(mockRequest, mockRequest.data.attributes.messageReference)).rejects.toEqual(
-        error
-      );
-    }
+      await expect(
+        client.sendRequest(
+          mockRequest,
+          mockRequest.data.attributes.messageReference,
+        ),
+      ).rejects.toEqual(error);
+    },
   );
 
   it('rejects non-axios errors immediately', async () => {
@@ -199,9 +202,12 @@ describe('sendRequest', () => {
 
     mocks.axiosInstance.post.mockRejectedValue(error);
 
-    await expect(client.sendRequest(mockRequest, mockRequest.data.attributes.messageReference)).rejects.toEqual(
-      error
-    );
+    await expect(
+      client.sendRequest(
+        mockRequest,
+        mockRequest.data.attributes.messageReference,
+      ),
+    ).rejects.toEqual(error);
   });
 
   it('rejects if unable to get the access token', async () => {
@@ -211,8 +217,11 @@ describe('sendRequest', () => {
 
     mocks.accessTokenRepository.getAccessToken.mockRejectedValue(error);
 
-    await expect(client.sendRequest(mockRequest, mockRequest.data.attributes.messageReference)).rejects.toEqual(
-      error
-    );
+    await expect(
+      client.sendRequest(
+        mockRequest,
+        mockRequest.data.attributes.messageReference,
+      ),
+    ).rejects.toEqual(error);
   });
 });

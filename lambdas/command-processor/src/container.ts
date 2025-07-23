@@ -20,7 +20,11 @@ export async function createContainer(): Promise<CommandDependencies> {
     ),
   };
 
-  const notifyClient = new NotifyClient(config.apimBaseUrl, accessTokenRepository, logger);
+  const notifyClient = new NotifyClient(
+    config.apimBaseUrl,
+    accessTokenRepository,
+    logger,
+  );
 
   const commandProcessorService = new CommandProcessorService({
     nhsNotifyClient: notifyClient,

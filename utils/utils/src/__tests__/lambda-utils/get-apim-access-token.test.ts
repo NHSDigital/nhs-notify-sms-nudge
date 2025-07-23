@@ -47,7 +47,7 @@ function setup() {
   const getApimAccessToken = createGetApimAccessToken(
     tokenPath,
     log,
-    parameterStore
+    parameterStore,
   );
 
   return { getApimAccessToken, mocks };
@@ -88,16 +88,16 @@ describe('createGetApimAccessToken', () => {
     expect(mocks.parameterStore.getParameter).toHaveBeenCalledTimes(2);
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       1,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       2,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledTimes(1);
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledWith(
       tokenPath,
-      1
+      1,
     );
 
     expect(accessToken).toEqual(validAccessToken.access_token);
@@ -140,16 +140,16 @@ describe('createGetApimAccessToken', () => {
     expect(mocks.parameterStore.getParameter).toHaveBeenCalledTimes(2);
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       1,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       2,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledTimes(1);
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledWith(
       tokenPath,
-      1
+      1,
     );
 
     expect(accessToken).toEqual(expiringAccessToken.access_token);
@@ -164,22 +164,22 @@ describe('createGetApimAccessToken', () => {
     });
 
     await expect(getApimAccessToken()).rejects.toThrow(
-      'Failed to update token'
+      'Failed to update token',
     );
 
     expect(mocks.parameterStore.getParameter).toHaveBeenCalledTimes(2);
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       1,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.getParameter).toHaveBeenNthCalledWith(
       2,
-      tokenPath
+      tokenPath,
     );
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledTimes(1);
     expect(mocks.parameterStore.clearCachedParameter).toHaveBeenCalledWith(
       tokenPath,
-      1
+      1,
     );
   });
 });

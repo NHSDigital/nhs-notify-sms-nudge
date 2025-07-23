@@ -124,7 +124,7 @@ describe('conditionalRetry', () => {
     };
 
     await expect(
-      conditionalRetry(fn, isRetryable, { maxAttempts: 2, ...backoffConfig })
+      conditionalRetry(fn, isRetryable, { maxAttempts: 2, ...backoffConfig }),
     ).rejects.toBe(err);
 
     expect(fn).toHaveBeenCalledTimes(2);
@@ -138,7 +138,7 @@ describe('retryUntil', () => {
 
     const result = await retryUntil(
       async () => fn(),
-      (n) => n === 3
+      (n) => n === 3,
     );
 
     expect(fn).toHaveBeenCalledTimes(1);
@@ -155,7 +155,7 @@ describe('retryUntil', () => {
 
     const result = await retryUntil(
       async () => fn(),
-      (n) => n > 1
+      (n) => n > 1,
     );
 
     expect(fn).toHaveBeenCalledTimes(2);
@@ -173,7 +173,7 @@ describe('retryUntil', () => {
 
     const result = await retryUntil(
       async () => fn(),
-      (s) => s.startsWith('h')
+      (s) => s.startsWith('h'),
     );
 
     expect(fn).toHaveBeenCalledTimes(2);
@@ -196,9 +196,9 @@ describe('retryUntil', () => {
       retryUntil(
         async () => fn(),
         (s) => s === 'z',
-        { maxAttempts: 3 }
-      )
-    ).rejects.toThrowError(expected);
+        { maxAttempts: 3 },
+      ),
+    ).rejects.toThrow(expected);
 
     expect(fn).toHaveBeenCalledTimes(3);
     expect(sleepMock).toHaveBeenCalledTimes(2);
@@ -211,7 +211,7 @@ describe('retryUntil', () => {
     const result = await retryUntil(
       async () => fn(),
       (s) => s === 'bar',
-      { maxAttempts: 2 }
+      { maxAttempts: 2 },
     );
 
     expect(result).toBe('foo');

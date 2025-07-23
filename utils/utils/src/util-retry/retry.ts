@@ -15,20 +15,20 @@ export async function conditionalRetry<T>(
   fn: RetryCallback<T>,
   isErrorRetryable: RetryErrorConditionFn,
   config: RetryConfig = {},
-  attempt = 1
+  attempt = 1,
 ): Promise<T> {
   const { maxAttempts = 10, ...backoffConfig } = config;
 
   try {
     return await fn(attempt);
-  } catch (err) {
-    if (isErrorRetryable(err) && attempt < maxAttempts) {
+  } catch (error) {
+    if (isErrorRetryable(error) && attempt < maxAttempts) {
       await sleepMs(backoff(attempt, backoffConfig));
 
-      return await conditionalRetry(fn, isErrorRetryable, config, attempt + 1);
+      return conditionalRetry(fn, isErrorRetryable, config, attempt + 1);
     }
 
-    throw err;
+    throw error;
   }
 }
 
@@ -37,9 +37,9 @@ export async function conditionalRetry<T>(
  */
 export async function retry<T>(
   fn: RetryCallback<T>,
-  config: RetryConfig = {}
+  config: RetryConfig = {},
 ): Promise<T> {
-  return await conditionalRetry(fn, () => true, config);
+  return conditionalRetry(fn, () => true, config);
 }
 
 /**
@@ -50,7 +50,7 @@ export async function retryUntil<T>(
   fn: RetryCallback<T>,
   condition: RetryConditionFn<T>,
   config: RetryConfig = {},
-  attempt = 1
+  attempt = 1,
 ): Promise<T> {
   const { maxAttempts = 10, ...backoffConfig } = config;
 
@@ -63,17 +63,17 @@ export async function retryUntil<T>(
     if (condition(result)) {
       return result;
     }
-  } catch (e) {
-    error = e;
+  } catch (error_) {
+    error = error_;
   }
 
   if (attempt < maxAttempts) {
     await sleepMs(backoff(attempt, backoffConfig));
 
-    return await retryUntil(fn, condition, config, attempt + 1);
+    return retryUntil(fn, condition, config, attempt + 1);
   }
 
-  if (error) {
+  if (error instanceof Error) {
     throw error;
   }
 

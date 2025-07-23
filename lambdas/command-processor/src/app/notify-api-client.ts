@@ -1,9 +1,12 @@
 import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import type { Readable } from 'node:stream';
-import { randomUUID } from 'node:crypto';
 import { constants as HTTP2_CONSTANTS } from 'node:http2';
 import type { Request } from 'domain/request';
-import { conditionalRetry, IAccessibleService, RetryConfig } from 'nhs-notify-sms-nudge-utils';
+import {
+  IAccessibleService,
+  RetryConfig,
+  conditionalRetry,
+} from 'nhs-notify-sms-nudge-utils';
 import type { Logger } from 'nhs-notify-sms-nudge-utils';
 
 export interface IAccessTokenRepository {
@@ -27,7 +30,7 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
     private logger: Logger,
     private backoffConfig: RetryConfig = {
       maxDelayMs: 10_000,
-      intervalMs: 1_000,
+      intervalMs: 1000,
       exponentialRate: 2,
       maxAttempts: 10,
     },
@@ -41,7 +44,6 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
     apiRequest: Request,
     correlationId: string,
   ): Promise<Response> {
-
     try {
       return await conditionalRetry(
         async (attempt) => {
@@ -69,10 +71,10 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
         (err) =>
           Boolean(
             isAxiosError(err) &&
-            err.response?.status ===
-            HTTP2_CONSTANTS.HTTP_STATUS_TOO_MANY_REQUESTS
+              err.response?.status ===
+                HTTP2_CONSTANTS.HTTP_STATUS_TOO_MANY_REQUESTS,
           ),
-        this.backoffConfig
+        this.backoffConfig,
       );
     } catch (error: any) {
       this.logger.error({
