@@ -119,4 +119,5 @@ variable "apim_base_url" {
 variable "keystore_name" {
   type        = string
   description = "Identifier for the keystore to be used in resource names"
+  default     = "notify"
 }
