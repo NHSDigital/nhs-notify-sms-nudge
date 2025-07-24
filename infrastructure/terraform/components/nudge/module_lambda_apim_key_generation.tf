@@ -51,7 +51,6 @@ data "aws_iam_policy_document" "lambda_key_generation" {
     ]
 
     resources = [
-      module.keygen_web_frontend.static_s3_bucket.arn
     ]
   }
 
