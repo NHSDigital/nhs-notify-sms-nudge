@@ -113,5 +113,5 @@ variable "apim_access_token_ssm_parameter_name" {
 variable "apim_base_url" {
   type        = string
   description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
-  default     = "https://internal-dev-sandbox.api.service.nhs.uk"
+  default     = "https://sandbox.api.service.nhs.uk"
 }
