@@ -36,6 +36,7 @@ module "lambda_command_processor" {
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
   lambda_env_vars = {
+    "SEND_MESSAGE_URL" = var.send_message_url
   }
 }
 

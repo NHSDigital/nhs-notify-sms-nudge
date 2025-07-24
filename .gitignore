@@ -15,7 +15,7 @@ version.json
 # dependencies
 node_modules
 .node-version
-*/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 /build

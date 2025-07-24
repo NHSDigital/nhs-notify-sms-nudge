@@ -91,3 +91,9 @@ variable "eventbus_account_id" {
   type        = string
   description = "The AWS Account ID for the event bus"
 }
+
+variable "send_message_url" {
+  type        = string
+  description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
+  default     = "https://sandbox.api.service.nhs.uk/comms/v1/messages"
+}
