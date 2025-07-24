@@ -115,3 +115,8 @@ variable "apim_base_url" {
   description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
   default     = "https://sandbox.api.service.nhs.uk"
 }
+
+variable "keystore_name" {
+  type        = string
+  description = "Identifier for the keystore to be used in resource names"
+}
