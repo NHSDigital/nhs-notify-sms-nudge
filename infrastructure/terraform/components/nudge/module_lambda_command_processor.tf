@@ -32,7 +32,7 @@ module "lambda_command_processor" {
   enable_lambda_insights   = false
 
   send_to_firehose          = true
-  log_destination_arn       = "arn:aws:firehose:${var.region}:${var.aws_account_id}:deliverystream/nhs-main-obs-splunk-logs-firehose"
+  log_destination_arn       = local.log_destination_arn
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
   lambda_env_vars = {
