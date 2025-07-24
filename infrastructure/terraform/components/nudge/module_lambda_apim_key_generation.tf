@@ -43,18 +43,6 @@ module "lambda_lambda_apim_key_generation" {
 
 data "aws_iam_policy_document" "lambda_key_generation" {
   statement {
-    sid    = "AllowS3List"
-    effect = "Allow"
-
-    actions = [
-      "s3:ListBucket",
-    ]
-
-    resources = [
-    ]
-  }
-
-  statement {
     sid    = "AllowSSMParam"
     effect = "Allow"
 
