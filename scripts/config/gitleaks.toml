@@ -22,8 +22,6 @@ paths = [
   '''poetry.lock''',
   '''yarn.lock''',
   '''Gemfile.lock''',
-  '''lambdas/key-generation/src/__test__/utils/validate-private-key.test.ts''',
-  '''lambdas/key-generation/src/__test__/get-private-key.test.ts''',
 ]
 
 # Exclude Chrome version in user agent
