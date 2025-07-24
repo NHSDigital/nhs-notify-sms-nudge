@@ -35,6 +35,7 @@ No requirements.
 | <a name="module_kms"></a> [kms](#module\_kms) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/kms | v2.0.10 |
 | <a name="module_lambda_command_processor"></a> [lambda\_command\_processor](#module\_lambda\_command\_processor) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
 | <a name="module_lambda_event_command_transformer"></a> [lambda\_event\_command\_transformer](#module\_lambda\_event\_command\_transformer) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
+| <a name="module_lambda_lambda_apim_key_generation"></a> [lambda\_lambda\_apim\_key\_generation](#module\_lambda\_lambda\_apim\_key\_generation) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
 | <a name="module_sqs_command"></a> [sqs\_command](#module\_sqs\_command) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/sqs | v2.0.10 |
 | <a name="module_sqs_inbound_event"></a> [sqs\_inbound\_event](#module\_sqs\_inbound\_event) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/sqs | v2.0.10 |
 ## Outputs
