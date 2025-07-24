@@ -12,6 +12,8 @@ export async function createContainer(): Promise<CommandDependencies> {
   const parameterStore = new ParameterStoreCache();
   const config = loadConfig();
 
+  logger.info('Hello');
+
   const accessTokenRepository = {
     getAccessToken: createGetApimAccessToken(
       config.apimAccessTokenSsmParameterName,
