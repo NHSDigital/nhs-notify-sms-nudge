@@ -9,6 +9,8 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_apim_access_token_ssm_parameter_name"></a> [apim\_access\_token\_ssm\_parameter\_name](#input\_apim\_access\_token\_ssm\_parameter\_name) | Name of the APIM Access Token SSM Parameter | `string` | `"/apim/token"` | no |
+| <a name="input_apim_base_url"></a> [apim\_base\_url](#input\_apim\_base\_url) | The NHS Notify send message target for nudge communications. Defaults to sandbox | `string` | `"https://sandbox.api.service.nhs.uk"` | no |
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | The AWS Account ID (numeric) | `string` | n/a | yes |
 | <a name="input_component"></a> [component](#input\_component) | The variable encapsulating the name of this component | `string` | `"nudge"` | no |
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | A map of default tags to apply to all taggable resources within the component | `map(string)` | `{}` | no |
@@ -22,6 +24,8 @@ No requirements.
 | <a name="input_parent_acct_environment"></a> [parent\_acct\_environment](#input\_parent\_acct\_environment) | Name of the environment responsible for the acct resources used, affects things like DNS zone. Useful for named dev environments | `string` | `"main"` | no |
 | <a name="input_parent_eventbus_environment"></a> [parent\_eventbus\_environment](#input\_parent\_eventbus\_environment) | Name of the environment responsible for the eventbus resources used, affects things like eventbus arns and names. Useful for named dev environments | `string` | `"main"` | no |
 | <a name="input_project"></a> [project](#input\_project) | The name of the tfscaffold project | `string` | n/a | yes |
+| <a name="input_queue_batch_size"></a> [queue\_batch\_size](#input\_queue\_batch\_size) | maximum number of queue items to process | `number` | `10` | no |
+| <a name="input_queue_batch_window_seconds"></a> [queue\_batch\_window\_seconds](#input\_queue\_batch\_window\_seconds) | maximum time in seconds between processing events | `number` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | The AWS Region | `string` | n/a | yes |
 ## Modules
 
@@ -34,7 +38,9 @@ No requirements.
 | <a name="module_sqs_inbound_event"></a> [sqs\_inbound\_event](#module\_sqs\_inbound\_event) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/sqs | v2.0.10 |
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_deployment"></a> [deployment](#output\_deployment) | Deployment details used for post-deployment scripts |
 <!-- vale on -->
 <!-- markdownlint-enable -->
 <!-- END_TF_DOCS -->

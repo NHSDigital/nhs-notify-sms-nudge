@@ -27,6 +27,18 @@ variable "group" {
   description = "The group variables are being inherited from (often synonmous with account short-name)"
 }
 
+variable "queue_batch_size" {
+  type        = number
+  description = "maximum number of queue items to process"
+  default     = 10
+}
+
+variable "queue_batch_window_seconds" {
+  type        = number
+  description = "maximum time in seconds between processing events"
+  default     = null
+}
+
 ##
 # tfscaffold variables specific to this component
 ##
@@ -90,4 +102,16 @@ variable "force_lambda_code_deploy" {
 variable "eventbus_account_id" {
   type        = string
   description = "The AWS Account ID for the event bus"
+}
+
+variable "apim_access_token_ssm_parameter_name" {
+  type        = string
+  description = "Name of the APIM Access Token SSM Parameter"
+  default     = "/apim/token"
+}
+
+variable "apim_base_url" {
+  type        = string
+  description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
+  default     = "https://sandbox.api.service.nhs.uk"
 }
