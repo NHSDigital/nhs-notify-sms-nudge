@@ -107,6 +107,7 @@ variable "eventbus_account_id" {
 variable "apim_access_token_ssm_parameter_name" {
   type        = string
   description = "Name of the APIM Access Token SSM Parameter"
+  default     = "/apim/token"
 }
 
 variable "apim_base_url" {

@@ -1,4 +1,4 @@
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 import type { SQSEvent } from 'aws-lambda';
 import { mock } from 'jest-mock-extended';
 import {
@@ -14,7 +14,7 @@ import { mapQueueToRequest } from 'domain/mapper';
 
 jest.mock('domain/mapper');
 jest.mock('app/parse-nudge-command');
-jest.mock('nhs-notify-sms-nudge-utils/logger');
+jest.mock('nhs-notify-sms-nudge-utils');
 
 const mockedParse = parseSqsRecord as jest.Mock;
 const mockedMapper = mapQueueToRequest as jest.Mock;

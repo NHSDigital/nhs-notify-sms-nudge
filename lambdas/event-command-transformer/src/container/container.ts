@@ -1,6 +1,5 @@
 import { TransformDependencies } from 'handler/sqs-handler';
-import { SqsRepository, sqsClient } from 'nhs-notify-sms-nudge-utils';
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { SqsRepository, logger, sqsClient } from 'nhs-notify-sms-nudge-utils';
 
 const COMMANDS_QUEUE_URL = process.env.COMMANDS_QUEUE_URL!;
 

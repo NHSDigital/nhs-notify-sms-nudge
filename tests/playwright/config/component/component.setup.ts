@@ -14,7 +14,7 @@ import { getEnvironmentVariables } from 'helpers/lambda-envar-helpers';
 setup('component test setup', async () => {
   console.log(`Targeting CSI: ${CSI}`);
 
-  // Ensure send message is pointed at sandbox or override allowed
+  // Ensure send message is pointed at sandbox
   const commandEnvars = await getEnvironmentVariables(COMMAND_LAMBDA_NAME);
 
   const isSendMessageTargetValid =

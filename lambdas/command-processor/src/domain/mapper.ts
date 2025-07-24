@@ -1,4 +1,4 @@
-import { logger } from 'nhs-notify-sms-nudge-utils/logger';
+import { logger } from 'nhs-notify-sms-nudge-utils';
 import type { NudgeCommand } from 'domain/nudge-command';
 import type { Request } from 'domain/request';
 
