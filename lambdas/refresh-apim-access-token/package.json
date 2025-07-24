@@ -20,6 +20,9 @@
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"
   },
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "name": "refresh-apim-access-token",
   "private": true,
   "scripts": {

@@ -59,6 +59,8 @@
   "workspaces": [
     "lambdas/command-processor",
     "lambdas/event-command-transformer",
+    "lambdas/key-generation",
+    "lambdas/refresh-apim-access-token",
     "utils/utils",
     "tests/playwright"
   ]
