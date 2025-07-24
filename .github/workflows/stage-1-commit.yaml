@@ -44,7 +44,6 @@ jobs:
           fetch-depth: 0 # Full history is needed to scan all commits
       - name: "Scan secrets"
         uses: ./.github/actions/scan-secrets
-        continue-on-error: true # TODO: remove once the repo is cleaned
   check-file-format:
     name: "Check file format"
     runs-on: ubuntu-latest
