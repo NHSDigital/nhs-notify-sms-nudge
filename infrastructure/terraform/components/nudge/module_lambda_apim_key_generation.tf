@@ -27,7 +27,6 @@ module "lambda_lambda_apim_key_generation" {
   memory                  = 128
   timeout                 = 5
   log_level               = var.log_level
-  keystore_name           = "notify"
 
   force_lambda_code_deploy = var.force_lambda_code_deploy
   enable_lambda_insights   = false
