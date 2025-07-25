@@ -1,8 +1,8 @@
 module "lambda_lambda_apim_key_generation" {
   source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
 
-  function_name = "apim-key-generator"
-  description   = "A function to generate new APIM public and private keys"
+  function_name = "apim-refresh-token"
+  description   = "A function to generate new APIM access token"
 
   aws_account_id = var.aws_account_id
   component      = var.component
@@ -15,12 +15,12 @@ module "lambda_lambda_apim_key_generation" {
   kms_key_arn           = module.kms.key_arn
 
   iam_policy_document = {
-    body = data.aws_iam_policy_document.lambda_apim_key_generation.json
+    body = data.aws_iam_policy_document.lambda_apim_refresh_token.json
   }
 
   function_s3_bucket      = local.acct.s3_buckets["lambda_function_artefacts"]["id"]
   function_code_base_path = local.aws_lambda_functions_dir_path
-  function_code_dir       = "key-generation/dist"
+  function_code_dir       = "refresh-apim-access-token/dist"
   function_include_common = true
   handler_function_name   = "handler"
   runtime                 = "nodejs22.x"
@@ -41,7 +41,7 @@ module "lambda_lambda_apim_key_generation" {
   }
 }
 
-data "aws_iam_policy_document" "lambda_apim_key_generation" {
+data "aws_iam_policy_document" "lambda_apim_refresh_token" {
   statement {
     sid    = "AllowSSMParam"
     effect = "Allow"
