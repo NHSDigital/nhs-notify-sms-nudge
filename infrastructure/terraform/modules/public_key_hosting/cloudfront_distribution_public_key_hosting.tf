@@ -23,20 +23,25 @@ resource "aws_cloudfront_distribution" "public_key_hosting" {
     # ssl_support_method       = "sni-only"
   }
 
-  # Static Assets bucket S3 origin
+  logging_config {
+    include_cookies = false
+    bucket          = aws_s3_bucket.cdn_logs.bucket_regional_domain_name
+  }
+
+  # public keys bucket S3 origin
   origin {
     domain_name = aws_s3_bucket.public_keys.bucket_regional_domain_name
-    origin_id   = "${var.csi}-origin-static"
+    origin_id   = "${var.csi}-origin-public-keys"
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.public_keys.cloudfront_access_identity_path
     }
   }
 
-  # Static assets S3 content
+  # public keys S3 content
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${var.csi}-origin-static"
+    target_origin_id = "${var.csi}-origin-public-keys"
 
     forwarded_values {
       query_string = false

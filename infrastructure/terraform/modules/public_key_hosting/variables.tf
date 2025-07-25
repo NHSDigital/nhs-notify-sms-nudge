@@ -9,7 +9,7 @@ variable "csi_global" {
 }
 
 variable "default_tags" {
-  type        = string
+  type        = map(string)
   description = "Default tags for resources"
 }
 
