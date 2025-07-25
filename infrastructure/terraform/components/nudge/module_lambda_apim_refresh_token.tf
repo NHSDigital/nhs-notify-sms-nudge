@@ -40,6 +40,7 @@ module "lambda_lambda_apim_refresh_token" {
     SSM_ACCESS_TOKEN_PARAMETER_NAME  = local.apim_access_token_ssm_parameter_name
     SSM_API_KEY_PARAMETER_NAME = local.apim_api_key_ssm_parameter_name
     SSM_PRIVATE_KEY_PARAMETER_NAME = local.apim_private_key_ssm_parameter_name
+    ENVIRONMENT = var.environment
   }
 }
 
