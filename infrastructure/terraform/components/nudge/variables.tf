@@ -121,3 +121,15 @@ variable "keystore_name" {
   description = "Identifier for the keystore to be used in resource names"
   default     = "notify"
 }
+
+variable "apim_auth_token_url" {
+  type        = string
+  description = "URL to generate an APIM auth token"
+  default     = "placeholder"
+}
+
+variable "apim_api_key_ssm_parameter_name" {
+  type        = string
+  description = "Name of the APIM API Key SSM Parameter"
+  default     = "/apim/api_key"
+}

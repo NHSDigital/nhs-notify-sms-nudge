@@ -2,7 +2,7 @@ module "lambda_lambda_apim_refresh_token" {
   source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
 
   function_name = "apim-refresh-token"
-  description   = "A function to generate new APIM access token"
+  description   = "A function to generate APIM access tokens"
 
   aws_account_id = var.aws_account_id
   component      = var.component
@@ -36,8 +36,9 @@ module "lambda_lambda_apim_refresh_token" {
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
   lambda_env_vars = {
-    AWS_ACCOUNT_ID = var.aws_account_id
-    KEYSTORE_NAME  = var.keystore_name
+    NHS_AUTH_SERVER_TOKEN_ENDPOINT = var.apim_auth_token_url
+    SSM_ACCESS_TOKEN_PARAMETER_NAME  = var.apim_access_token_ssm_parameter_name
+    SSM_API_KEY_PARAMETER_NAME = var.apim_api_key_ssm_parameter_name
   }
 }
 
@@ -55,7 +56,7 @@ data "aws_iam_policy_document" "lambda_apim_refresh_token" {
     ]
 
     resources = [
-      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/${var.project}/${var.environment}/${var.keystore_name}/*"
+      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/apim/*"
     ]
   }
 }
