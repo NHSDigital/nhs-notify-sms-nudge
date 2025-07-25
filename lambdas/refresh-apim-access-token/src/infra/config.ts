@@ -8,7 +8,7 @@ export function loadConfig() {
     ssmAccessTokenParameterName: defaultConfigReader.getValue(
       'SSM_ACCESS_TOKEN_PARAMETER_NAME',
     ),
-    ssmPdsApiKeyParameterName: defaultConfigReader.getValue(
+    ssmApimApiKeyParameterName: defaultConfigReader.getValue(
       'SSM_API_KEY_PARAMETER_NAME',
     ),
   };

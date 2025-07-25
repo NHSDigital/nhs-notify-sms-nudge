@@ -13,7 +13,7 @@ function setup() {
 
   const config: Config = {
     ssmAccessTokenParameterName: 'fake_access_token_parameter_name',
-    ssmPdsApiKeyParameterName: 'fake_api_key_parameter_name',
+    ssmApimApiKeyParameterName: 'fake_api_key_parameter_name',
   };
 
   // @ts-ignore

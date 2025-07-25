@@ -8,7 +8,7 @@ import type { ApimAccessToken, Logger } from 'nhs-notify-sms-nudge-utils';
 
 export type Config = {
   ssmAccessTokenParameterName: string;
-  ssmPdsApiKeyParameterName: string;
+  ssmApimApiKeyParameterName: string;
 };
 
 type Key = {
@@ -54,7 +54,7 @@ export class SSMKeyStore {
     try {
       result = await this._client.send(
         new GetParameterCommand({
-          Name: this._config.ssmPdsApiKeyParameterName,
+          Name: this._config.ssmApimApiKeyParameterName,
           WithDecryption: true,
         }),
       );
