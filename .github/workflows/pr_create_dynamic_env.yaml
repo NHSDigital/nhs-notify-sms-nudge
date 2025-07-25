@@ -31,9 +31,9 @@ jobs:
             --arg overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
             --arg overrideProjectName "nhs" \
             --arg overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
-            '{ "ref": $GITHUB_HEAD_REF,
+            '{ "ref": "feature/CCM-11389_override",
               "inputs": {
-                "infraRepoName": $infraRepoName,
+                "infraRepoName", $infraRepoName,
                 "releaseVersion", $releaseVersion,
                 "targetProject", $targetProject,
                 "targetEnvironment", $targetEnvironment,
