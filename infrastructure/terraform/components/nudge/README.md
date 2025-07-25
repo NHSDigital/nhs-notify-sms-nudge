@@ -9,9 +9,7 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_apim_access_token_ssm_parameter_name"></a> [apim\_access\_token\_ssm\_parameter\_name](#input\_apim\_access\_token\_ssm\_parameter\_name) | Name of the APIM Access Token SSM Parameter | `string` | `"/apim/token"` | no |
-| <a name="input_apim_api_key_ssm_parameter_name"></a> [apim\_api\_key\_ssm\_parameter\_name](#input\_apim\_api\_key\_ssm\_parameter\_name) | Name of the APIM API Key SSM Parameter | `string` | `"/apim/api_key"` | no |
-| <a name="input_apim_auth_token_url"></a> [apim\_auth\_token\_url](#input\_apim\_auth\_token\_url) | URL to generate an APIM auth token | `string` | `"placeholder"` | no |
+| <a name="input_apim_auth_token_url"></a> [apim\_auth\_token\_url](#input\_apim\_auth\_token\_url) | URL to generate an APIM auth token | `string` | `"https://int.api.service.nhs.uk/oauth2/token"` | no |
 | <a name="input_apim_base_url"></a> [apim\_base\_url](#input\_apim\_base\_url) | The NHS Notify send message target for nudge communications. Defaults to sandbox | `string` | `"https://sandbox.api.service.nhs.uk"` | no |
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | The AWS Account ID (numeric) | `string` | n/a | yes |
 | <a name="input_component"></a> [component](#input\_component) | The variable encapsulating the name of this component | `string` | `"nudge"` | no |
@@ -20,7 +18,6 @@ No requirements.
 | <a name="input_eventbus_account_id"></a> [eventbus\_account\_id](#input\_eventbus\_account\_id) | The AWS Account ID for the event bus | `string` | n/a | yes |
 | <a name="input_force_lambda_code_deploy"></a> [force\_lambda\_code\_deploy](#input\_force\_lambda\_code\_deploy) | If the lambda package in s3 has the same commit id tag as the terraform build branch, the lambda will not update automatically. Set to True if making changes to Lambda code from on the same commit for example during development | `bool` | `false` | no |
 | <a name="input_group"></a> [group](#input\_group) | The group variables are being inherited from (often synonmous with account short-name) | `string` | n/a | yes |
-| <a name="input_keystore_name"></a> [keystore\_name](#input\_keystore\_name) | Identifier for the keystore to be used in resource names | `string` | `"notify"` | no |
 | <a name="input_kms_deletion_window"></a> [kms\_deletion\_window](#input\_kms\_deletion\_window) | When a kms key is deleted, how long should it wait in the pending deletion state? | `string` | `"30"` | no |
 | <a name="input_log_level"></a> [log\_level](#input\_log\_level) | The log level to be used in lambda functions within the component. Any log with a lower severity than the configured value will not be logged: https://docs.python.org/3/library/logging.html#levels | `string` | `"INFO"` | no |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | The retention period in days for the Cloudwatch Logs events to be retained, default of 0 is indefinite | `number` | `0` | no |
@@ -37,7 +34,6 @@ No requirements.
 | <a name="module_kms"></a> [kms](#module\_kms) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/kms | v2.0.10 |
 | <a name="module_lambda_command_processor"></a> [lambda\_command\_processor](#module\_lambda\_command\_processor) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
 | <a name="module_lambda_event_command_transformer"></a> [lambda\_event\_command\_transformer](#module\_lambda\_event\_command\_transformer) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
-| <a name="module_lambda_lambda_apim_key_generation"></a> [lambda\_lambda\_apim\_key\_generation](#module\_lambda\_lambda\_apim\_key\_generation) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
 | <a name="module_lambda_lambda_apim_refresh_token"></a> [lambda\_lambda\_apim\_refresh\_token](#module\_lambda\_lambda\_apim\_refresh\_token) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
 | <a name="module_sqs_command"></a> [sqs\_command](#module\_sqs\_command) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/sqs | v2.0.10 |
 | <a name="module_sqs_inbound_event"></a> [sqs\_inbound\_event](#module\_sqs\_inbound\_event) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/sqs | v2.0.10 |

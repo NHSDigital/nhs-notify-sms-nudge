@@ -5,9 +5,7 @@ export const loadConfig = (): Config => {
 
   return {
     environment,
-    pemSSMPath: `/comms/${environment}/${defaultConfigReader.getValue(
-      'KEYSTORE_NAME',
-    )}/keys`,
+    pemSSMPath: defaultConfigReader.getValue('SSM_PRIVATE_KEY_PARAMETER_NAME'),
     staticAssetBucket: `comms-${defaultConfigReader.tryGetValue(
       'AWS_ACCOUNT_ID',
     )}-${defaultConfigReader.tryGetValue(

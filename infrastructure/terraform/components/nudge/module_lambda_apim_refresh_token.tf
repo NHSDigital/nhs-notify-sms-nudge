@@ -37,8 +37,9 @@ module "lambda_lambda_apim_refresh_token" {
 
   lambda_env_vars = {
     NHS_AUTH_SERVER_TOKEN_ENDPOINT = var.apim_auth_token_url
-    SSM_ACCESS_TOKEN_PARAMETER_NAME  = var.apim_access_token_ssm_parameter_name
-    SSM_API_KEY_PARAMETER_NAME = var.apim_api_key_ssm_parameter_name
+    SSM_ACCESS_TOKEN_PARAMETER_NAME  = local.apim_access_token_ssm_parameter_name
+    SSM_API_KEY_PARAMETER_NAME = local.apim_api_key_ssm_parameter_name
+    SSM_PRIVATE_KEY_PARAMETER_NAME = local.apim_private_key_ssm_parameter_name
   }
 }
 
@@ -56,7 +57,7 @@ data "aws_iam_policy_document" "lambda_apim_refresh_token" {
     ]
 
     resources = [
-      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/apim/*"
+      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/nudge/${environment}/apim/*"
     ]
   }
 }
