@@ -10,8 +10,6 @@ export const loadConfig = (): Config => {
       'AWS_ACCOUNT_ID',
     )}-${defaultConfigReader.tryGetValue(
       'AWS_REGION',
-    )}-${environment}-api-kg-${defaultConfigReader.getValue(
-      'KEYSTORE_NAME',
     )}-static`,
     jwksFileName: 'auth/jwks.json',
   };
