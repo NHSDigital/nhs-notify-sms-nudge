@@ -31,7 +31,7 @@ jobs:
             --arg overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
             --arg overrideProjectName "nhs" \
             --arg overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
-            '{ "ref": "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}",
+            '{ "ref": "$GITHUB_HEAD_REF",
               "inputs": {
                 "infraRepoName": $infraRepoName,
                 "releaseVersion", $releaseVersion,
