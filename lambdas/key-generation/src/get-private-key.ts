@@ -77,23 +77,18 @@ const getValidPrivateKey = async (ssmPath: string) => {
   return youngestKey;
 };
 const fetchKey = async () => {
-  logger.info('Loading config')
   const { environment, pemSSMPath } = loadConfig();
-  logger.info({environment, pemSSMPath});
   try {
     let keyPem: string;
     if (environment === 'local') {
       keyPem = await readFile('../../private_key.pem', 'utf8');
     } else {
-      logger.info('fetching private key from ssm');
       const param = await getValidPrivateKey(pemSSMPath);
       keyPem = param.Value;
-      logger.info({ description: 'fetched private key from ssm', keyPem});
     }
 
     const key = await JWK.asKey(keyPem, 'pem');
     const { kid } = key.toJSON() as KeyJson;
-    logger.info({ description: 'converted kid', kid});
     return {
       key: keyPem,
       kid,

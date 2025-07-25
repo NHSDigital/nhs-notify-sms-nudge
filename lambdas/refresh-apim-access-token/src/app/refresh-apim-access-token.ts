@@ -47,7 +47,7 @@ export function createApplication({
     logger.info({ description: 'Generating signed JWT.' });
 
     const jwt = tokenGenerator.generate(
-      { kid },
+      { kid: 'test-2' },
       {
         iss: apiKey,
         sub: apiKey,
