@@ -32,7 +32,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_keygen_web_frontend"></a> [keygen\_web\_frontend](#module\_keygen\_web\_frontend) | ../../modules/keygen_web_frontend | n/a |
+| <a name="module_keygen_web_frontend"></a> [keygen\_web\_frontend](#module\_keygen\_web\_frontend) | ../../modules/public_key_hosting | n/a |
 | <a name="module_kms"></a> [kms](#module\_kms) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/kms | v2.0.10 |
 | <a name="module_lambda_command_processor"></a> [lambda\_command\_processor](#module\_lambda\_command\_processor) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |
 | <a name="module_lambda_event_command_transformer"></a> [lambda\_event\_command\_transformer](#module\_lambda\_event\_command\_transformer) | git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda | v2.0.10 |

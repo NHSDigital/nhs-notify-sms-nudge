@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "cdn" {
+resource "aws_cloudfront_distribution" "public_key_hosting" {
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "Public Key hosting for SMS Nudge"
@@ -25,10 +25,10 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   # Static Assets bucket S3 origin
   origin {
-    domain_name = aws_s3_bucket.static_assets.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.public_keys.bucket_regional_domain_name
     origin_id   = "${var.csi}-origin-static"
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.static_assets.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.public_keys.cloudfront_access_identity_path
     }
   }
 
