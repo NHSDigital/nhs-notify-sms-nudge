@@ -29,7 +29,9 @@ jobs:
             --arg targetComponent "nudge" \
             --arg terraformAction "apply" \
             --arg overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
-            '{ "ref": "main",
+            --arg overrideProjectName "nhs" \
+            --arg overrideRoleName "nhs-main-acct-observability-github-deploy" \
+            '{ "ref": "feature/CCM-11389_override",
               "inputs": {
                 "infraRepoName": $infraRepoName,
                 "releaseVersion", $releaseVersion,
@@ -39,6 +41,8 @@ jobs:
                 "targetComponent", $targetComponent,
                 "terraformAction", $terraformAction,
                 "overrides", $overrides,
+                "overrideProjectName", $overrideProjectName,
+                "overrideRoleName", $overrideRoleName,
               }
             }')
 
