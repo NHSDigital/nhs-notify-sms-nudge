@@ -42,6 +42,7 @@ export function createApplication({
 
     logger.info({
       description: 'Fetched Private Key and API key from Keystore.',
+      kid,
     });
 
     logger.info({ description: 'Generating signed JWT.' });
