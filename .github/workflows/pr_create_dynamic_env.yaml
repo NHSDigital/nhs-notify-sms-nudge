@@ -30,8 +30,8 @@ jobs:
             --arg terraformAction "apply" \
             --arg overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
             --arg overrideProjectName "nhs" \
-            --arg overrideRoleName "nhs-main-acct-observability-github-deploy" \
-            '{ "ref": "feature/CCM-11389_override",
+            --arg overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
+            '{ "ref": "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}",
               "inputs": {
                 "infraRepoName": $infraRepoName,
                 "releaseVersion", $releaseVersion,
