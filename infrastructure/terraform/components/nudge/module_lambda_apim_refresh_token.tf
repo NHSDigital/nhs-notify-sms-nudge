@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "lambda_apim_refresh_token" {
     ]
 
     resources = [
-      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/nudge/${environment}/apim/*"
+      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/nudge/${var.environment}/apim/*"
     ]
   }
 }
