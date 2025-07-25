@@ -1,4 +1,4 @@
-module "lambda_lambda_apim_key_generation" {
+module "lambda_lambda_apim_refresh_token" {
   source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
 
   function_name = "apim-refresh-token"
