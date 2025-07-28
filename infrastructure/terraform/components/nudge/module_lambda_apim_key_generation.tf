@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "lambda_apim_key_generation" {
     ]
 
     resources = [
-      "arn:aws:s3:::${local.apim_keystore_s3_bucket}"
+      "arn:aws:s3:::${local.apim_keystore_s3_bucket}/*"
     ]
   }
 
