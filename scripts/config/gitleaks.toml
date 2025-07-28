@@ -21,8 +21,7 @@ paths = [
   '''.terraform.lock.hcl''',
   '''poetry.lock''',
   '''yarn.lock''',
-  '''Gemfile.lock''',
-  '''lambdas/key-generation/src/__test__/.*''', # Exclude test files TODO: remove once secrets have been cleansed from repo
+  '''Gemfile.lock'''
 ]
 
 # Exclude Chrome version in user agent
