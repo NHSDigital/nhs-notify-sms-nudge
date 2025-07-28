@@ -1,6 +1,7 @@
 resource "aws_s3_bucket" "public_keys" {
-  bucket = "${var.csi_global}-public-keys"
-  tags   = var.default_tags
+  bucket        = "${var.csi_global}-public-keys"
+  tags          = var.default_tags
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_cors_configuration" "public_keys" {
