@@ -15,7 +15,7 @@ module "lambda_lambda_apim_key_generation" {
   kms_key_arn           = module.kms.key_arn
 
   iam_policy_document = {
-    body = data.aws_iam_policy_document.lambda_apim_refresh_token.json
+    body = data.aws_iam_policy_document.lambda_apim_key_generation.json
   }
 
   function_s3_bucket      = local.acct.s3_buckets["lambda_function_artefacts"]["id"]
@@ -37,13 +37,12 @@ module "lambda_lambda_apim_key_generation" {
 
   lambda_env_vars = {
     SSM_PRIVATE_KEY_PARAMETER_NAME = local.apim_private_key_ssm_parameter_name
+    KEYSTORE_S3_BUCKET = local.apim_keystore_s3_bucket
     ENVIRONMENT = var.environment
-    AWS_ACCOUNT_ID = var.aws_account_id
-    AWS_REGION = var.region
   }
 }
 
-data "aws_iam_policy_document" "lambda_apim_refresh_token" {
+data "aws_iam_policy_document" "lambda_apim_key_generation" {
   statement {
     sid    = "AllowSSMParam"
     effect = "Allow"
