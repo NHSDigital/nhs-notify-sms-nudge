@@ -115,3 +115,15 @@ variable "apim_auth_token_url" {
   description = "URL to generate an APIM auth token"
   default     = "https://int.api.service.nhs.uk/oauth2/token"
 }
+
+variable "apim_keygen_schedule" {
+  type        = string
+  description = "Schedule to refresh key pairs if necessary"
+  default     = "keygen cron(0 14 * * ? *)"
+}
+
+variable "apim_auth_token_schedule" {
+  type        = string
+  description = "Schedule to renew the APIM auth token"
+  default     = "rate(9 minutes)"
+}

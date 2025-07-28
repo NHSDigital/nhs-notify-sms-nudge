@@ -28,6 +28,7 @@ module "lambda_apim_key_generation" {
   memory                  = 512
   timeout                 = 300
   log_level               = var.log_level
+  schedule                = var.apim_keygen_schedule
 
   force_lambda_code_deploy = var.force_lambda_code_deploy
   enable_lambda_insights   = false

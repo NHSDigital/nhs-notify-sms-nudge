@@ -27,6 +27,7 @@ module "lambda_lambda_apim_refresh_token" {
   memory                  = 128
   timeout                 = 5
   log_level               = var.log_level
+  schedule                = var.apim_auth_token_schedule
 
   force_lambda_code_deploy = var.force_lambda_code_deploy
   enable_lambda_insights   = false
