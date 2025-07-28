@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "access_token" {
-  name = locals.apim_access_token_ssm_parameter_name
+  name = local.apim_access_token_ssm_parameter_name
   description = "Access token for APIM"
   type        = "SecureString"
   value = jsonencode({

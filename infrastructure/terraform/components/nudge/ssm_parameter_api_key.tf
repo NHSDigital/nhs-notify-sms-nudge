@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "api_key" {
-  name = locals.apim_api_key_ssm_parameter_name
+  name = local.apim_api_key_ssm_parameter_name
   description = "Access token for APIM"
   type        = "SecureString"
   value = jsonencode({
