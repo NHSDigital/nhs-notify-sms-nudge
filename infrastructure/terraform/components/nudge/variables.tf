@@ -119,7 +119,7 @@ variable "apim_auth_token_url" {
 variable "apim_keygen_schedule" {
   type        = string
   description = "Schedule to refresh key pairs if necessary"
-  default     = "keygen cron(0 14 * * ? *)"
+  default     = "cron(0 14 * * ? *)"
 }
 
 variable "apim_auth_token_schedule" {
