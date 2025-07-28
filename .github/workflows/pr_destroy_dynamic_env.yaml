@@ -28,15 +28,19 @@ jobs:
             --arg targetAccountGroup "nhs-notify-smsnudge-dev" \
             --arg targetComponent "nudge" \
             --arg terraformAction "destroy" \
+            --arg overrideProjectName "nhs" \
+            --arg overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
             '{ "ref": "main",
               "inputs": {
-                "infraRepoName": $infraRepoName,
+                "infraRepoName", $infraRepoName,
                 "releaseVersion", $releaseVersion,
                 "targetProject", $targetProject,
                 "targetEnvironment", $targetEnvironment,
                 "targetAccountGroup", $targetAccountGroup,
                 "targetComponent", $targetComponent,
                 "terraformAction", $terraformAction,
+                "overrideProjectName", $overrideProjectName,
+                "overrideRoleName", $overrideRoleName,
               }
             }')
 
