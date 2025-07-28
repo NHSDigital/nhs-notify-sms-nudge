@@ -4,11 +4,11 @@ import {
   validatePrivateKey,
 } from 'utils/validate-private-key';
 
-const testPrivateKey = `-----BEGIN EC PRIV8 KEY-----
+const testPrivateKey = `-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIEpVnqrylY4xEsQdQgJhGFUFKGTGtl5cnKsIq2uNWa56oAoGCCqGSM49
 AwEHoUQDQgAEqoc8zybajz/NEoUzP5G7lchuuD7dej7vKlWConh1mvI9gvmyRheT
 0vrkuPszvyLXTYusKKgiLZkqz3SHOjVhDw==
------END EC PRIV8 KEY-----
+-----END EC PRIVATE KEY-----
 `;
 
 describe('validatePrivateKey', () => {

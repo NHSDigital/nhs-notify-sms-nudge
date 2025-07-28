@@ -23,14 +23,14 @@ const testKeyId1 = 'kCwsCGf_v7ffSQ8o5pK416vh024ZVnTiPOxAxzbi0lU';
 const testKeyId2 = 'wXQjso8bavigbplIxaB3rYbeGT_lgWAIGZ-25heprHo';
 const testKeyId3 = 'eU44V5UrGllANaLk3tmDz_Q7lybo0N8nM7D127Pr35k';
 
-const testPrivateKey1 = `-----BEGIN EC PRIV8 KEY-----
+const testPrivateKey1 = `-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIEpVnqrylY4xEsQdQgJhGFUFKGTGtl5cnKsIq2uNWa56oAoGCCqGSM49
 AwEHoUQDQgAEqoc8zybajz/NEoUzP5G7lchuuD7dej7vKlWConh1mvI9gvmyRheT
 0vrkuPszvyLXTYusKKgiLZkqz3SHOjVhDw==
------END EC PRIV8 KEY-----
+-----END EC PRIVATE KEY-----
 `;
 
-const testPrivateKey2 = `-----BEGIN RSA PRIV8 KEY-----
+const testPrivateKey2 = `-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQDOji5Hvtf2H3HjqF5OM78lqnbFPEzbaMYRCftKPTHzospfKI0C
 IMd01cIUBgXwwbiHPj3yuLrnPp392ulDaWsFlpgDS67PcHG7c5oMfQ7BEIoheAk9
 7uMyY3jawVDOpeZEvV71lIWou0Dg3PeufH9u1kcuOwMR+kwidNm8RWYfHwIDAQAB
@@ -44,9 +44,9 @@ eLjrXxrf2nq2jZOvopvKkyon4Kao81a1d1uT1Q568OY6eRc5+7bgFLUgEQJAEqsT
 +4sjuNV8rOeMTWLz21y3oEG5/Hs8rUhHhzdjhFQB/D5xpRwMqe7pM8dEvaUhI568
 d84hNWHzN72tVyq7aQJBALUHy2Dw0WHxmTcC1YYpGAoasu881G59ovaue5gfYToW
 +O+F9348DgRUamIqjLQxAPygpm77VGkywsKFoaUb4W0=
------END RSA PRIV8 KEY-----
+-----END RSA PRIVATE KEY-----
 `;
-const testPrivateKey3 = `-----BEGIN RSA PRIV8 KEY-----
+const testPrivateKey3 = `-----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgQCqIJHZnWgKNkWOdJjvxD1s5y8LHvBSa98Tzm2tYVXMlDV8He6/
 5t/kShyL6YMb+7JZwazRAoZa0OMCKFKBfxn4fiOq4q2dDfHtBMDWz/gz6SINMpKQ
 +H8mJOGqJ4sbHuRbmc6X9SgFhFT3cc0DrxiDNXEgFotwDAtvu2GWUOEuHQIDAQAB
@@ -60,7 +60,7 @@ hkcWfqWarCj8AGm3gT7UqXm/wHLA4PwseVZxCFAZTUbJbBLB0ZcAvAfp6QJAcMgS
 3tCiI7ZSwtDRAIKa9U/RyUJdPj8e4Zp93iWWL4F6dA1aHVapdREfPIA78T7q4yjo
 14kuTbXC1eciU2/CmQJATfjLKRCl6xSOzDBiko5syG6EBXSealZAYluXlxIkpqlF
 6dEWd1fYFs35C6o5+bT8N5Eg7tn0ftZ3bfwZcK5Blg==
------END RSA PRIV8 KEY-----
+-----END RSA PRIVATE KEY-----
 `;
 
 describe('getPrivateKey', () => {
