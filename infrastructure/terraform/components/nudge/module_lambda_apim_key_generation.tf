@@ -25,8 +25,8 @@ module "lambda_apim_key_generation" {
   function_module_name    = "lambda"
   handler_function_name   = "handler"
   runtime                 = "nodejs22.x"
-  memory                  = 128
-  timeout                 = 5
+  memory                  = 512
+  timeout                 = 300
   log_level               = var.log_level
 
   force_lambda_code_deploy = var.force_lambda_code_deploy
