@@ -50,6 +50,7 @@ data "aws_iam_policy_document" "lambda_apim_key_generation" {
 
     actions = [
       "s3:ListBucket",
+      "s3:PutObject"
     ]
 
     resources = [
