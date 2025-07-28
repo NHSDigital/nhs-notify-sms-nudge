@@ -22,6 +22,7 @@ module "lambda_lambda_apim_key_generation" {
   function_code_base_path = local.aws_lambda_functions_dir_path
   function_code_dir       = "key-generation/dist"
   function_include_common = true
+  function_module_name    = "lambda"
   handler_function_name   = "handler"
   runtime                 = "nodejs22.x"
   memory                  = 128
