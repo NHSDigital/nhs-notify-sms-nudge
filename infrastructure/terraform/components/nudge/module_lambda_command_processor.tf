@@ -72,4 +72,19 @@ data "aws_iam_policy_document" "lambda_command_processor" {
       module.sqs_command.sqs_queue_arn,
     ]
   }
+
+  statement {
+    sid    = "AllowSSMParam"
+    effect = "Allow"
+
+    actions = [
+      "ssm:GetParameter",
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath",
+    ]
+
+    resources = [
+      "arn:aws:ssm:${var.region}:${var.aws_account_id}:parameter/nudge/${var.environment}/apim/access_token"
+    ]
+  }
 }
