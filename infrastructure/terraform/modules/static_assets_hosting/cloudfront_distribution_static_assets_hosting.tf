@@ -11,8 +11,13 @@ resource "aws_cloudfront_distribution" "static_assets_hosting" {
     }
   }
 
+  aliases = [var.domain_name]
+
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
+    acm_certificate_arn            = aws_acm_certificate.main.arn
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 
   logging_config {

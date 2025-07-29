@@ -17,3 +17,8 @@ variable "aws_account_id" {
   type        = string
   description = "The AWS Account ID (numeric)"
 }
+
+variable "domain_name" {
+  type        = string
+  description = "The service's domain name"
+}

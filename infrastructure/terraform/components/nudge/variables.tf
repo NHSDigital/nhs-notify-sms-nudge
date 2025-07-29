@@ -63,6 +63,18 @@ variable "default_tags" {
 # Variables specific to the component
 ##
 
+variable "queue_batch_size" {
+  type        = number
+  description = "maximum number of queue items to process"
+  default     = 10
+}
+
+variable "queue_batch_window_seconds" {
+  type        = number
+  description = "maximum time in seconds between processing events"
+  default     = null
+}
+
 variable "log_retention_in_days" {
   type        = number
   description = "The retention period in days for the Cloudwatch Logs events to be retained, default of 0 is indefinite"
@@ -126,4 +138,9 @@ variable "apim_auth_token_schedule" {
   type        = string
   description = "Schedule to renew the APIM auth token"
   default     = "rate(9 minutes)"
+}
+
+variable "root_domain_name" {
+  type        = string
+  description = "The service's root DNS root namespace, like nonprod.nhsnotify.national.nhs.uk"
 }
