@@ -24,7 +24,10 @@ export class CommandProcessorService {
       messageReference,
     });
     try {
-      const response = await this.nhsNotifyClient.sendRequest(payload, messageReference);
+      const response = await this.nhsNotifyClient.sendRequest(
+        payload,
+        messageReference,
+      );
       this.logger.info('Successfully processed request', {
         messageReference,
         messageItemId: response.data.id,

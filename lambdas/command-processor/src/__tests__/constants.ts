@@ -1,4 +1,7 @@
-import type { SingleMessageRequest, SingleMessageResponse } from 'domain/request';
+import type {
+  SingleMessageRequest,
+  SingleMessageResponse,
+} from 'domain/request';
 import type { NudgeCommand } from 'domain/nudge-command';
 import type { SQSRecord } from 'aws-lambda';
 

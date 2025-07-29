@@ -31,6 +31,6 @@ export type SingleMessageResponse = {
     };
     links: {
       self: string;
-    }
+    };
   };
 };

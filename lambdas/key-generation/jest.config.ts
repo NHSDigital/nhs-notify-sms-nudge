@@ -24,7 +24,7 @@ export const baseJestConfig: Config = {
     },
   },
 
-  coveragePathIgnorePatterns: ['/__tests__/', 'lambda.ts'],
+  coveragePathIgnorePatterns: ['/__tests__/', 'lambda.ts', '/config.ts'],
   transform: { '^.+\\.ts$': 'ts-jest' },
   testPathIgnorePatterns: ['.build'],
   testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],

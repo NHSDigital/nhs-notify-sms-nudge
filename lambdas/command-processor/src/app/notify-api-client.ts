@@ -1,7 +1,10 @@
-import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
+import axios, { AxiosInstance, isAxiosError } from 'axios';
 import type { Readable } from 'node:stream';
 import { constants as HTTP2_CONSTANTS } from 'node:http2';
-import type { SingleMessageRequest, SingleMessageResponse } from 'domain/request';
+import type {
+  SingleMessageRequest,
+  SingleMessageResponse,
+} from 'domain/request';
 import {
   IAccessibleService,
   RetryConfig,
@@ -18,7 +21,10 @@ export type Response = {
 };
 
 export interface INotifyClient {
-  sendRequest(apiRequest: SingleMessageRequest, correlationId?: string): Promise<SingleMessageResponse>;
+  sendRequest(
+    apiRequest: SingleMessageRequest,
+    correlationId?: string,
+  ): Promise<SingleMessageResponse>;
 }
 
 export class NotifyClient implements INotifyClient, IAccessibleService {
