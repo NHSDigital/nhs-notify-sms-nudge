@@ -1,9 +1,8 @@
-resource "aws_cloudfront_distribution" "public_key_hosting" {
+resource "aws_cloudfront_distribution" "static_assets_hosting" {
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "Public Key hosting for SMS Nudge"
+  comment             = "Static asset hosting for SMS Nudge"
   price_class         = "PriceClass_100"
-  # web_acl_id          = var.cdn_waf_acl_arn
 
   restrictions {
     geo_restriction {
@@ -21,20 +20,18 @@ resource "aws_cloudfront_distribution" "public_key_hosting" {
     bucket          = aws_s3_bucket.cdn_logs.bucket_regional_domain_name
   }
 
-  # public keys bucket S3 origin
   origin {
-    domain_name = aws_s3_bucket.public_keys.bucket_regional_domain_name
-    origin_id   = "${var.csi}-origin-public-keys"
+    domain_name = aws_s3_bucket.static_assets.bucket_regional_domain_name
+    origin_id   = "${var.csi}-origin-static-assets"
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.public_keys.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.static_assets.cloudfront_access_identity_path
     }
   }
 
-  # public keys S3 content
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${var.csi}-origin-public-keys"
+    target_origin_id = "${var.csi}-origin-static-assets"
 
     forwarded_values {
       query_string = false

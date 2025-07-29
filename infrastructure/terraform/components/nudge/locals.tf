@@ -5,5 +5,5 @@ locals {
   apim_access_token_ssm_parameter_name = "/nudge/${var.environment}/apim/access_token"
   apim_api_key_ssm_parameter_name      = "/nudge/${var.environment}/apim/api_key"
   apim_private_key_ssm_parameter_name  = "/nudge/${var.environment}/apim/private_key"
-  apim_keystore_s3_bucket              = "nhs-${var.aws_account_id}-${var.region}-${var.environment}-nudge-public-keys"
+  apim_keystore_s3_bucket              = "nhs-${var.aws_account_id}-${var.region}-${var.environment}-nudge-static-assets"
 }

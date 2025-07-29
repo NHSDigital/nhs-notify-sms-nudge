@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "cdn_logs_bucket_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.public_keys.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.static_assets.iam_arn]
     }
   }
 }
