@@ -131,5 +131,5 @@ variable "apim_auth_token_schedule" {
 variable "root_domain_name" {
   type        = string
   description = "The service's root DNS root namespace, like nonprod.nhsnotify.national.nhs.uk"
-  default     = "nonprod.nhsnotify.national.nhs.uk"
+  default     = "dev.nhsnotify.national.nhs.uk"
 }
