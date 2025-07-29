@@ -1,4 +1,4 @@
-import type { Request } from 'domain/request';
+import type { SingleMessageRequest, SingleMessageResponse } from 'domain/request';
 import type { NudgeCommand } from 'domain/nudge-command';
 import type { SQSRecord } from 'aws-lambda';
 
@@ -18,7 +18,7 @@ export const mockNudgeCommand: NudgeCommand = {
 
 export const mockRoutingPlanId = 'routing-plan-id';
 
-export const mockRequest: Request = {
+export const mockRequest: SingleMessageRequest = {
   data: {
     type: 'Message',
     attributes: {
@@ -29,6 +29,29 @@ export const mockRequest: Request = {
       recipient: {
         nhsNumber: '9999999786',
       },
+    },
+  },
+};
+
+export const mockResponse: SingleMessageResponse = {
+  data: {
+    type: 'Message',
+    id: '30XcAOfwjq59r72AQTjxL4V7Heg',
+    attributes: {
+      messageReference: '6e6aca3f-9e83-4c37-8bc0-b2bb0b2c7e0d',
+      messageStatus: 'created',
+      timestamps: {
+        created: '2025-07-29T08:20:13.408Z',
+      },
+      routingPlan: {
+        id: 'fc4f8c6b-1547-4216-9237-c7027c97ae60',
+        version: '4HMorh_sMD7kr98GL43u0KR3qZNik4dW',
+        createdDate: '2025-07-23T10:34:13.000Z',
+        name: 'SMS nudge V1.0',
+      },
+    },
+    links: {
+      self: 'https://some.url/comms/v1/messages/30XcAOfwjq59r72AQTjxL4V7Heg',
     },
   },
 };

@@ -10,7 +10,7 @@ import {
   conditionalRetry as _retry,
 } from 'nhs-notify-sms-nudge-utils';
 import type { Logger } from 'nhs-notify-sms-nudge-utils';
-import { mockRequest } from '__tests__/constants';
+import { mockRequest, mockResponse } from '__tests__/constants';
 import { IAccessTokenRepository, NotifyClient } from 'app/notify-api-client';
 
 jest.mock('nhs-notify-sms-nudge-utils');
@@ -117,14 +117,14 @@ describe('sendRequest', () => {
   it('successfully sends a request', async () => {
     const { client, mocks } = setup();
 
-    const response = mock<AxiosResponse>({
+    const response = {
       status: 200,
-      data: { type: 'Message' },
-    });
+      data: mockResponse,
+    };
 
     mocks.axiosInstance.post.mockResolvedValueOnce(response);
 
-    const { data } = await client.sendRequest(
+    const actual = await client.sendRequest(
       mockRequest,
       mockRequest.data.attributes.messageReference,
     );
@@ -145,7 +145,7 @@ describe('sendRequest', () => {
       },
     );
 
-    expect(data).toBe(response.data);
+    expect(actual).toBe(response.data);
   });
 
   it('retries on 429 status code errors and re-fetches access token each time', async () => {

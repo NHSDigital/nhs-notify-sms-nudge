@@ -1,6 +1,6 @@
 import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
 import type { NotifyClient } from 'app/notify-api-client';
-import type { Request } from 'domain/request';
+import type { SingleMessageRequest } from 'domain/request';
 
 type Dependencies = {
   nhsNotifyClient: NotifyClient;
@@ -17,16 +17,17 @@ export class CommandProcessorService {
     this.logger = logger;
   }
 
-  public async process(payload: Request): Promise<void> {
+  public async process(payload: SingleMessageRequest): Promise<void> {
     const { messageReference } = payload.data.attributes;
 
     this.logger.info('Processing request', {
       messageReference,
     });
     try {
-      await this.nhsNotifyClient.sendRequest(payload, messageReference);
+      const response = await this.nhsNotifyClient.sendRequest(payload, messageReference);
       this.logger.info('Successfully processed request', {
         messageReference,
+        messageItemId: response.data.id,
       });
     } catch (error: any) {
       this.logger.error('Failed processing request', {

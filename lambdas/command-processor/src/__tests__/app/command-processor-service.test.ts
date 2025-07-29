@@ -1,6 +1,6 @@
 import { logger } from 'nhs-notify-sms-nudge-utils';
 import { CommandProcessorService } from 'app/command-processor-service';
-import { mockRequest } from '__tests__/constants';
+import { mockRequest, mockResponse } from '__tests__/constants';
 import { NotifyClient } from 'app/notify-api-client';
 
 jest.mock('nhs-notify-sms-nudge-utils');
@@ -22,6 +22,8 @@ describe('CommandProcessorService', () => {
   });
 
   it('completes when the API client succeeds', async () => {
+    mockClient.sendRequest.mockResolvedValueOnce(mockResponse);
+
     await expect(
       commandProcessorService.process(mockRequest),
     ).resolves.toBeUndefined();
@@ -40,6 +42,7 @@ describe('CommandProcessorService', () => {
       'Successfully processed request',
       {
         messageReference: 'request-item-id_request-item-plan-id',
+        messageItemId: '30XcAOfwjq59r72AQTjxL4V7Heg',
       },
     );
   });

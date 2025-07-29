@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import type { Readable } from 'node:stream';
 import { constants as HTTP2_CONSTANTS } from 'node:http2';
-import type { Request } from 'domain/request';
+import type { SingleMessageRequest, SingleMessageResponse } from 'domain/request';
 import {
   IAccessibleService,
   RetryConfig,
@@ -18,7 +18,7 @@ export type Response = {
 };
 
 export interface INotifyClient {
-  sendRequest(apiRequest: Request, correlationId?: string): Promise<Response>;
+  sendRequest(apiRequest: SingleMessageRequest, correlationId?: string): Promise<SingleMessageResponse>;
 }
 
 export class NotifyClient implements INotifyClient, IAccessibleService {
@@ -41,9 +41,9 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
   }
 
   public async sendRequest(
-    apiRequest: Request,
+    apiRequest: SingleMessageRequest,
     correlationId: string,
-  ): Promise<Response> {
+  ): Promise<SingleMessageResponse> {
     try {
       return await conditionalRetry(
         async (attempt) => {
@@ -60,13 +60,13 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
             Authorization: `Bearer ${accessToken}`,
             'X-Correlation-ID': correlationId,
           };
-          const response: AxiosResponse = await this.client.post(
+          const response = await this.client.post<SingleMessageResponse>(
             '/comms/v1/messages',
             apiRequest,
             { headers },
           );
 
-          return { data: response.data };
+          return response.data;
         },
         (err) =>
           Boolean(
