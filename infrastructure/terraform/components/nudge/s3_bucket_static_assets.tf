@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "static_assets" {
-  bucket        = "${var.csi_global}-static-assets"
+  bucket        = "${local.csi_global}-static-assets"
   tags          = var.default_tags
   force_destroy = true
 }

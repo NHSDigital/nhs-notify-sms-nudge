@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "cdn_logs" {
-  bucket        = "${var.csi_global}-cdn-logs"
+  bucket        = "${local.csi_global}-cdn-logs"
   tags          = var.default_tags
   force_destroy = true
 }
