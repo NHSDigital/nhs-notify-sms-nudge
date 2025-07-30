@@ -1,11 +1,11 @@
 import { logger } from 'nhs-notify-sms-nudge-utils';
 import type { NudgeCommand } from 'domain/nudge-command';
-import type { Request } from 'domain/request';
+import type { SingleMessageRequest } from 'domain/request';
 
 export function mapQueueToRequest(
   command: NudgeCommand,
   routingPlanId: string,
-): Request {
+): SingleMessageRequest {
   const messageReference = `${command.requestItemId.trim()}_${command.requestItemPlanId.trim()}`;
 
   logger.info(`Mapping sqsEvent ${messageReference} to request`);
@@ -18,7 +18,7 @@ export function mapQueueToRequest(
     .filter((part) => part?.trim())
     .join('_');
 
-  const request: Request = {
+  const request: SingleMessageRequest = {
     data: {
       type: 'Message',
       attributes: {
