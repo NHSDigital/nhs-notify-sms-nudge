@@ -67,28 +67,36 @@ The functionality can be tested once deployed to AWS by sending a manual message
 
 ```json
 {
-    "id": "a8e2edd2-1163-4d2d-b36d-20e811015e6a",
-    "source": "//nhs.notify.uk/supplier-status/int",
+  "version": "0",
+  "id": "29f7c21a-c972-9246-32cb-61c5c005125b",
+  "detail-type": "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
+  "source": "custom.event",
+  "account": "257995483745",
+  "time": "2025-07-30T09:57:58Z",
+  "region": "eu-west-2",
+  "resources": [],
+  "detail": {
+    "id": "95e5a43f-71e8-46d2-abd1-ea60069e5204",
+    "source": "//nhs.notify.uk/supplier-status/internal-dev",
     "specversion": "1.0",
     "type": "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
     "plane": "data",
-    "subject": "2bf8b62b-9c5e-467c-accb-a96aab73bee3",
-    "time": "2025-05-22T13:17:33.647Z",
+    "subject": "30ad5WsumjRJR0YYL7U34UKne4U",
+    "time": "2025-07-30T09:57:57.027Z",
     "datacontenttype": "application/json",
     "dataschema": "https://notify.nhs.uk/events/schemas/supplier-status/v1.json",
     "dataschemaversion": "1.0.0",
     "data": {
-        "nhsNumber": "9728544030",
-        "delayedFallback": true,
-        "sendingGroupId": "59e2d256-a706-462a-9ba8-1ae3fe93bb3a",
-        "clientId": "97764b27-aa6b-48a1-89f5-3ec2e4df60f4",
-        "campaignId": "vaccs",
-        "supplierStatus": "unnotified",
-        "billingReference": "billing-ref-1",
-        "previousSupplierStatus": "sent",
-        "requestItemId": "8d56cc10-b0ce-4b88-95d0-0d83fe4991bf",
-        "requestItemPlanId": "2bf8b62b-9c5e-467c-accb-a96aab73bee3"
+      "nhsNumber": "9999999786",
+      "delayedFallback": true,
+      "sendingGroupId": "66bad261-2754-4f4a-89bb-777502106cc6",
+      "clientId": "apim_integration_test_client_id",
+      "supplierStatus": "unnotified",
+      "previousSupplierStatus": "received",
+      "requestItemId": "30ad4AdMGk8qHecaXGpc7oR94Xv",
+      "requestItemPlanId": "30ad5WsumjRJR0YYL7U34UKne4U"
     }
+  }
 }
 ```
 
