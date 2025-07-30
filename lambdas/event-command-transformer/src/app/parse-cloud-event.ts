@@ -1,6 +1,6 @@
 import { $SupplierStatusChange } from 'app/supplier-status-change-validator';
 import { SQSRecord } from 'aws-lambda';
-import { SupplierStatusChangeEvent } from 'domain/cloud-event';
+import { SupplierStatusBusEvent, SupplierStatusChangeEvent } from 'domain/cloud-event';
 import { Logger } from 'nhs-notify-sms-nudge-utils';
 
 export const parseSqsRecord = (
@@ -11,8 +11,8 @@ export const parseSqsRecord = (
     messageId: sqsRecord.messageId,
   });
 
-  const jsonParsed = JSON.parse(sqsRecord.body) as SupplierStatusChangeEvent;
-  const zodParsed = $SupplierStatusChange.parse(jsonParsed);
+  const jsonParsed = JSON.parse(sqsRecord.body) as SupplierStatusBusEvent;
+  const zodParsed = $SupplierStatusChange.parse(jsonParsed.detail);
 
   logger.info('Parsed SQS Record as Supplier Status Change Event', {
     messageId: sqsRecord.messageId,

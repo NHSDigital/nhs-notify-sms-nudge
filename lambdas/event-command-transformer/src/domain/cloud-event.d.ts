@@ -25,3 +25,7 @@ export type SupplierStatusChangeEvent = CloudEvent & {
     requestItemPlanId: string;
   };
 };
+
+export type SupplierStatusBusEvent = {
+  detail: SupplierStatusChangeEvent
+};

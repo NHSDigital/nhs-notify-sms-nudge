@@ -25,10 +25,14 @@ const statusChangeEvent = {
   },
 };
 
+const statusChangeBusEvent = {
+  detail: statusChangeEvent
+};
+
 const sqsRecord = {
   messageId: '1',
   receiptHandle: 'abc',
-  body: JSON.stringify(statusChangeEvent),
+  body: JSON.stringify(statusChangeBusEvent),
   attributes: {
     ApproximateReceiveCount: '1',
     SentTimestamp: '2025-07-03T14:23:30Z',
