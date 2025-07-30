@@ -11,8 +11,13 @@ resource "aws_cloudfront_distribution" "static_assets_hosting" {
     }
   }
 
+  aliases = [local.domain_name]
+
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
+    acm_certificate_arn            = aws_acm_certificate.static_assets_hosting.arn
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 
   logging_config {
@@ -22,7 +27,7 @@ resource "aws_cloudfront_distribution" "static_assets_hosting" {
 
   origin {
     domain_name = aws_s3_bucket.static_assets.bucket_regional_domain_name
-    origin_id   = "${var.csi}-origin-static-assets"
+    origin_id   = "${local.csi}-origin-static-assets"
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.static_assets.cloudfront_access_identity_path
     }
@@ -31,7 +36,7 @@ resource "aws_cloudfront_distribution" "static_assets_hosting" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${var.csi}-origin-static-assets"
+    target_origin_id = "${local.csi}-origin-static-assets"
 
     forwarded_values {
       query_string = false

@@ -6,4 +6,5 @@ locals {
   apim_api_key_ssm_parameter_name      = "/${var.component}/${var.environment}/apim/api_key"
   apim_private_key_ssm_parameter_name  = "/${var.component}/${var.environment}/apim/private_key"
   apim_keystore_s3_bucket              = "nhs-${var.aws_account_id}-${var.region}-${var.environment}-${var.component}-static-assets"
+  domain_name                          = "${var.environment}.${data.aws_route53_zone.main.name}" # e.g. [main|dev|abxy0].smsnudge.[dev|nonprod|prod].nhsnotify.national.nhs.uk
 }
