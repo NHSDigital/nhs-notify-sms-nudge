@@ -6,3 +6,4 @@ export * from './s3-utils';
 export * from './util-retry';
 export * from './config-reader';
 export * from './cache';
+export * from './key-generation-utils';

@@ -1,14 +1,14 @@
 import { JWK } from 'node-jose';
-import { logger } from 'nhs-notify-sms-nudge-utils';
-import { cleanAndRefreshKeystores } from 'refresh-keystores';
 import {
   deleteKey,
   generateNewKey,
+  logger,
+  parameterStore,
   uploadPublicKeystoreToS3,
   validatePrivateKey,
-} from 'utils';
+} from 'nhs-notify-sms-nudge-utils';
+import { cleanAndRefreshKeystores } from 'refresh-keystores';
 import { loadConfig } from 'config';
-import { parameterStore } from 'infra';
 
 jest.mock('node-jose');
 jest.mock('nhs-notify-sms-nudge-utils', () => {
@@ -16,13 +16,16 @@ jest.mock('nhs-notify-sms-nudge-utils', () => {
 
   return {
     ...originalModule,
-    ParameterStore: jest.fn(() => ({
+    parameterStore: {
       getAllParameters: jest.fn(),
-    })),
+    },
+    deleteKey: jest.fn(),
+    generateNewKey: jest.fn(),
+    uploadPublicKeystoreToS3: jest.fn(),
+    validatePrivateKey: jest.fn(),
   };
 });
 jest.mock('config');
-jest.mock('utils');
 
 const setupMocks = (preExistingKeys?: string[]) => {
   const mockKeyStore = {
@@ -105,14 +108,9 @@ describe('cleanAndRefreshKeystores', () => {
     expect(mockDeleteKey).not.toHaveBeenCalled();
     expect(mockGenerateNewKey).not.toHaveBeenCalled();
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledWith({
-      config: {
-        environment: 'env',
-        jwksFileName: 'auth/jwks.json',
-        pemSSMPath: 'ssm-path',
-        staticAssetBucket: 'static-assets',
-      },
+      jwksFileName: 'auth/jwks.json',
       keystore: mockKeyStore,
-      local: false,
+      staticAssetBucket: 'static-assets',
     });
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledTimes(1);
   });
@@ -143,14 +141,9 @@ describe('cleanAndRefreshKeystores', () => {
     expect(mockDeleteKey).toHaveBeenCalled();
     expect(mockGenerateNewKey).toHaveBeenCalled();
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledWith({
-      config: {
-        environment: 'env',
-        jwksFileName: 'auth/jwks.json',
-        pemSSMPath: 'ssm-path',
-        staticAssetBucket: 'static-assets',
-      },
+      jwksFileName: 'auth/jwks.json',
       keystore: mockKeyStore,
-      local: false,
+      staticAssetBucket: 'static-assets',
     });
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledTimes(1);
   });
@@ -181,14 +174,9 @@ describe('cleanAndRefreshKeystores', () => {
     expect(mockDeleteKey).not.toHaveBeenCalled();
     expect(mockGenerateNewKey).toHaveBeenCalled();
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledWith({
-      config: {
-        environment: 'env',
-        jwksFileName: 'auth/jwks.json',
-        pemSSMPath: 'ssm-path',
-        staticAssetBucket: 'static-assets',
-      },
+      jwksFileName: 'auth/jwks.json',
       keystore: mockKeyStore,
-      local: false,
+      staticAssetBucket: 'static-assets',
     });
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledTimes(1);
   });
@@ -227,14 +215,9 @@ describe('cleanAndRefreshKeystores', () => {
     expect(mockDeleteKey).not.toHaveBeenCalled();
     expect(mockGenerateNewKey).toHaveBeenCalled();
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledWith({
-      config: {
-        environment: 'env',
-        jwksFileName: 'auth/jwks.json',
-        pemSSMPath: 'ssm-path',
-        staticAssetBucket: 'static-assets',
-      },
+      jwksFileName: 'auth/jwks.json',
       keystore: mockKeyStore,
-      local: false,
+      staticAssetBucket: 'static-assets',
     });
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledTimes(1);
   });
@@ -273,14 +256,9 @@ describe('cleanAndRefreshKeystores', () => {
     expect(mockDeleteKey).not.toHaveBeenCalled();
     expect(mockGenerateNewKey).toHaveBeenCalled();
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledWith({
-      config: {
-        environment: 'env',
-        jwksFileName: 'auth/jwks.json',
-        pemSSMPath: 'ssm-path',
-        staticAssetBucket: 'static-assets',
-      },
+      jwksFileName: 'auth/jwks.json',
       keystore: mockKeyStore,
-      local: false,
+      staticAssetBucket: 'static-assets',
     });
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledTimes(1);
   });
@@ -339,15 +317,82 @@ describe('cleanAndRefreshKeystores', () => {
 
     expect(mockGenerateNewKey).toHaveBeenCalled();
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledWith({
-      config: {
-        environment: 'env',
-        jwksFileName: 'auth/jwks.json',
-        pemSSMPath: 'ssm-path',
-        staticAssetBucket: 'static-assets',
-      },
+      jwksFileName: 'auth/jwks.json',
       keystore: mockKeyStore,
-      local: false,
+      staticAssetBucket: 'static-assets',
     });
     expect(mockUploadPublicKeystoreToS3).toHaveBeenCalledTimes(1);
+  });
+
+  it('Runs successfully when skipping key generation as youngest key is recent enough', async () => {
+    const { mockGenerateNewKey, mockValidatePrivateKey } = setupMocks([
+      '2024-09-01',
+    ]);
+    const now = new Date('2024-09-25');
+
+    mockValidatePrivateKey.mockResolvedValue({
+      valid: true,
+      keyJwk: { kid: 'key-1' } as JWK.Key,
+      keyDate: new Date('2024-09-01'), // 24 days old < 28 days threshold
+    });
+
+    await cleanAndRefreshKeystores({
+      now,
+      minDaysBeforeRotation: 28,
+    });
+
+    expect(mockGenerateNewKey).not.toHaveBeenCalled();
+    expect(logger.info).toHaveBeenCalledWith({
+      description:
+        'Keystore already contains a key less than 28 days old, skipping new key gen',
+    });
+  });
+
+  it('Runs successfully when updating youngestKeyDate if second key is newer', async () => {
+    const {
+      mockGenerateNewKey,
+      mockUploadPublicKeystoreToS3,
+      mockValidatePrivateKey,
+    } = setupMocks(['2024-06-01', '2024-07-15']);
+
+    const now = new Date('2024-09-01');
+
+    // simulate multiple keys with different keyDates
+    mockValidatePrivateKey
+      .mockResolvedValueOnce({
+        valid: true,
+        keyJwk: { kid: 'key1' } as JWK.Key,
+        keyDate: new Date('2024-06-01'),
+      })
+      .mockResolvedValueOnce({
+        valid: true,
+        keyJwk: { kid: 'key2' } as JWK.Key,
+        keyDate: new Date('2024-07-15'), // later
+      });
+
+    await cleanAndRefreshKeystores({ now });
+
+    expect(mockValidatePrivateKey).toHaveBeenCalledTimes(2);
+    expect(mockGenerateNewKey).toHaveBeenCalled();
+    expect(mockUploadPublicKeystoreToS3).toHaveBeenCalled();
+  });
+
+  it('Runs successfully when not specifying the "now" value', async () => {
+    const {
+      mockGenerateNewKey,
+      mockUploadPublicKeystoreToS3,
+      mockValidatePrivateKey,
+    } = setupMocks();
+
+    mockValidatePrivateKey.mockResolvedValue({
+      valid: false,
+      keyJwk: { kid: 'ignored' } as JWK.Key,
+      keyDate: new Date('2000-01-01'),
+    });
+
+    await cleanAndRefreshKeystores({});
+
+    expect(mockGenerateNewKey).toHaveBeenCalled();
+    expect(mockUploadPublicKeystoreToS3).toHaveBeenCalled();
   });
 });

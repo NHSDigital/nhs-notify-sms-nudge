@@ -1,13 +1,9 @@
-import { writeFile } from 'node:fs/promises';
 import { JWK } from 'node-jose';
-import { logger, putDataS3 } from 'nhs-notify-sms-nudge-utils';
-import { uploadPublicKeystoreToS3 } from 'utils/upload-public-keystore-to-s3';
+import { logger } from '../../logger';
+import { uploadPublicKeystoreToS3 } from '../../key-generation-utils';
+import { putDataS3 } from '../../s3-utils';
 
-jest.mock('nhs-notify-sms-nudge-utils');
-jest.mock('node:fs/promises', () => ({
-  __esModule: true,
-  writeFile: jest.fn(),
-}));
+jest.mock('s3-utils');
 
 const mockKeystore = {
   keys: [
@@ -30,22 +26,13 @@ const mockKeystore = {
   ],
 };
 
-const mockConfig = {
-  environment: 'internal-dev',
-  pemSSMPath: 'ssm-path',
-  staticAssetBucket: 'static-bucket-name',
-  jwksFileName: 'jwks.json',
-};
-
 const setup = async () => {
   const mockPutDataS3 = jest.fn();
   (putDataS3 as jest.Mock).mockImplementation(mockPutDataS3);
 
-  const mockWriteFile = writeFile as jest.Mock;
-
   const keystore = await JWK.asKeyStore(mockKeystore);
 
-  return { mockWriteFile, mockPutDataS3, keystore };
+  return { mockPutDataS3, keystore };
 };
 
 describe('generateNewKey', () => {
@@ -54,35 +41,18 @@ describe('generateNewKey', () => {
     jest.spyOn(logger, 'info').mockImplementation(() => logger);
   });
 
-  it('upload keystore locally', async () => {
-    const { keystore, mockPutDataS3, mockWriteFile } = await setup();
-
-    await uploadPublicKeystoreToS3({
-      keystore,
-      local: true,
-      config: mockConfig,
-    });
-
-    expect(mockWriteFile).toHaveBeenCalledWith(
-      '../../public_keys.jwks',
-      JSON.stringify(mockKeystore),
-    );
-    expect(mockPutDataS3).not.toHaveBeenCalled();
-  });
-
   it('upload keystore on S3', async () => {
-    const { keystore, mockPutDataS3, mockWriteFile } = await setup();
+    const { keystore, mockPutDataS3 } = await setup();
 
     await uploadPublicKeystoreToS3({
+      jwksFileName: 'jwks.json',
       keystore,
-      local: false,
-      config: mockConfig,
+      staticAssetBucket: 'static-bucket-name',
     });
 
     expect(mockPutDataS3).toHaveBeenCalledWith(mockKeystore, {
       Bucket: 'static-bucket-name',
       Key: 'jwks.json',
     });
-    expect(mockWriteFile).not.toHaveBeenCalled();
   });
 });

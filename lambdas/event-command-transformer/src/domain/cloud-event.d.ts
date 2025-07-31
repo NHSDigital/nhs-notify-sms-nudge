@@ -27,5 +27,5 @@ export type SupplierStatusChangeEvent = CloudEvent & {
 };
 
 export type SupplierStatusBusEvent = {
-  detail: SupplierStatusChangeEvent
+  detail: SupplierStatusChangeEvent;
 };

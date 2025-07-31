@@ -1,6 +1,5 @@
 import { SSMClient } from '@aws-sdk/client-ssm';
-import { getPrivateKey } from 'key-generation';
-import { logger } from 'nhs-notify-sms-nudge-utils';
+import { logger, privateKeyFetcher } from 'nhs-notify-sms-nudge-utils';
 import axios from 'axios';
 import { randomUUID } from 'node:crypto';
 import { sign } from 'jsonwebtoken';
@@ -11,6 +10,9 @@ import { loadConfig } from 'infra/config';
 
 export function createContainer() {
   const config = loadConfig();
+  const { getPrivateKey } = privateKeyFetcher(
+    config.ssmPrivateKeyParameterName,
+  );
 
   return {
     config,
