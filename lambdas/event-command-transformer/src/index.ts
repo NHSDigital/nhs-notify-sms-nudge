@@ -1,4 +1,4 @@
-import type { SQSHandler, SQSRecord } from 'aws-lambda';
+import type { SQSHandler } from 'aws-lambda';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
 const sqs = new SQSClient({});
@@ -16,7 +16,7 @@ export const handler: SQSHandler = async (event) => {
         new SendMessageCommand({
           QueueUrl: COMMANDS_QUEUE_URL,
           MessageBody: record.body,
-        })
+        }),
       );
     } catch (error) {
       console.error('Error processing message, sending to DLQ:', error);
@@ -26,7 +26,7 @@ export const handler: SQSHandler = async (event) => {
         new SendMessageCommand({
           QueueUrl: EVENTS_DLQ_URL,
           MessageBody: record.body,
-        })
+        }),
       );
     }
   }
