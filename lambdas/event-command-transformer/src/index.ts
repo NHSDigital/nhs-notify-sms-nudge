@@ -3,10 +3,10 @@ import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
 const sqs = new SQSClient({});
 
-const COMMANDS_QUEUE_URL = process.env.COMMANDS_QUEUE_URL!;
-const EVENTS_DLQ_URL = process.env.EVENTS_DLQ_URL!;
-
 export const handler: SQSHandler = async (event) => {
+  const COMMANDS_QUEUE_URL = process.env.COMMANDS_QUEUE_URL!;
+  const EVENTS_DLQ_URL = process.env.EVENTS_DLQ_URL!;
+
   for (const record of event.Records) {
     try {
       console.log('Received SQS message:', record.body);

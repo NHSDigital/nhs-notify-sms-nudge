@@ -4,3 +4,7 @@ cd9c0efec38c5d63053dd865e5d4e207c0760d91:docs/guides/Perform_static_analysis.md:
 cd9c0efec38c5d63053dd865e5d4e207c0760d91:docs/guides/Perform_static_analysis.md:sonar-api-token:37
 96096685ab3d6876671e2bc9a6ff4d48fc56e521:src/helloworld/helloworld.sln:ipv4:4
 4f4e8c15629b2cb09356a7fed4d72953590227ce:docs/Gemfile.lock:ipv4:4
+884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/utils/validate-private-key.test.ts:private-key:7
+884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/get-private-key.test.ts:private-key:26
+884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/get-private-key.test.ts:private-key:33
+884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/get-private-key.test.ts:private-key:49
