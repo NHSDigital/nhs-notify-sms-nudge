@@ -26,7 +26,7 @@ const statusChangeEvent = {
 };
 
 const statusChangeBusEvent = {
-  detail: statusChangeEvent
+  detail: statusChangeEvent,
 };
 
 const sqsRecord = {

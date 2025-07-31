@@ -2,7 +2,7 @@ import { JWK } from 'node-jose';
 import {
   ValidateKeyResult,
   validatePrivateKey,
-} from 'utils/validate-private-key';
+} from '../../key-generation-utils';
 
 const testPrivateKey = `-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIEpVnqrylY4xEsQdQgJhGFUFKGTGtl5cnKsIq2uNWa56oAoGCCqGSM49

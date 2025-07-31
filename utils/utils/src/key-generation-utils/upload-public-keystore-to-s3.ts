@@ -1,19 +1,18 @@
-import { writeFile } from 'node:fs/promises';
 import { JWK } from 'node-jose';
-import { logger, putDataS3 } from 'nhs-notify-sms-nudge-utils';
-import type { Config } from 'config';
-import { KeyStoreJson } from 'utils/types';
+import { logger } from '../logger';
+import { putDataS3 } from '../s3-utils';
+import { KeyStoreJson } from './types';
 
 type UploadPublicKeystoreToS3Params = {
   keystore: JWK.KeyStore;
-  local: boolean;
-  config: Config;
+  staticAssetBucket: string;
+  jwksFileName: string;
 };
 
 export const uploadPublicKeystoreToS3 = async ({
-  config,
+  jwksFileName,
   keystore,
-  local,
+  staticAssetBucket,
 }: UploadPublicKeystoreToS3Params) => {
   // upload public keys as JWKS to S3
   const keys = [];
@@ -28,20 +27,14 @@ export const uploadPublicKeystoreToS3 = async ({
     keys.push({ use: 'sig', alg: 'RS512', ...inputJwk.toJSON() });
   }
   const keystoreJson = { keys } as KeyStoreJson;
-  const Bucket = config.staticAssetBucket;
-  const Key = config.jwksFileName;
+  const Bucket = staticAssetBucket;
+  const Key = jwksFileName;
 
-  if (local) {
-    logger.info({ description: `Saving JWKS to '../../public_keys.jwks'` });
-
-    await writeFile('../../public_keys.jwks', JSON.stringify(keystoreJson));
-  } else {
-    logger.info({ description: `Uploading JWKS to ${Bucket}/${Key}` });
-    await putDataS3(keystoreJson, {
-      Bucket,
-      Key,
-    });
-  }
+  logger.info({ description: `Uploading JWKS to ${Bucket}/${Key}` });
+  await putDataS3(keystoreJson, {
+    Bucket,
+    Key,
+  });
 
   logger.info({ description: 'Keygen: public keystore updated' });
 };

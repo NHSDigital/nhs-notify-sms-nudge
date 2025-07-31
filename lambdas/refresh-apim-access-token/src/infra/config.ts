@@ -11,5 +11,8 @@ export function loadConfig() {
     ssmApimApiKeyParameterName: defaultConfigReader.getValue(
       'SSM_API_KEY_PARAMETER_NAME',
     ),
+    ssmPrivateKeyParameterName: defaultConfigReader.getValue(
+      'SSM_PRIVATE_KEY_PARAMETER_NAME',
+    ),
   };
 }

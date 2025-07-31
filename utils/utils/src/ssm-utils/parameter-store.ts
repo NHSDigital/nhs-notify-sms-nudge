@@ -126,3 +126,5 @@ export class ParameterStore implements IParameterStore {
     /* no-op */
   }
 }
+
+export const parameterStore = new ParameterStore();

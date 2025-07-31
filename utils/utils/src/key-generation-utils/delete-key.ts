@@ -1,5 +1,5 @@
-import { logger } from 'nhs-notify-sms-nudge-utils';
-import { parameterStore } from 'infra';
+import { logger } from '../logger';
+import { parameterStore } from '../ssm-utils';
 
 type DeleteKeyParams = {
   Name: string;

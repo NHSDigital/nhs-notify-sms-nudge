@@ -1,9 +1,9 @@
-import { logger } from 'nhs-notify-sms-nudge-utils';
-import { deleteKey } from 'utils/delete-key';
-import { parameterStore } from 'infra';
+import { logger } from '../../logger';
+import { parameterStore } from '../../ssm-utils';
+import { deleteKey } from '../../key-generation-utils';
 
-jest.mock('infra');
-jest.mock('nhs-notify-sms-nudge-utils');
+jest.mock('logger');
+jest.mock('ssm-utils');
 
 describe('deleteKey', () => {
   beforeEach(jest.resetAllMocks);

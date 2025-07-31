@@ -1,23 +1,20 @@
-import { readFile } from 'node:fs/promises';
 import { format } from 'date-fns';
-import { logger } from 'nhs-notify-sms-nudge-utils';
-import { getPrivateKey } from 'get-private-key';
-import { loadConfig } from 'config';
-import { parameterStore } from 'infra';
+import { logger } from '../../logger';
+import { parameterStore } from '../../ssm-utils';
+import { privateKeyFetcher } from '../../key-generation-utils';
 
-jest.mock('nhs-notify-sms-nudge-utils', () => {
-  const originalModule = jest.requireActual('nhs-notify-sms-nudge-utils');
+jest.mock('ssm-utils', () => {
+  const originalModule = jest.requireActual('ssm-utils');
 
   return {
     ...originalModule,
-    ParameterStore: jest.fn(() => ({
+    parameterStore: {
       getAllParameters: jest.fn(),
-    })),
+    },
   };
 });
 
-jest.mock('node:fs/promises');
-jest.mock('../config');
+const { getPrivateKey } = privateKeyFetcher('ssm-path');
 
 const testKeyId1 = 'kCwsCGf_v7ffSQ8o5pK416vh024ZVnTiPOxAxzbi0lU';
 const testKeyId2 = 'wXQjso8bavigbplIxaB3rYbeGT_lgWAIGZ-25heprHo';
@@ -72,10 +69,6 @@ describe('getPrivateKey', () => {
   });
 
   it('gets private key from ssm', async () => {
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'internal-dev',
-      pemSSMPath: 'ssm-path',
-    });
     (parameterStore.getAllParameters as jest.Mock).mockReturnValue([
       {
         Name: `privatekey_20201105_${testKeyId1}.pem`,
@@ -97,10 +90,6 @@ describe('getPrivateKey', () => {
     const todaysDateUnformatted = new Date();
     const todaysDate = format(todaysDateUnformatted, 'yyyyMMdd');
 
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'internal-dev',
-      pemSSMPath: 'ssm-path',
-    });
     (parameterStore.getAllParameters as jest.Mock).mockReturnValue([
       {
         Name: `privatekey_${todaysDate}_${testKeyId1}.pem`,
@@ -132,10 +121,6 @@ describe('getPrivateKey', () => {
 
     const yesterdaysDate = format(yesterdaysDateUnformatted, 'yyyyMMdd');
 
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'internal-dev',
-      pemSSMPath: 'ssm-path',
-    });
     (parameterStore.getAllParameters as jest.Mock).mockReturnValue([
       {
         Name: `privatekey_${yesterdaysDate}_${testKeyId1}.pem`,
@@ -162,10 +147,6 @@ describe('getPrivateKey', () => {
   });
 
   it('selects youngest key when more than one key exists and the youngest key wasnt generated today or yesterday', async () => {
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'internal-dev',
-      pemSSMPath: 'ssm-path',
-    });
     (parameterStore.getAllParameters as jest.Mock).mockReturnValue([
       {
         Name: `privatekey_20221103_${testKeyId1}.pem`,
@@ -191,47 +172,13 @@ describe('getPrivateKey', () => {
     expect(testOutput).toMatchObject(expectedOutput);
   });
 
-  it('gets private key from local file', async () => {
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'local',
-      pemSSMPath: 'ssm-path',
-    });
-    (readFile as jest.Mock).mockReturnValue(testPrivateKey1);
-    (parameterStore.getAllParameters as jest.Mock).mockImplementation(() => {
-      throw new Error('error');
-    });
-
-    const testOutput = await getPrivateKey();
-
-    const expectedOutput = {
-      kid: testKeyId1,
-      key: testPrivateKey1,
-    };
-
-    expect(testOutput).toMatchObject(expectedOutput);
-  });
-
   it('throws error if no private keys found', async () => {
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'internal-dev',
-      pemSSMPath: 'ssm-path',
-    });
-    (readFile as jest.Mock).mockImplementation(() => {
-      throw new Error('error');
-    });
     (parameterStore.getAllParameters as jest.Mock).mockReturnValue([]);
 
     await expect(getPrivateKey()).rejects.toThrow('Failure in getPrivateKey()');
   });
 
   it('throws error if invalid private key found', async () => {
-    (loadConfig as jest.Mock).mockReturnValue({
-      environment: 'internal-dev',
-      pemSSMPath: 'ssm-path',
-    });
-    (readFile as jest.Mock).mockImplementation(() => {
-      throw new Error('error');
-    });
     (parameterStore.getAllParameters as jest.Mock).mockReturnValue([
       {
         Name: `privatekey_20201105_${testKeyId1}.pem`,

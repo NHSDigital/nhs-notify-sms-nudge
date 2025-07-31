@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./src/",
-    "downlevelIteration": true,
-    "target": "es2015"
+    "isolatedModules": true
   },
   "exclude": [
     "node_modules"

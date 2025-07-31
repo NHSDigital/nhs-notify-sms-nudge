@@ -1,3 +1,4 @@
+export * from './get-private-key';
 export * from './delete-key';
 export * from './generate-new-key';
 export * from './types';

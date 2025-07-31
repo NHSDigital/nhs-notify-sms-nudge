@@ -1,15 +1,14 @@
 import { JWK } from 'node-jose';
-import { readFile } from 'node:fs/promises';
 import { format, isValid, parse } from 'date-fns';
+import { newCache } from '../cache';
+import { logger } from '../logger';
 import {
   NonNullSSMParam,
-  logger,
-  newCache,
   nonNullParameterFilter,
-} from 'nhs-notify-sms-nudge-utils';
-import { loadConfig } from 'config';
-import { KeyJson } from 'utils/types';
-import { parameterStore } from 'infra';
+  parameterStore,
+} from '../ssm-utils';
+
+import { KeyJson } from './types';
 
 const validateParamName = (name: string) => {
   // private key params are <ssmPath>/privatekey_<date>_<kid>.pem
@@ -23,6 +22,7 @@ const validateParamName = (name: string) => {
     isValid(parse(nameComponents[1], 'yyyyMMdd', new Date()))
   );
 };
+
 const getValidPrivateKey = async (ssmPath: string) => {
   const allParams = await parameterStore.getAllParameters(ssmPath);
   const paramList = allParams.filter((p): p is NonNullSSMParam =>
@@ -76,34 +76,33 @@ const getValidPrivateKey = async (ssmPath: string) => {
   });
   return youngestKey;
 };
-const fetchKey = async () => {
-  const { environment, pemSSMPath } = loadConfig();
-  try {
-    let keyPem: string;
-    if (environment === 'local') {
-      keyPem = await readFile('../../private_key.pem', 'utf8');
-    } else {
+
+export const privateKeyFetcher = (pemSSMPath: string) => {
+  const fetchKey = async () => {
+    try {
       const param = await getValidPrivateKey(pemSSMPath);
-      keyPem = param.Value;
+      const keyPem = param.Value;
+
+      const key = await JWK.asKey(keyPem, 'pem');
+      const { kid } = key.toJSON() as KeyJson;
+      return {
+        key: keyPem,
+        kid,
+      };
+    } catch (error) {
+      logger.error({ err: error });
+      throw new Error('Failure in getPrivateKey()');
     }
+  };
 
-    const key = await JWK.asKey(keyPem, 'pem');
-    const { kid } = key.toJSON() as KeyJson;
-    return {
-      key: keyPem,
-      kid,
-    };
-  } catch (error) {
-    logger.error({ err: error });
-    throw new Error('Failure in getPrivateKey()');
-  }
+  const fetchKeyFromCache = async (_: string) => ({
+    value: await fetchKey(),
+    cacheTime: process.env.NO_CACHE ? 0 : 30_000,
+  });
+
+  const privateKeyCache = newCache(() => new Date(), fetchKeyFromCache);
+
+  return {
+    getPrivateKey: () => privateKeyCache.getCachedAsync(''),
+  };
 };
-
-const fetchKeyFromCache = async (_: string) => ({
-  value: await fetchKey(),
-  cacheTime: process.env.NO_CACHE ? 0 : 30_000,
-});
-
-const privateKeyCache = newCache(() => new Date(), fetchKeyFromCache);
-
-export const getPrivateKey = () => privateKeyCache.getCachedAsync('');

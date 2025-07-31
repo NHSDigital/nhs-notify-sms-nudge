@@ -2,27 +2,23 @@ import { JWK } from 'node-jose';
 import { isBefore, subDays } from 'date-fns';
 import {
   NonNullSSMParam,
-  logger,
-  nonNullParameterFilter,
-} from 'nhs-notify-sms-nudge-utils';
-import { loadConfig } from 'config';
-import {
   deleteKey,
   generateNewKey,
+  logger,
+  nonNullParameterFilter,
+  parameterStore,
   uploadPublicKeystoreToS3,
   validatePrivateKey,
-} from 'utils';
-import { parameterStore } from 'infra';
+} from 'nhs-notify-sms-nudge-utils';
+import { loadConfig } from 'config';
 
 type DeleteInvalidKeysAndCreateKeystoreParams = {
   ssmPath: string;
   minIssueDate: Date;
   now: Date;
-  local: boolean;
 };
 
 const deleteInvalidKeysAndCreateKeystore = async ({
-  local,
   minIssueDate,
   now,
   ssmPath,
@@ -31,11 +27,9 @@ const deleteInvalidKeysAndCreateKeystore = async ({
   let youngestKeyDate: Date | null = null;
 
   const allParams = await parameterStore.getAllParameters(ssmPath);
-  const keyParams = local
-    ? []
-    : allParams.filter((p: any): p is NonNullSSMParam =>
-        nonNullParameterFilter(p),
-      );
+  const keyParams = allParams.filter((p: any): p is NonNullSSMParam =>
+    nonNullParameterFilter(p),
+  );
 
   for (const { Name, Value } of keyParams) {
     const validationResult = await validatePrivateKey({
@@ -70,7 +64,6 @@ const deleteInvalidKeysAndCreateKeystore = async ({
 };
 
 export const cleanAndRefreshKeystores = async ({
-  local = false,
   maxAgeDays = 56,
   minDaysBeforeRotation = 28,
   now = new Date(),
@@ -88,7 +81,6 @@ export const cleanAndRefreshKeystores = async ({
       ssmPath,
       minIssueDate,
       now,
-      local,
     });
 
   if (!youngestKeyDate || isBefore(youngestKeyDate, keygenThresholdDate)) {
@@ -96,7 +88,6 @@ export const cleanAndRefreshKeystores = async ({
       keystore,
       ssmPath,
       now,
-      local,
     });
   } else {
     logger.info({
@@ -104,7 +95,11 @@ export const cleanAndRefreshKeystores = async ({
     });
   }
 
-  await uploadPublicKeystoreToS3({ keystore, local, config });
+  await uploadPublicKeystoreToS3({
+    jwksFileName: config.jwksFileName,
+    keystore,
+    staticAssetBucket: config.staticAssetBucket,
+  });
 
   logger.info({
     description: `Email auth keygen refresh complete: current key IDs: ${keystore
