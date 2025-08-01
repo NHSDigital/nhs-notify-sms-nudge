@@ -24,7 +24,7 @@ This repository contains the infrastructure and code required to transform NHS A
 Clone the repository
 
 ```shell
-git clone https://github.com/nhs-notify-sms-nudge.git
+git clone https://github.com/NHSDigital/nhs-notify-sms-nudge.git
 cd nhs-notify-sms-nudge
 ```
 
