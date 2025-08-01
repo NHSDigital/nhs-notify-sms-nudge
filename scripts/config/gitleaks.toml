@@ -21,11 +21,11 @@ paths = [
   '''.terraform.lock.hcl''',
   '''poetry.lock''',
   '''yarn.lock''',
-  '''Gemfile.lock''',
+  '''Gemfile.lock'''
 ]
 
 # Exclude Chrome version in user agent
 regexTarget = "line"
 regexes = [
-  '''Chrome/[\d.]+'''
+  '''Chrome/[\d.]+''',
 ]

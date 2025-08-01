@@ -21,7 +21,8 @@ deploy: # Deploy the project artefact to the target environment @Pipeline
 
 clean:: # Clean-up project resources (main) @Operations
 	rm -f .version
-	# TODO: Implement project resources clean-up step
+	rm -rf node_modules
+	rm -rf **/node_modules
 
 config:: _install-dependencies version # Configure development environment (main) @Configuration
 	(cd docs && make install)
@@ -30,6 +31,11 @@ version:
 	rm -f .version
 	make version-create-effective-file dir=.
 	echo "{ \"schemaVersion\": 1, \"label\": \"version\", \"message\": \"$$(head -n 1 .version 2> /dev/null || echo unknown)\", \"color\": \"orange\" }" > version.json
+
+.install:
+	npm install --verbose
+
+install: .install
 # ==============================================================================
 
 ${VERBOSE}.SILENT: \

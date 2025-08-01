@@ -1,28 +1,28 @@
-import jest from 'eslint-plugin-jest';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import prettierRecommended from 'eslint-plugin-prettier/recommended';
-import { importX } from 'eslint-plugin-import-x';
-import * as eslintImportResolverTypescript from 'eslint-import-resolver-typescript';
-import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
-import react from 'eslint-plugin-react';
-import security from 'eslint-plugin-security';
-import sonarjs from 'eslint-plugin-sonarjs';
-import json from 'eslint-plugin-json';
-import unicorn from 'eslint-plugin-unicorn';
-import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
-import html from 'eslint-plugin-html';
-import tseslint from 'typescript-eslint';
-import sortDestructureKeys from 'eslint-plugin-sort-destructure-keys';
 import {
   configs as airbnbConfigs,
   plugins as airbnbPlugins,
 } from 'eslint-config-airbnb-extended';
 import { rules as prettierConfigRules } from 'eslint-config-prettier';
+import * as eslintImportResolverTypescript from 'eslint-import-resolver-typescript';
+import html from 'eslint-plugin-html';
+import { importX } from 'eslint-plugin-import-x';
+import jest from 'eslint-plugin-jest';
+import json from 'eslint-plugin-json';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import react from 'eslint-plugin-react';
+import security from 'eslint-plugin-security';
+import sonarjs from 'eslint-plugin-sonarjs';
+import sortDestructureKeys from 'eslint-plugin-sort-destructure-keys';
+import unicorn from 'eslint-plugin-unicorn';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import tseslint from 'typescript-eslint';
 
+import { FlatCompat } from '@eslint/eslintrc';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FlatCompat } from '@eslint/eslintrc';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -140,7 +140,7 @@ export default defineConfig([
 
   // prettier
   prettierRecommended,
-  { rules: { ...prettierConfigRules, 'prettier/prettier': 2 } },
+  { rules: { ...prettierConfigRules, 'prettier/prettier': ['error', { singleQuote: true }] } },
 
   // jsxA11y
   {
@@ -169,19 +169,6 @@ export default defineConfig([
     plugins: { html },
   },
 
-  // Next.js
-  ...compat.config({
-    extends: ['next', 'next/core-web-vitals', 'next/typescript'],
-    settings: {
-      next: {
-        rootDir: 'frontend',
-      },
-    },
-    rules: {
-      // needed because next lint rules look for a pages directory
-      '@next/next/no-html-link-for-pages': 0,
-    },
-  }),
 
   // json
   {
@@ -244,6 +231,12 @@ export default defineConfig([
     },
   },
   {
+    files: ['utils/**'],
+    rules: {
+      'no-relative-import-paths/no-relative-import-paths': 0,
+    },
+  },
+  {
     files: ['scripts/**'],
     rules: {
       'import-x/no-extraneous-dependencies': [
@@ -261,6 +254,7 @@ export default defineConfig([
       'no-await-in-loop': 0,
       'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
       'unicorn/prefer-top-level-await': 0, // top level await is not available in commonjs
+      'import-x/prefer-default-export': "off"
     },
   },
 ]);
