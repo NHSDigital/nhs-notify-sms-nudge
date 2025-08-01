@@ -13,27 +13,29 @@ test.describe('SMS Nudge', () => {
     const requestItemId = randomUUID();
     const requestItemPlanId = randomUUID();
     const supplierStatusChangeEvent = {
-      id: 'id',
-      source: '//nhs.notify.uk/supplier-status/env',
-      specversion: '1.0',
-      type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
-      plane: 'data',
-      subject: 'request-item-plan-id',
-      time: '2025-07-03T14:23:30+0000',
-      datacontenttype: 'application/json',
-      dataschema:
-        'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
-      dataschemaversion: '1.0.0',
-      data: {
-        nhsNumber: '9999999786',
-        delayedFallback: true,
-        sendingGroupId: 'sending-group-id',
-        clientId: 'test-client-id',
-        supplierStatus: 'unnotified',
-        previousSupplierStatus: 'received',
-        requestItemId,
-        requestItemPlanId,
-      },
+      detail: {
+        id: 'id',
+        source: '//nhs.notify.uk/supplier-status/env',
+        specversion: '1.0',
+        type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
+        plane: 'data',
+        subject: 'request-item-plan-id',
+        time: '2025-07-03T14:23:30+0000',
+        datacontenttype: 'application/json',
+        dataschema:
+          'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
+        dataschemaversion: '1.0.0',
+        data: {
+          nhsNumber: '9999999786',
+          delayedFallback: true,
+          sendingGroupId: 'sending-group-id',
+          clientId: 'test-client-id',
+          supplierStatus: 'unnotified',
+          previousSupplierStatus: 'received',
+          requestItemId,
+          requestItemPlanId,
+        },
+      }
     };
 
     await sendMessagetoSqs(INBOUND_QUEUE_NAME, supplierStatusChangeEvent);
