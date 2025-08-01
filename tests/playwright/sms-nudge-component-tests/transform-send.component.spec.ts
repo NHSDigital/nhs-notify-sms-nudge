@@ -35,7 +35,7 @@ test.describe('SMS Nudge', () => {
           requestItemId,
           requestItemPlanId,
         },
-      }
+      },
     };
 
     await sendMessagetoSqs(INBOUND_QUEUE_NAME, supplierStatusChangeEvent);

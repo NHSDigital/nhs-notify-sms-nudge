@@ -26,6 +26,10 @@ export function createGetApimAccessToken(
   }
 
   return async function getApimAccessToken() {
+    if (accessTokenSSMPath === '') {
+      return '';
+    }
+
     let [accessToken, version] = await getParsedToken();
 
     logger.debug(`Access token expires at: ${accessToken.expires_at}`);

@@ -148,6 +148,41 @@ describe('sendRequest', () => {
     expect(actual).toBe(response.data);
   });
 
+  it('successfully sends a request without auhtorisation header', async () => {
+    const { client, mocks } = setup();
+
+    mocks.accessTokenRepository.getAccessToken.mockResolvedValue('');
+
+    const response = {
+      status: 200,
+      data: mockResponse,
+    };
+
+    mocks.axiosInstance.post.mockResolvedValueOnce(response);
+
+    const actual = await client.sendRequest(
+      mockRequest,
+      mockRequest.data.attributes.messageReference,
+    );
+
+    expect(mocks.accessTokenRepository.getAccessToken).toHaveBeenCalledTimes(1);
+    expect(mocks.axiosInstance.post).toHaveBeenCalledTimes(1);
+    expect(mocks.axiosInstance.post).toHaveBeenCalledWith(
+      '/comms/v1/messages',
+      {
+        data: mockRequest.data,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': 'request-item-id_request-item-plan-id',
+        },
+      },
+    );
+
+    expect(actual).toBe(response.data);
+  });
+
   it('retries on 429 status code errors and re-fetches access token each time', async () => {
     const { client, mocks } = setup();
 

@@ -63,8 +63,12 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
 
           const headers = {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
             'X-Correlation-ID': correlationId,
+            ...(accessToken === ''
+              ? {}
+              : {
+                  Authorization: `Bearer ${accessToken}`,
+                }),
           };
           const response = await this.client.post<SingleMessageResponse>(
             '/comms/v1/messages',

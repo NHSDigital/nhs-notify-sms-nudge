@@ -36,7 +36,7 @@ module "lambda_command_processor" {
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
   lambda_env_vars = {
-    "APIM_ACCESS_TOKEN_SSM_PARAMETER_NAME" = local.apim_access_token_ssm_parameter_name
+    "APIM_ACCESS_TOKEN_SSM_PARAMETER_NAME" = local.is_sandbox ? "" : local.apim_access_token_ssm_parameter_name
     "APIM_BASE_URL" = var.apim_base_url
     "ROUTING_PLAN_ID"  = local.is_sandbox ? "b838b13c-f98c-4def-93f0-515d4e4f4ee1" : "fc4f8c6b-1547-4216-9237-c7027c97ae60"
   }
