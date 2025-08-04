@@ -127,3 +127,9 @@ variable "apim_auth_token_schedule" {
   description = "Schedule to renew the APIM auth token"
   default     = "rate(9 minutes)"
 }
+
+variable "force_s3_destory" {
+  type        = bool
+  description = "Flag to force deletion of S3 buckets"
+  default     = false
+}

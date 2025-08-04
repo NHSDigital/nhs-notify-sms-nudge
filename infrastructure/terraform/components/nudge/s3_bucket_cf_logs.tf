@@ -13,7 +13,7 @@ module "s3bucket_cf_logs" {
   component      = var.component
 
   acl           = "private"
-  force_destroy = false
+  force_destroy = var.force_s3_destory
   versioning    = true
 
   object_ownership = "ObjectWriter"

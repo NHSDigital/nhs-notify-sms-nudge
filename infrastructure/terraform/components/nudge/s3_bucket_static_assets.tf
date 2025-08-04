@@ -10,7 +10,7 @@ module "s3bucket_static_assets" {
   component      = var.component
 
   acl           = "private"
-  force_destroy = false
+  force_destroy = var.force_s3_destory
   versioning    = true
 
   lifecycle_rules = [
