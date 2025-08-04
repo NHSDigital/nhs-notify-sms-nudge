@@ -1,4 +1,4 @@
-name: Call Notify Internal Infrastructure Workflow
+name: Call Notify Internal Workflow
 
 on:
   workflow_call:
