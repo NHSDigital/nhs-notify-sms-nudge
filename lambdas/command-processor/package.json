@@ -1,11 +1,17 @@
 {
   "dependencies": {
-    "esbuild": "^0.24.0"
+    "@aws-sdk/client-sqs": "*",
+    "aws-lambda": "^1.0.7",
+    "axios": "1.10.0",
+    "esbuild": "^0.24.0",
+    "nhs-notify-sms-nudge-utils": "*",
+    "zod": "^3.25.75"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
     "@types/aws-lambda": "^8.10.148",
     "@types/jest": "^29.5.14",
+    "@types/node": "^24.0.10",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.8.2"

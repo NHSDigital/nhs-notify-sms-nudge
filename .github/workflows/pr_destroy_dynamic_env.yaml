@@ -32,7 +32,7 @@ jobs:
             --arg overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
             '{ "ref": "main",
               "inputs": {
-                "infraRepoName": $infraRepoName,
+                "infraRepoName", $infraRepoName,
                 "releaseVersion", $releaseVersion,
                 "targetProject", $targetProject,
                 "targetEnvironment", $targetEnvironment,

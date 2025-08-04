@@ -53,8 +53,9 @@ const utilsJestConfig = {
 
   coveragePathIgnorePatterns: [
     ...(baseJestConfig.coveragePathIgnorePatterns ?? []),
-    'zod-validators.ts',
   ],
+
+  moduleDirectories: ['node_modules', 'src'],
 };
 
 export default utilsJestConfig;

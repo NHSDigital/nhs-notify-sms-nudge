@@ -1,29 +1,40 @@
-import { handler } from '../index';
+import type { SQSBatchResponse, SQSEvent } from 'aws-lambda';
+import { createContainer } from 'container';
+import { createHandler as createSqsHandler } from 'handler/sqs-handler';
+import { handler } from '..';
 
-describe('handler', () => {
-  const OLD_LOG = console.log;
-  let logSpy: jest.SpyInstance;
+jest.mock('../container');
+jest.mock('../handler/sqs-handler');
 
-  beforeEach(() => {
-    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-  });
+const mockContainer = {} as Awaited<ReturnType<typeof createContainer>>;
+const mockInnerHandler = jest.fn<Promise<SQSBatchResponse>, [SQSEvent]>();
 
-  afterEach(() => {
-    logSpy.mockRestore();
-  });
+const mockCreateContainer = jest.mocked(createContainer);
+const mockCreateSqsHandler = jest.mocked(createSqsHandler);
 
-  it('logs each SQS message body', async () => {
-    const event = {
-      Records: [
-        { body: 'message-1' },
-        { body: 'message-2' }
-      ]
-    } as any;
+mockCreateContainer.mockResolvedValue(mockContainer);
+mockCreateSqsHandler.mockReturnValue(mockInnerHandler);
 
-    await handler(event, {} as any, jest.fn());
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
-    expect(logSpy).toHaveBeenCalledWith('Received SQS message:', 'message-1');
-    expect(logSpy).toHaveBeenCalledWith('Received SQS message:', 'message-2');
-    expect(logSpy).toHaveBeenCalledTimes(2);
-  });
+const sqsEvent = { Records: [] } as SQSEvent;
+
+it('should load the container, build the SQS handler, and invoke it with the sqsEvent', async () => {
+  mockInnerHandler.mockResolvedValue({ batchItemFailures: [] });
+
+  const response = await handler(sqsEvent);
+
+  expect(mockCreateContainer).toHaveBeenCalledTimes(1);
+  expect(mockCreateSqsHandler).toHaveBeenCalledWith(mockContainer);
+  expect(mockInnerHandler).toHaveBeenCalledWith(sqsEvent);
+  expect(response).toEqual({ batchItemFailures: [] });
+});
+
+it('should propagate errors from the inner handler', async () => {
+  const error = new Error('fail');
+  mockInnerHandler.mockRejectedValue(error);
+
+  await expect(handler(sqsEvent)).rejects.toThrow(error);
 });

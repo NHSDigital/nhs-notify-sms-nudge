@@ -15,10 +15,12 @@ version.json
 # dependencies
 node_modules
 .node-version
-*/node_modules
-/.pnp
-.pnp.js
+**/node_modules
 /build
 dist
-.DS_Store
 .reports
+**/playwright-report
+**/test-results
+
+# don't track environment files
+.env

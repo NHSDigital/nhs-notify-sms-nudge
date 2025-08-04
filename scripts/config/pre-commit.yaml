@@ -13,7 +13,6 @@ repos:
       - id: mixed-line-ending
       - id: pretty-format-json
         args: ['--autofix']
-    # -   id: ...
   - repo: local
     hooks:
       - id: sort-dictionary

@@ -51,6 +51,18 @@ variable "default_tags" {
 # Variables specific to the component
 ##
 
+variable "queue_batch_size" {
+  type        = number
+  description = "maximum number of queue items to process"
+  default     = 10
+}
+
+variable "queue_batch_window_seconds" {
+  type        = number
+  description = "maximum time in seconds between processing events"
+  default     = null
+}
+
 variable "log_retention_in_days" {
   type        = number
   description = "The retention period in days for the Cloudwatch Logs events to be retained, default of 0 is indefinite"
@@ -90,4 +102,34 @@ variable "force_lambda_code_deploy" {
 variable "eventbus_account_id" {
   type        = string
   description = "The AWS Account ID for the event bus"
+}
+
+variable "apim_base_url" {
+  type        = string
+  description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
+  default     = "https://sandbox.api.service.nhs.uk"
+}
+
+variable "apim_auth_token_url" {
+  type        = string
+  description = "URL to generate an APIM auth token"
+  default     = "https://int.api.service.nhs.uk/oauth2/token"
+}
+
+variable "apim_keygen_schedule" {
+  type        = string
+  description = "Schedule to refresh key pairs if necessary"
+  default     = "cron(0 14 * * ? *)"
+}
+
+variable "apim_auth_token_schedule" {
+  type        = string
+  description = "Schedule to renew the APIM auth token"
+  default     = "rate(9 minutes)"
+}
+
+variable "force_s3_destory" {
+  type        = bool
+  description = "Flag to force deletion of S3 buckets"
+  default     = false
 }

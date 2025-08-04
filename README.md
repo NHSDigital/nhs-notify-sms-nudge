@@ -1,24 +1,13 @@
-# NHS Notify Repository Template
+# NHS Notify SMS Nudge
 
-[![CI/CD Pull Request](https://github.com/nhs-england-tools/repository-template/actions/workflows/cicd-1-pull-request.yaml/badge.svg)](https://github.com/nhs-england-tools/repository-template/actions/workflows/cicd-1-pull-request.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=repository-template&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=repository-template)
+[![CI/CD Pull Request](https://github.com/NHSDigital/nhs-notify-sms-nudge/actions/workflows/cicd-1-pull-request.yaml/badge.svg)](https://github.com/NHSDigital/nhs-notify-sms-nudge/actions/workflows/cicd-1-pull-request.yaml)
 
-Start with an overview or a brief description of what the project is about and what it does. For example -
-
-Welcome to our repository template designed to streamline your project setup! This robust template provides a reliable starting point for your new projects, covering an essential tech stack and encouraging best practices in documenting.
-
-This repository template aims to foster a user-friendly development environment by ensuring that every included file is concise and adequately self-documented. By adhering to this standard, we can promote increased clarity and maintainability throughout your project's lifecycle. Bundled within this template are resources that pave the way for seamless repository creation. Currently supported technologies are:
-
-- Terraform
-- Docker
-
-Make use of this repository template to expedite your project setup and enhance your productivity right from the get-go. Enjoy the advantage of having a well-structured, self-documented project that reduces overhead and increases focus on what truly matters - coding!
+This repository contains the infrastructure and code required to transform NHS App 'Unnotified' callbacks into SMS Nudges if delayed fallback is enabled.
 
 ## Table of Contents
 
-- [NHS Notify Repository Template](#nhs-notify-repository-template)
+- [NHS Notify SMS Nudge](#nhs-notify-sms-nudge)
   - [Table of Contents](#table-of-contents)
-  - [Documentation](#documentation)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Configuration](#configuration)
@@ -26,32 +15,23 @@ Make use of this repository template to expedite your project setup and enhance 
     - [Testing](#testing)
   - [Design](#design)
     - [Diagrams](#diagrams)
-    - [Modularity](#modularity)
   - [Contributing](#contributing)
   - [Contacts](#contacts)
   - [Licence](#licence)
 
-## Documentation
-
-- [Built](/)
-- [Source](/docs/README.md)
-
 ## Setup
-
-By including preferably a one-liner or if necessary a set of clear CLI instructions we improve user experience. This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
 
 Clone the repository
 
 ```shell
-git clone https://github.com/nhs-england-tools/repository-template.git
-cd nhs-england-tools/repository-template
+git clone https://github.com/NHSDigital/nhs-notify-sms-nudge.git
+cd nhs-notify-sms-nudge
 ```
 
 ### Prerequisites
 
 The following software packages, or their equivalents, are expected to be installed and configured:
 
-- [Docker](https://www.docker.com/) container runtime or a compatible tool, e.g. [Podman](https://podman.io/),
 - [asdf](https://asdf-vm.com/) version manager,
 - [GNU make](https://www.gnu.org/software/make/) 3.82 or later,
 
@@ -83,11 +63,46 @@ make config
 
 ## Usage
 
-After a successful installation, provide an informative example of how this project can be used. Additional code snippets, screenshots and demos work well in this space. You may also link to the other documentation resources, e.g. the [User Guide](./docs/user-guide.md) to demonstrate more use cases and to show more features.
+The functionality can be tested once deployed to AWS by sending a manual message to the queue nhs-main-nudge-inbound-event-queue. Here is an example
+
+```json
+{
+  "version": "0",
+  "id": "29f7c21a-c972-9246-32cb-61c5c005125b",
+  "detail-type": "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
+  "source": "custom.event",
+  "account": "257995483745",
+  "time": "2025-07-30T09:57:58Z",
+  "region": "eu-west-2",
+  "resources": [],
+  "detail": {
+    "id": "95e5a43f-71e8-46d2-abd1-ea60069e5204",
+    "source": "//nhs.notify.uk/supplier-status/internal-dev",
+    "specversion": "1.0",
+    "type": "uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1",
+    "plane": "data",
+    "subject": "30ad5WsumjRJR0YYL7U34UKne4U",
+    "time": "2025-07-30T09:57:57.027Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://notify.nhs.uk/events/schemas/supplier-status/v1.json",
+    "dataschemaversion": "1.0.0",
+    "data": {
+      "nhsNumber": "9999999786",
+      "delayedFallback": true,
+      "sendingGroupId": "66bad261-2754-4f4a-89bb-777502106cc6",
+      "clientId": "apim_integration_test_client_id",
+      "supplierStatus": "unnotified",
+      "previousSupplierStatus": "received",
+      "requestItemId": "30ad4AdMGk8qHecaXGpc7oR94Xv",
+      "requestItemPlanId": "30ad5WsumjRJR0YYL7U34UKne4U"
+    }
+  }
+}
+```
 
 ### Testing
 
-There are `make` tasks for you to configure to run your tests.  Run `make test` to see how they work.  You should be able to use the same entry points for local development as in your CI pipeline.
+There are `make` tasks for you to configure to run your tests. Run `make test` to see how they work. You should be able to use the same entry points for local development as in your CI pipeline.
 
 ## Design
 
@@ -95,42 +110,23 @@ There are `make` tasks for you to configure to run your tests.  Run `make test` 
 
 The [C4 model](https://c4model.com/) is a simple and intuitive way to create software architecture diagrams that are clear, consistent, scalable and most importantly collaborative. This should result in documenting all the system interfaces, external dependencies and integration points.
 
-![Repository Template](./docs/diagrams/Repository_Template_GitHub_Generic.png)
+![SMS Nudge](./docs/diagrams/SMS_Nudge.drawio.png)
 
-The source for diagrams should be in Git for change control and review purposes. Recommendations are [draw.io](https://app.diagrams.net/) (example above in [docs](.docs/diagrams/) folder) and [Mermaids](https://github.com/mermaid-js/mermaid). Here is an example Mermaids sequence diagram:
+Main components:
 
-```mermaid
-sequenceDiagram
-    User->>+Service: GET /users?params=...
-    Service->>Service: auth request
-    Service->>Database: get all users
-    Database-->>Service: list of users
-    Service->>Service: filter users
-    Service-->>-User: list[User]
-```
-
-### Modularity
-
-Most of the projects are built with customisability and extendability in mind. At a minimum, this can be achieved by implementing service level configuration options and settings. The intention of this section is to show how this can be used. If the system processes data, you could mention here for example how the input is prepared for testing - anonymised, synthetic or live data.
+- Transformer lambda: filters outs event that should be transformed into SMS Nudge commands
+- Command lambda: sends SMS Nudges to the NHS Notify API
+- Key generation lambda: generates a private key if there is a valid one and uploads the corresponding public key to an S3 bucket to expose it to APIM
+- Token generation lambda: uses the private key generated above and an API key to generate an authorisation token that is then stored in SSM. That token is then used to send requests to the NHS Notify API
 
 ## Contributing
 
-Describe or link templates on how to raise an issue, feature request or make a contribution to the codebase. Reference the other documentation files, like
-
-- Environment setup for contribution, i.e. `CONTRIBUTING.md`
-- Coding standards, branching, linting, practices for development and testing
-- Release process, versioning, changelog
-- Backlog, board, roadmap, ways of working
-- High-level requirements, guiding principles, decision records, etc.
+--
 
 ## Contacts
 
-Provide a way to contact the owners of this project. It can be a team, an individual or information on the means of getting in touch via active communication channels, e.g. opening a GitHub discussion, raising an issue, etc.
+NHS Notify Team
 
 ## Licence
 
-> The [LICENCE.md](./LICENCE.md) file will need to be updated with the correct year and owner
-
-Unless stated otherwise, the codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
-
-Any HTML or Markdown documentation is [© Crown Copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/) and available under the terms of the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+--
