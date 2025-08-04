@@ -39,7 +39,7 @@ module "s3bucket_static_assets" {
   ]
 
   bucket_logging_target = {
-    bucket = local.acct.s3_buckets["access_logs"]["id"]
+    bucket = local.acct.s3_buckets["access_logs_us"]["id"]
   }
 
   policy_documents = [

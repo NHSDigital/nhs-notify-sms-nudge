@@ -66,7 +66,7 @@ module "s3bucket_cf_logs" {
   ]
 
   bucket_logging_target = {
-    bucket = local.acct.s3_buckets["access_logs"]["id"]
+    bucket = local.acct.s3_buckets["access_logs_us"]["id"]
   }
 
   public_access = {
