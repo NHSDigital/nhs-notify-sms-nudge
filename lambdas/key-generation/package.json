@@ -2,7 +2,7 @@
   "dependencies": {
     "aws-lambda": "^1.0.7",
     "date-fns": "^4.1.0",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.8",
     "nhs-notify-sms-nudge-utils": "*",
     "node-jose": "^2.2.0"
   },
