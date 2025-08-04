@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "static_assets_hosting" {
   }
 
   origin {
-    domain_name = aws_s3_bucket.static_assets.bucket_regional_domain_name
+    domain_name = module.s3bucket_static_assets.bucket_regional_domain_name
     origin_id   = "${local.csi}-origin-static-assets"
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.static_assets.cloudfront_access_identity_path
