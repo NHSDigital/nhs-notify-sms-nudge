@@ -104,7 +104,6 @@ data "aws_iam_policy_document" "static_assets_bucket_policy" {
 }
 
 resource "aws_s3_bucket_cors_configuration" "static_assets" {
-  provider = aws.us-east-1
   bucket   = module.s3bucket_static_assets.bucket
 
   cors_rule {
