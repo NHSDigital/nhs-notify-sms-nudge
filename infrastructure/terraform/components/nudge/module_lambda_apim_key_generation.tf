@@ -37,6 +37,10 @@ module "lambda_apim_key_generation" {
   log_destination_arn       = local.log_destination_arn
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
+  bucket_logging_target = {
+    bucket = local.acct.s3_buckets["access_logs"]["id"]
+  }
+
   lambda_env_vars = {
     SSM_PRIVATE_KEY_PARAMETER_NAME = local.apim_private_key_ssm_parameter_name
     KEYSTORE_S3_BUCKET = local.apim_keystore_s3_bucket

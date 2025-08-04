@@ -36,6 +36,10 @@ module "lambda_lambda_apim_refresh_token" {
   log_destination_arn       = local.log_destination_arn
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
+  bucket_logging_target = {
+    bucket = local.acct.s3_buckets["access_logs"]["id"]
+  }
+
   lambda_env_vars = {
     NHS_AUTH_SERVER_TOKEN_ENDPOINT = var.apim_auth_token_url
     SSM_ACCESS_TOKEN_PARAMETER_NAME  = local.apim_access_token_ssm_parameter_name
