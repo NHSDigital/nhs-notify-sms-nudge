@@ -1,6 +1,6 @@
 resource "aws_acm_certificate" "static_assets_hosting" {
   provider          = aws.us-east-1
-  domain_name       = local.domain_name
+  domain_name       = local.root_domain_name
   validation_method = "DNS"
 
   lifecycle {

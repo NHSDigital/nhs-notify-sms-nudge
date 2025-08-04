@@ -127,8 +127,3 @@ variable "apim_auth_token_schedule" {
   description = "Schedule to renew the APIM auth token"
   default     = "rate(9 minutes)"
 }
-
-variable "root_domain_name" {
-  type        = string
-  description = "The service's root DNS root namespace, like nonprod.nhsnotify.national.nhs.uk"
-}

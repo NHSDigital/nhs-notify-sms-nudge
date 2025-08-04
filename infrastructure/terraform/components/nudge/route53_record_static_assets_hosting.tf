@@ -1,5 +1,5 @@
 resource "aws_route53_record" "static_assets_hosting" {
-  name    = local.domain_name
+  name    = local.root_domain_name
   zone_id = data.aws_route53_zone.main.zone_id
   type    = "CNAME"
   ttl     = 5
