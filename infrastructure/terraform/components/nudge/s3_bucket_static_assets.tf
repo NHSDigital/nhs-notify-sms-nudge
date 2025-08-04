@@ -1,14 +1,10 @@
 module "s3bucket_static_assets" {
   source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/s3bucket?ref=v1.0.9"
 
-  providers = {
-    aws = aws.us-east-1
-  }
-
   name = "static-assets"
 
   aws_account_id = var.aws_account_id
-  region         = "us-east-1"
+  region         = "eu-west-2"
   project        = var.project
   environment    = var.environment
   component      = var.component
@@ -39,7 +35,7 @@ module "s3bucket_static_assets" {
   ]
 
   bucket_logging_target = {
-    bucket = local.acct.s3_buckets["access_logs_us"]["id"]
+    bucket = local.acct.s3_buckets["access_logs"]["id"]
   }
 
   policy_documents = [
