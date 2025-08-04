@@ -35,10 +35,6 @@ module "lambda_command_processor" {
   log_destination_arn       = local.log_destination_arn
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
-  bucket_logging_target = {
-    bucket = local.acct.s3_buckets["access_logs"]["id"]
-  }
-
   lambda_env_vars = {
     "APIM_ACCESS_TOKEN_SSM_PARAMETER_NAME" = local.is_sandbox ? "" : local.apim_access_token_ssm_parameter_name
     "APIM_BASE_URL" = var.apim_base_url

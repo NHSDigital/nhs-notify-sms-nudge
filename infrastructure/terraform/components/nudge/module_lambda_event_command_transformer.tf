@@ -35,10 +35,6 @@ module "lambda_event_command_transformer" {
   log_destination_arn       = local.log_destination_arn
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
-  bucket_logging_target = {
-    bucket = local.acct.s3_buckets["access_logs"]["id"]
-  }
-
   lambda_env_vars = {
     COMMANDS_QUEUE_URL = module.sqs_command.sqs_queue_url
     EVENTS_DLQ_URL     = module.sqs_inbound_event.sqs_dlq_url
