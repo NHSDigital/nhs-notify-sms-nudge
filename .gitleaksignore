@@ -8,3 +8,7 @@ cd9c0efec38c5d63053dd865e5d4e207c0760d91:docs/guides/Perform_static_analysis.md:
 884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/get-private-key.test.ts:private-key:26
 884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/get-private-key.test.ts:private-key:33
 884b45dac9d1582ed176442e78c43c278dcfcf85:lambdas/key-generation/src/__test__/get-private-key.test.ts:private-key:49
+0ec69300ddcf879829c8d3f0afc2950ef3ae6720:utils/utils/src/__tests__/key-generation/validate-private-key.test.ts:private-key:7
+0ec69300ddcf879829c8d3f0afc2950ef3ae6720:utils/utils/src/__tests__/key-generation/get-private-key.test.ts:private-key:23
+0ec69300ddcf879829c8d3f0afc2950ef3ae6720:utils/utils/src/__tests__/key-generation/get-private-key.test.ts:private-key:30
+0ec69300ddcf879829c8d3f0afc2950ef3ae6720:utils/utils/src/__tests__/key-generation/get-private-key.test.ts:private-key:46
