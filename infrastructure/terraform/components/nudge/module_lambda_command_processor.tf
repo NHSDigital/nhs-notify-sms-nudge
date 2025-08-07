@@ -25,7 +25,7 @@ module "lambda_command_processor" {
   handler_function_name   = "handler"
   runtime                 = "nodejs22.x"
   memory                  = 128
-  timeout                 = 5
+  timeout                 = 60
   log_level               = var.log_level
 
   force_lambda_code_deploy = var.force_lambda_code_deploy
