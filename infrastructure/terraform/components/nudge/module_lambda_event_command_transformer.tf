@@ -24,7 +24,7 @@ module "lambda_event_command_transformer" {
   function_include_common = true
   handler_function_name   = "handler"
   runtime                 = "nodejs22.x"
-  memory                  = 128
+  memory                  = 1024
   timeout                 = 5
   log_level               = var.log_level
 
