@@ -28,7 +28,7 @@ test.afterEach(async () => {
 });
 
 /**
- * Retry expectationFunction until it passes or until 30 seconds pass.
+ * Retry expectationFunction until it passes or until 30 (default) seconds pass.
  *
  * This is intended to replace expect(...).toPass(), which doesn't have a time
  * limit by default so can run until the test times out, and doesn't log the
@@ -36,10 +36,10 @@ test.afterEach(async () => {
  */
 export async function expectToPassEventually<R>(
   expectationFunction: () => Promise<R>,
+  timeout = 30,
 ): Promise<R> {
   const invocationToken = Symbol('invocationToken');
   const startTime = Date.now();
-  const timeout = 30;
   const delay = 1;
 
   for (;;) {

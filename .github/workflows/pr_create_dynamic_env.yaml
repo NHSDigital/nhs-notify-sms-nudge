@@ -2,7 +2,7 @@ name: PR Create Environment
 
 on:
   pull_request:
-    types: [labeled, opened, synchronize, reopened, unlabeled, edited]
+    types: [opened, synchronize, reopened]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -108,6 +108,7 @@ jobs:
                   contains("'${{ inputs.targetAccountGroup }}'") and
                   contains("'${{ inputs.targetComponent }}'") and
                   contains("'${{ inputs.terraformAction }}'"))
+                | select(.path == ".github/workflows/'${{ inputs.targetWorkflow }}'")
                 | .url')
 
             if [[ -n "$workflow_run_url" && "$workflow_run_url" != null ]]; then
