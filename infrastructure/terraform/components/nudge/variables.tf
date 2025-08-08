@@ -60,7 +60,7 @@ variable "queue_batch_size" {
 variable "queue_batch_window_seconds" {
   type        = number
   description = "maximum time in seconds between processing events"
-  default     = null
+  default     = 10
 }
 
 variable "log_retention_in_days" {
