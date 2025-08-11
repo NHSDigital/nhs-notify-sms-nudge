@@ -60,7 +60,7 @@ variable "queue_batch_size" {
 variable "queue_batch_window_seconds" {
   type        = number
   description = "maximum time in seconds between processing events"
-  default     = null
+  default     = 10
 }
 
 variable "log_retention_in_days" {
@@ -128,7 +128,7 @@ variable "apim_auth_token_schedule" {
   default     = "rate(9 minutes)"
 }
 
-variable "force_s3_destory" {
+variable "force_s3_destroy" {
   type        = bool
   description = "Flag to force deletion of S3 buckets"
   default     = false
