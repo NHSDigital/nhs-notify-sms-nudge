@@ -9,7 +9,7 @@
     "@tsconfig/node22": "^22.0.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.34",
-    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
     "@typescript-eslint/parser": "^8.27.0",
     "esbuild": "^0.24.0",
     "eslint": "^9.30.1",
