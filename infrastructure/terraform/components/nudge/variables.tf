@@ -106,7 +106,7 @@ variable "eventbus_account_id" {
 
 variable "apim_base_url" {
   type        = string
-  description = "The NHS Notify send message target for nudge communications. Defaults to sandbox"
+  description = "The NHS Notify send message target for nudge communications. Defaults to sandboxs"
   default     = "https://sandbox.api.service.nhs.uk"
 }
 
