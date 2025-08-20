@@ -11,6 +11,7 @@ import {
   conditionalRetry,
 } from 'nhs-notify-sms-nudge-utils';
 import type { Logger } from 'nhs-notify-sms-nudge-utils';
+import { RequestAlreadyReceivedError } from 'domain/request-already-received-error';
 
 export interface IAccessTokenRepository {
   getAccessToken(): Promise<string>;
@@ -91,6 +92,15 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
         description: 'Failed sending SMS request',
         err: error,
       });
+
+      if (
+        isAxiosError(error) &&
+        error.response.status ===
+          HTTP2_CONSTANTS.HTTP_STATUS_UNPROCESSABLE_ENTITY
+      ) {
+        throw new RequestAlreadyReceivedError('Request already received');
+      }
+
       throw error;
     }
   }
