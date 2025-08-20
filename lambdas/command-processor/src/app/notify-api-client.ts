@@ -95,7 +95,7 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
 
       if (
         isAxiosError(error) &&
-        error.response.status ===
+        error.response?.status ===
           HTTP2_CONSTANTS.HTTP_STATUS_UNPROCESSABLE_ENTITY
       ) {
         throw new RequestAlreadyReceivedError('Request already received');
