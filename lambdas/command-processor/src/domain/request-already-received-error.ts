@@ -1,3 +1,12 @@
 export class RequestAlreadyReceivedError extends Error {
-  // It might be useful to have this contain some details of the request and the root cause.
+  readonly cause: Error;
+
+  readonly correlationId: string;
+
+  constructor(cause: Error, correlationId: string) {
+    super('The request has already been received.');
+
+    this.cause = cause;
+    this.correlationId = correlationId;
+  }
 }

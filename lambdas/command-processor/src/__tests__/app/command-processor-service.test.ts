@@ -61,8 +61,10 @@ describe('CommandProcessorService', () => {
   });
 
   it('does not re-throw when a RequestAlreadyReceivedError is thrown by the API client', async () => {
+    const { messageReference } = mockRequest.data.attributes;
     const err = new RequestAlreadyReceivedError(
-      'The request has already been received by the Notify API',
+      new Error('Request was already received!'),
+      messageReference,
     );
     mockClient.sendRequest.mockRejectedValue(err);
 
@@ -71,7 +73,7 @@ describe('CommandProcessorService', () => {
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Request has already been received by Notify',
       {
-        messageReference: mockRequest.data.attributes.messageReference,
+        messageReference,
         err,
       },
     );

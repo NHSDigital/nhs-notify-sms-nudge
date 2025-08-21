@@ -98,7 +98,7 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
         error.response?.status ===
           HTTP2_CONSTANTS.HTTP_STATUS_UNPROCESSABLE_ENTITY
       ) {
-        throw new RequestAlreadyReceivedError('Request already received');
+        throw new RequestAlreadyReceivedError(error, correlationId);
       }
 
       throw error;
