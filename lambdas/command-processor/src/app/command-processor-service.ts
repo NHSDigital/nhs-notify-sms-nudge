@@ -37,7 +37,6 @@ export class CommandProcessorService {
       if (error instanceof RequestAlreadyReceivedError) {
         this.logger.info('Request has already been received by Notify', {
           messageReference,
-          err: error,
         });
         return;
       }
