@@ -12,6 +12,7 @@ import {
 import type { Logger } from 'nhs-notify-sms-nudge-utils';
 import { mockRequest, mockResponse } from '__tests__/constants';
 import { IAccessTokenRepository, NotifyClient } from 'app/notify-api-client';
+import { RequestAlreadyReceivedError } from 'domain/request-already-received-error';
 
 jest.mock('nhs-notify-sms-nudge-utils');
 jest.mock('node:crypto');
@@ -229,6 +230,24 @@ describe('sendRequest', () => {
       ).rejects.toEqual(error);
     },
   );
+
+  it('throws the appropriate error when a 422 status is returned', async () => {
+    const { client, mocks } = setup();
+
+    const error = {
+      isAxiosError: true,
+      response: { status: 422 },
+    };
+
+    mocks.axiosInstance.post.mockRejectedValue(error);
+
+    await expect(
+      client.sendRequest(
+        mockRequest,
+        mockRequest.data.attributes.messageReference,
+      ),
+    ).rejects.toBeInstanceOf(RequestAlreadyReceivedError);
+  });
 
   it('rejects non-axios errors immediately', async () => {
     const { client, mocks } = setup();

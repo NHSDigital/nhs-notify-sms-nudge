@@ -35,7 +35,10 @@ export class CommandProcessorService {
       });
     } catch (error: any) {
       if (error instanceof RequestAlreadyReceivedError) {
-        this.logger.info('Request has already been received by Notify');
+        this.logger.info('Request has already been received by Notify', {
+          messageReference,
+          err: error,
+        });
         return;
       }
 
