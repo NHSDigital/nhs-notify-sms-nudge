@@ -74,7 +74,6 @@ describe('CommandProcessorService', () => {
       'Request has already been received by Notify',
       {
         messageReference,
-        err,
       },
     );
   });
