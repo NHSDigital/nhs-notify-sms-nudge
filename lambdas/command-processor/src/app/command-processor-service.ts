@@ -1,6 +1,7 @@
 import { Logger } from 'nhs-notify-sms-nudge-utils/logger';
 import type { NotifyClient } from 'app/notify-api-client';
 import type { SingleMessageRequest } from 'domain/request';
+import { RequestAlreadyReceivedError } from 'domain/request-already-received-error';
 
 type Dependencies = {
   nhsNotifyClient: NotifyClient;
@@ -33,6 +34,13 @@ export class CommandProcessorService {
         messageItemId: response.data.id,
       });
     } catch (error: any) {
+      if (error instanceof RequestAlreadyReceivedError) {
+        this.logger.info('Request has already been received by Notify', {
+          messageReference,
+        });
+        return;
+      }
+
       this.logger.error('Failed processing request', {
         messageReference,
         error: error.message,
