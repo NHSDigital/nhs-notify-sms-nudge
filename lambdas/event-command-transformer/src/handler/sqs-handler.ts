@@ -21,7 +21,10 @@ export const createHandler = ({
   sqsRepository,
 }: TransformDependencies) =>
   async function handler(event: SQSEvent): Promise<SQSBatchResponse> {
-    logger.info(`Received SQS Event of ${event.Records.length} record(s)`);
+    const receivedItemCount = event.Records.length;
+
+    logger.info(`Received SQS Event of ${receivedItemCount} record(s)`);
+
     const batchItemFailures: SQSBatchItemFailure[] = [];
 
     await Promise.all(
@@ -44,7 +47,7 @@ export const createHandler = ({
 
           await sqsRepository.send(commandsQueueUrl, command);
         } catch (error: any) {
-          logger.error({
+          logger.warn({
             error: error.message,
             description: 'Failed processing record',
             messageId: sqsRecord.messageId,
@@ -55,9 +58,10 @@ export const createHandler = ({
       }),
     );
 
-    if (batchItemFailures.length === 0) {
-      logger.info('All records processed successfully');
-    }
+    const processedItemCount = receivedItemCount - batchItemFailures.length;
+    logger.info(
+      `${processedItemCount} of ${receivedItemCount} records processed successfully`,
+    );
 
     return { batchItemFailures };
   };

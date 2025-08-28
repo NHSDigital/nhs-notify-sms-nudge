@@ -93,6 +93,31 @@ describe('Event to Command Transform Handler', () => {
     Records: [unnotifiedSQSRecord],
   };
 
+  const statusChangeEvent2 = {
+    ...statusChangeEvent,
+    id: 'message-id-2',
+    data: {
+      ...statusChangeEvent.data,
+      nhsNumber: '9999999787',
+    },
+  };
+
+  const unnotifiedSQSRecord2 = {
+    ...unnotifiedSQSRecord,
+    messageId: 'message-id-2',
+    body: JSON.stringify(statusChangeEvent2),
+  };
+
+  const command2 = {
+    ...command,
+    sourceEventId: statusChangeEvent2.id,
+    nhsNumber: statusChangeEvent2.data.nhsNumber,
+  };
+
+  const multiEvent: SQSEvent = {
+    Records: [unnotifiedSQSRecord, unnotifiedSQSRecord2],
+  };
+
   it('should parse, filter, transform and send command for valid event', async () => {
     mockedParse.mockReturnValue(statusChangeEvent);
     mockedFilter.mockReturnValue(true);
@@ -130,31 +155,6 @@ describe('Event to Command Transform Handler', () => {
   });
 
   it('should handle multiple records', async () => {
-    const statusChangeEvent2 = {
-      ...statusChangeEvent,
-      id: 'message-id-2',
-      data: {
-        ...statusChangeEvent.data,
-        nhsNumber: '9999999787',
-      },
-    };
-
-    const unnotifiedSQSRecord2 = {
-      ...unnotifiedSQSRecord,
-      messageId: 'message-id-2',
-      body: JSON.stringify(statusChangeEvent2),
-    };
-
-    const command2 = {
-      ...command,
-      sourceEventId: statusChangeEvent2.id,
-      nhsNumber: statusChangeEvent2.data.nhsNumber,
-    };
-
-    const multiEvent: SQSEvent = {
-      Records: [unnotifiedSQSRecord, unnotifiedSQSRecord2],
-    };
-
     mockedParse
       .mockReturnValueOnce(statusChangeEvent)
       .mockReturnValueOnce(statusChangeEvent2);
@@ -184,11 +184,22 @@ describe('Event to Command Transform Handler', () => {
   });
 
   it('should return failed items to the queue if an error occurs while processing them', async () => {
-    mockedParse.mockImplementationOnce(() => {
-      throw new Error('Test Error');
+    mockedParse.mockImplementation((record) => {
+      if (record.messageId === 'message-id-1') throw new Error('Test Error');
+      return statusChangeEvent2;
     });
 
-    const result = await handler(sqsEvent);
+    const result = await handler(multiEvent);
+
+    expect(mockLogger.warn).toHaveBeenCalledWith({
+      error: 'Test Error',
+      description: 'Failed processing record',
+      messageId: 'message-id-1',
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      '1 of 2 records processed successfully',
+    );
 
     expect(result).toEqual({
       batchItemFailures: [{ itemIdentifier: 'message-id-1' }],
