@@ -1,8 +1,12 @@
 import { filterUnnotifiedEvents } from 'app/event-filters';
 import { transformEvent } from 'app/event-transform';
 import { parseSqsRecord } from 'app/parse-cloud-event';
-import { SQSBatchItemFailure, SQSBatchResponse, SQSEvent, SQSRecord } from 'aws-lambda';
-import { NudgeCommand } from 'domain/nudge-command';
+import {
+  SQSBatchItemFailure,
+  SQSBatchResponse,
+  SQSEvent,
+  SQSRecord,
+} from 'aws-lambda';
 import { Logger, SqsRepository } from 'nhs-notify-sms-nudge-utils';
 
 export type TransformDependencies = {
@@ -24,7 +28,7 @@ export const createHandler = ({
       event.Records.map(async (sqsRecord: SQSRecord) => {
         try {
           const parsed = parseSqsRecord(sqsRecord, logger);
-          
+
           if (!filterUnnotifiedEvents(parsed, logger)) {
             logger.info(`Skipping record ${sqsRecord.messageId}`);
             return;
@@ -48,7 +52,7 @@ export const createHandler = ({
 
           batchItemFailures.push({ itemIdentifier: sqsRecord.messageId });
         }
-      })
+      }),
     );
 
     if (batchItemFailures.length === 0) {
