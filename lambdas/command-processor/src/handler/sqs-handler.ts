@@ -40,5 +40,9 @@ export const createHandler = ({
       }),
     );
 
+    if (batchItemFailures.length === 0) {
+      logger.info('All records processed successfully');
+    }
+
     return { batchItemFailures };
   };
