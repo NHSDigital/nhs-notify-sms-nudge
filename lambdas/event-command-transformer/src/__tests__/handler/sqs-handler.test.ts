@@ -98,7 +98,7 @@ describe('Event to Command Transform Handler', () => {
     mockedFilter.mockReturnValue(true);
     mockedTransform.mockReturnValue(command);
 
-    await handler(sqsEvent);
+    const result = await handler(sqsEvent);
 
     expect(mockedParse).toHaveBeenCalledWith(unnotifiedSQSRecord, mockLogger);
     expect(mockedFilter).toHaveBeenCalledWith(statusChangeEvent, mockLogger);
@@ -113,19 +113,20 @@ describe('Event to Command Transform Handler', () => {
       requestItemId: 'request-item-id',
       requestItemPlanId: 'request-item-plan-id',
     });
+
+    expect(result).toEqual({ batchItemFailures: [] });
   });
 
   it('should skip filtered-out events', async () => {
     mockedParse.mockReturnValue(statusChangeEvent);
     mockedFilter.mockReturnValue(false);
 
-    await handler(sqsEvent);
+    const result = await handler(sqsEvent);
 
     expect(mockedTransform).not.toHaveBeenCalled();
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      'There are no Nudge Commands to issue',
-    );
     expect(sqsRepository.send).not.toHaveBeenCalled();
+
+    expect(result).toEqual({ batchItemFailures: [] });
   });
 
   it('should handle multiple records', async () => {
@@ -160,7 +161,7 @@ describe('Event to Command Transform Handler', () => {
     mockedFilter.mockReturnValue(true);
     mockedTransform.mockReturnValueOnce(command).mockReturnValueOnce(command2);
 
-    await handler(multiEvent);
+    const result = await handler(multiEvent);
 
     expect(sqsRepository.send).toHaveBeenCalledTimes(2);
 
@@ -178,13 +179,19 @@ describe('Event to Command Transform Handler', () => {
 
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command);
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command2);
+
+    expect(result).toEqual({ batchItemFailures: [] });
   });
 
-  it('should throw an error if parsing throws an error', async () => {
+  it('should return failed items to the queue if an error occurs while processing them', async () => {
     mockedParse.mockImplementationOnce(() => {
       throw new Error('Test Error');
     });
 
-    await expect(handler(sqsEvent)).rejects.toThrow('Test Error');
+    const result = await handler(sqsEvent);
+
+    expect(result).toEqual({
+      batchItemFailures: [{ itemIdentifier: 'message-id-1' }],
+    });
   });
 });
