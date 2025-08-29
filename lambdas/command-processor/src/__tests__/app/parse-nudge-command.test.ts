@@ -1,16 +1,16 @@
 import { logger } from 'nhs-notify-sms-nudge-utils';
 import { ZodError } from 'zod';
 import { parseSqsRecord } from 'app/parse-nudge-command';
-import { mockNudgeCommand, sqsRecord } from '__tests__/constants';
+import { mockNudgeCommand1, sqsRecord1 } from '__tests__/constants';
 
 jest.mock('nhs-notify-sms-nudge-utils');
 const mockLogger = jest.mocked(logger);
 
 describe('parseSqsRecord', () => {
   it('parses a valid JSON string into mockRequest', () => {
-    const result = parseSqsRecord(sqsRecord, mockLogger);
+    const result = parseSqsRecord(sqsRecord1, mockLogger);
 
-    expect(result).toEqual(mockNudgeCommand);
+    expect(result).toEqual(mockNudgeCommand1);
     expect(mockLogger.info).toHaveBeenCalledWith('Parsing SQS Record', {
       messageId: '1',
     });
@@ -37,7 +37,7 @@ describe('parseSqsRecord', () => {
     }`;
 
     const badRecord = {
-      ...sqsRecord,
+      ...sqsRecord1,
       body: badStatusUpdateJson,
     };
 
@@ -57,7 +57,7 @@ describe('parseSqsRecord', () => {
     }`;
 
     const badRecord = {
-      ...sqsRecord,
+      ...sqsRecord1,
       body: badStatusUpdateJson,
     };
 
