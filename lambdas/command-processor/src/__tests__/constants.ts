@@ -91,6 +91,7 @@ export const sqsRecord1: SQSRecord = {
 export const sqsRecord2 = {
   ...sqsRecord1,
   messageId: '2',
+  body: JSON.stringify(mockNudgeCommand2),
 };
 
 export const singleRecordEvent: SQSEvent = {
