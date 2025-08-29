@@ -121,6 +121,7 @@ jobs:
       version: "${{ needs.metadata.outputs.version }}"
     secrets: inherit
   acceptance-stage: # Recommended maximum execution time is 10 minutes
+    # Test change.
     name: "Acceptance stage"
     needs: [metadata, build-stage]
     uses: ./.github/workflows/stage-4-acceptance.yaml
