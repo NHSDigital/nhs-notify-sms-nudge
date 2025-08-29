@@ -34,17 +34,6 @@ describe('Event to Command Transform Handler', () => {
     jest.clearAllMocks();
   });
 
-  const command: NudgeCommand = {
-    sourceEventId: 'event-id',
-    nhsNumber: '9999999786',
-    delayedFallback: true,
-    sendingGroupId: 'sending-group-id',
-    clientId: 'test-client-id',
-    supplierStatus: 'unnotified',
-    requestItemId: 'request-item-id',
-    requestItemPlanId: 'request-item-plan-id',
-  };
-
   const cloudEvent: CloudEvent = {
     id: 'event-id',
     source: '//nhs.notify.uk/supplier-status/env',
@@ -58,7 +47,7 @@ describe('Event to Command Transform Handler', () => {
     dataschemaversion: '1.0.0',
   };
 
-  const statusChangeEvent: SupplierStatusChangeEvent = {
+  const statusChangeEvent1: SupplierStatusChangeEvent = {
     ...cloudEvent,
     data: {
       nhsNumber: '9999999786',
@@ -72,10 +61,36 @@ describe('Event to Command Transform Handler', () => {
     },
   };
 
-  const unnotifiedSQSRecord: SQSRecord = {
+  const statusChangeEvent2 = {
+    ...statusChangeEvent1,
+    id: 'message-id-2',
+    data: {
+      ...statusChangeEvent1.data,
+      nhsNumber: '9999999787',
+    },
+  };
+
+  const command1: NudgeCommand = {
+    sourceEventId: statusChangeEvent1.id,
+    nhsNumber: statusChangeEvent1.data.nhsNumber,
+    delayedFallback: true,
+    sendingGroupId: 'sending-group-id',
+    clientId: 'test-client-id',
+    supplierStatus: 'unnotified',
+    requestItemId: 'request-item-id',
+    requestItemPlanId: 'request-item-plan-id',
+  };
+
+  const command2 = {
+    ...command1,
+    sourceEventId: statusChangeEvent2.id,
+    nhsNumber: statusChangeEvent2.data.nhsNumber,
+  };
+
+  const unnotifiedSQSRecord1: SQSRecord = {
     messageId: 'message-id-1',
     receiptHandle: 'abc',
-    body: JSON.stringify(statusChangeEvent),
+    body: JSON.stringify(statusChangeEvent1),
     attributes: {
       ApproximateReceiveCount: '1',
       SentTimestamp: '2025-07-03T14:23:30Z',
@@ -89,46 +104,34 @@ describe('Event to Command Transform Handler', () => {
     awsRegion: '',
   };
 
-  const sqsEvent = {
-    Records: [unnotifiedSQSRecord],
-  };
-
-  const statusChangeEvent2 = {
-    ...statusChangeEvent,
-    id: 'message-id-2',
-    data: {
-      ...statusChangeEvent.data,
-      nhsNumber: '9999999787',
-    },
-  };
-
   const unnotifiedSQSRecord2 = {
-    ...unnotifiedSQSRecord,
+    ...unnotifiedSQSRecord1,
     messageId: 'message-id-2',
     body: JSON.stringify(statusChangeEvent2),
   };
 
-  const command2 = {
-    ...command,
-    sourceEventId: statusChangeEvent2.id,
-    nhsNumber: statusChangeEvent2.data.nhsNumber,
+  const singleRecordEvent = {
+    Records: [unnotifiedSQSRecord1],
   };
 
-  const multiEvent: SQSEvent = {
-    Records: [unnotifiedSQSRecord, unnotifiedSQSRecord2],
+  const multiRecordEvent: SQSEvent = {
+    Records: [unnotifiedSQSRecord1, unnotifiedSQSRecord2],
   };
 
   it('should parse, filter, transform and send command for valid event', async () => {
-    mockedParse.mockReturnValue(statusChangeEvent);
+    mockedParse.mockReturnValue(statusChangeEvent1);
     mockedFilter.mockReturnValue(true);
-    mockedTransform.mockReturnValue(command);
+    mockedTransform.mockReturnValue(command1);
 
-    const result = await handler(sqsEvent);
+    const result = await handler(singleRecordEvent);
 
-    expect(mockedParse).toHaveBeenCalledWith(unnotifiedSQSRecord, mockLogger);
-    expect(mockedFilter).toHaveBeenCalledWith(statusChangeEvent, mockLogger);
-    expect(mockedTransform).toHaveBeenCalledWith(statusChangeEvent, mockLogger);
-    expect(sqsRepository.send).toHaveBeenCalledWith(queue, command);
+    expect(mockedParse).toHaveBeenCalledWith(unnotifiedSQSRecord1, mockLogger);
+    expect(mockedFilter).toHaveBeenCalledWith(statusChangeEvent1, mockLogger);
+    expect(mockedTransform).toHaveBeenCalledWith(
+      statusChangeEvent1,
+      mockLogger,
+    );
+    expect(sqsRepository.send).toHaveBeenCalledWith(queue, command1);
 
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Received SQS Event of 1 record(s)',
@@ -143,10 +146,10 @@ describe('Event to Command Transform Handler', () => {
   });
 
   it('should skip filtered-out events', async () => {
-    mockedParse.mockReturnValue(statusChangeEvent);
+    mockedParse.mockReturnValue(statusChangeEvent1);
     mockedFilter.mockReturnValue(false);
 
-    const result = await handler(sqsEvent);
+    const result = await handler(singleRecordEvent);
 
     expect(mockedTransform).not.toHaveBeenCalled();
     expect(sqsRepository.send).not.toHaveBeenCalled();
@@ -156,28 +159,37 @@ describe('Event to Command Transform Handler', () => {
 
   it('should handle multiple records', async () => {
     mockedParse
-      .mockReturnValueOnce(statusChangeEvent)
+      .mockReturnValueOnce(statusChangeEvent1)
       .mockReturnValueOnce(statusChangeEvent2);
     mockedFilter.mockReturnValue(true);
-    mockedTransform.mockReturnValueOnce(command).mockReturnValueOnce(command2);
+    mockedTransform.mockReturnValueOnce(command1).mockReturnValueOnce(command2);
 
-    const result = await handler(multiEvent);
+    const result = await handler(multiRecordEvent);
 
     expect(sqsRepository.send).toHaveBeenCalledTimes(2);
 
-    expect(mockedParse).toHaveBeenCalledWith(multiEvent.Records[0], mockLogger);
-    expect(mockedParse).toHaveBeenCalledWith(multiEvent.Records[1], mockLogger);
+    expect(mockedParse).toHaveBeenCalledWith(
+      multiRecordEvent.Records[0],
+      mockLogger,
+    );
+    expect(mockedParse).toHaveBeenCalledWith(
+      multiRecordEvent.Records[1],
+      mockLogger,
+    );
 
-    expect(mockedFilter).toHaveBeenCalledWith(statusChangeEvent, mockLogger);
+    expect(mockedFilter).toHaveBeenCalledWith(statusChangeEvent1, mockLogger);
     expect(mockedFilter).toHaveBeenCalledWith(statusChangeEvent2, mockLogger);
 
-    expect(mockedTransform).toHaveBeenCalledWith(statusChangeEvent, mockLogger);
+    expect(mockedTransform).toHaveBeenCalledWith(
+      statusChangeEvent1,
+      mockLogger,
+    );
     expect(mockedTransform).toHaveBeenCalledWith(
       statusChangeEvent2,
       mockLogger,
     );
 
-    expect(sqsRepository.send).toHaveBeenCalledWith(queue, command);
+    expect(sqsRepository.send).toHaveBeenCalledWith(queue, command1);
     expect(sqsRepository.send).toHaveBeenCalledWith(queue, command2);
 
     expect(result).toEqual({ batchItemFailures: [] });
@@ -189,7 +201,7 @@ describe('Event to Command Transform Handler', () => {
       return statusChangeEvent2;
     });
 
-    const result = await handler(multiEvent);
+    const result = await handler(multiRecordEvent);
 
     expect(mockLogger.warn).toHaveBeenCalledWith({
       error: 'Test Error',
