@@ -95,12 +95,9 @@ export const sqsRecord2 = {
 };
 
 export const singleRecordEvent: SQSEvent = {
-  Records: [{ ...sqsRecord1, body: JSON.stringify(mockNudgeCommand1) }],
+  Records: [sqsRecord1],
 };
 
 export const multiRecordEvent: SQSEvent = {
-  Records: [
-    { ...sqsRecord1, body: JSON.stringify(mockNudgeCommand1) },
-    { ...sqsRecord2, body: JSON.stringify(mockNudgeCommand2) },
-  ],
+  Records: [sqsRecord1, sqsRecord2],
 };
