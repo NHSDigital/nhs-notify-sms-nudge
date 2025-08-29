@@ -6,4 +6,8 @@ resource "aws_lambda_event_source_mapping" "command_processor" {
   function_response_types = [
     "ReportBatchItemFailures"
   ]
+
+  scaling_config {
+    maximum_concurrency = 20
+  }
 }
