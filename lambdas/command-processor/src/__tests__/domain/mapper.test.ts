@@ -1,7 +1,7 @@
 import { logger } from 'nhs-notify-sms-nudge-utils';
 import {
-  mockNudgeCommand,
-  mockRequest,
+  mockNudgeCommand1,
+  mockRequest1,
   mockRoutingPlanId,
 } from '__tests__/constants';
 import { mapQueueToRequest } from 'domain/mapper';
@@ -13,24 +13,25 @@ const mockLogger = jest.mocked(logger);
 
 describe('mapQueueToRequest', () => {
   it('correctly maps mockNudgeCommand → mockRequest', () => {
-    const result = mapQueueToRequest(mockNudgeCommand, mockRoutingPlanId);
+    const result = mapQueueToRequest(mockNudgeCommand1, mockRoutingPlanId);
 
-    expect(result).toEqual(mockRequest);
+    expect(result).toEqual(mockRequest1);
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
+
   it('correctly maps mockNudgeCommand to mockRequest when campaignId is not provided', () => {
     const NudgeCommand = {
-      ...mockNudgeCommand,
+      ...mockNudgeCommand1,
       campaignId: '',
     };
 
     const request = {
       data: {
-        ...mockRequest.data,
+        ...mockRequest1.data,
         attributes: {
-          ...mockRequest.data.attributes,
+          ...mockRequest1.data.attributes,
           billingReference: 'test-client-id_test-billing-reference',
         },
       },
@@ -43,17 +44,18 @@ describe('mapQueueToRequest', () => {
       'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
+
   it('correctly maps mockNudgeCommand to mockRequest when billingReference is not provided', () => {
     const NudgeCommand = {
-      ...mockNudgeCommand,
+      ...mockNudgeCommand1,
       billingReference: '',
     };
 
     const request = {
       data: {
-        ...mockRequest.data,
+        ...mockRequest1.data,
         attributes: {
-          ...mockRequest.data.attributes,
+          ...mockRequest1.data.attributes,
           billingReference: 'test-client-id_test-campaign-id',
         },
       },
@@ -66,18 +68,19 @@ describe('mapQueueToRequest', () => {
       'Mapping sqsEvent request-item-id_request-item-plan-id to request',
     );
   });
+
   it('correctly maps mockNudgeCommand to mockRequest when billingReference and campaignId are not provided', () => {
     const NudgeCommand = {
-      ...mockNudgeCommand,
+      ...mockNudgeCommand1,
       billingReference: '',
       campaignId: '',
     };
 
     const request = {
       data: {
-        ...mockRequest.data,
+        ...mockRequest1.data,
         attributes: {
-          ...mockRequest.data.attributes,
+          ...mockRequest1.data.attributes,
           billingReference: 'test-client-id',
         },
       },

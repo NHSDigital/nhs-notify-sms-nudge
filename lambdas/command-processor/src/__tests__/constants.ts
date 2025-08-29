@@ -3,9 +3,9 @@ import type {
   SingleMessageResponse,
 } from 'domain/request';
 import type { NudgeCommand } from 'domain/nudge-command';
-import type { SQSRecord } from 'aws-lambda';
+import type { SQSEvent, SQSRecord } from 'aws-lambda';
 
-export const mockNudgeCommand: NudgeCommand = {
+export const mockNudgeCommand1: NudgeCommand = {
   sourceEventId: 'test-event-id',
   nhsNumber: '9999999786',
   delayedFallback: true,
@@ -19,9 +19,14 @@ export const mockNudgeCommand: NudgeCommand = {
   requestItemPlanId: 'request-item-plan-id',
 };
 
+export const mockNudgeCommand2 = {
+  ...mockNudgeCommand1,
+  nhsNumber: '9999999788',
+};
+
 export const mockRoutingPlanId = 'routing-plan-id';
 
-export const mockRequest: SingleMessageRequest = {
+export const mockRequest1: SingleMessageRequest = {
   data: {
     type: 'Message',
     attributes: {
@@ -33,6 +38,13 @@ export const mockRequest: SingleMessageRequest = {
         nhsNumber: '9999999786',
       },
     },
+  },
+};
+
+export const mockRequest2 = {
+  ...mockRequest1,
+  recipient: {
+    nhsNumber: '9999999788',
   },
 };
 
@@ -59,10 +71,10 @@ export const mockResponse: SingleMessageResponse = {
   },
 };
 
-export const sqsRecord: SQSRecord = {
+export const sqsRecord1: SQSRecord = {
   messageId: '1',
   receiptHandle: 'abc',
-  body: JSON.stringify(mockNudgeCommand),
+  body: JSON.stringify(mockNudgeCommand1),
   attributes: {
     ApproximateReceiveCount: '1',
     SentTimestamp: '2025-07-03T14:23:30Z',
@@ -74,4 +86,20 @@ export const sqsRecord: SQSRecord = {
   eventSource: 'aws:sqs',
   eventSourceARN: '',
   awsRegion: '',
+};
+
+export const sqsRecord2 = {
+  ...sqsRecord1,
+  messageId: '2',
+};
+
+export const singleRecordEvent: SQSEvent = {
+  Records: [{ ...sqsRecord1, body: JSON.stringify(mockNudgeCommand1) }],
+};
+
+export const multiRecordEvent: SQSEvent = {
+  Records: [
+    { ...sqsRecord1, body: JSON.stringify(mockNudgeCommand1) },
+    { ...sqsRecord2, body: JSON.stringify(mockNudgeCommand2) },
+  ],
 };
