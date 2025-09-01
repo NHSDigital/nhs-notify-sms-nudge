@@ -27,12 +27,12 @@ jobs:
           .github/scripts/dispatch_internal_repo_workflow.sh \
             --infraRepoName "${this_repo_name}" \
             --releaseVersion "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
-            --arg targetProject "nhs" \
+            --targetProject "nhs" \
             --targetWorkflow "dispatch-deploy-dynamic-env.yaml" \
             --targetEnvironment "pr${{ github.event.number }}" \
             --targetComponent "nudge" \
             --targetAccountGroup "nhs-notify-smsnudge-dev" \
             --terraformAction "apply" \
-            --arg overrideProjectName "nhs" \
-            --arg overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
+            --overrideProjectName "nhs" \
+            --overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
             --overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"

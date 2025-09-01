@@ -36,4 +36,4 @@ jobs:
             --targetEnvironment "main" \
             --targetAccountGroup "nhs-notify-smsnudge-nonprod" \
             --targetComponent "${{ matrix.component }}" \
-            --terraformAction "apply"    
+            --terraformAction "apply"

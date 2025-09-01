@@ -45,7 +45,7 @@ jobs:
       max-parallel: 1
       matrix:
         component: [nudge]
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
