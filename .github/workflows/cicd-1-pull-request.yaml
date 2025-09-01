@@ -127,6 +127,7 @@ jobs:
   pr-create-dynamic-environment:
     name: Trigger dynamic environment creation
     needs: [metadata, build-stage]
+    runs-on: ubuntu-latest
     env:
       PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
     shell: bash
