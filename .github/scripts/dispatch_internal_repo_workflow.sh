@@ -11,7 +11,11 @@
 #     --targetComponent <component> \
 #     --targetAccountGroup <group> \
 #     --terraformAction <action> \
-#     --internalRef <ref>
+#     --internalRef <ref> \
+#     --overrides <overrides> \
+#     --overrideProjectName <name> \
+#     --overrideRoleName <name>
+
 #
 # All arguments are required except terraformAction, and internalRef.
 # Example:
@@ -23,7 +27,10 @@
 #     --targetComponent "web" \
 #     --targetAccountGroup "core" \
 #     --terraformAction "apply" \
-#     --internalRef "main"
+#     --internalRef "main" \
+#     --overrides "tf_var=someString" \
+#     --overrideProjectName nhs \
+#     --overrideRoleName nhs-service-iam-role
 
 set -e
 
@@ -65,16 +72,12 @@ while [[ $# -gt 0 ]]; do
       overrides="$2"
       shift 2
       ;;
-    --overrideProjectName)
+    --overrideProjectName) # Override the project name (optional)
       overrideProjectName="$2"
       shift 2
       ;;
-    --overrideRoleName)
+    --overrideRoleName) # Override the role name (optional)
       overrideRoleName="$2"
-      shift 2
-      ;;
-    --targetProject)
-      targetProject="$2"
       shift 2
       ;;
     *)
