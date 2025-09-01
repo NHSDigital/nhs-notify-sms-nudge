@@ -124,7 +124,7 @@ jobs:
     name: "Acceptance stage"
     needs: [metadata, build-stage]
     uses: ./.github/workflows/stage-4-acceptance.yaml
-    if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened'))
     secrets: inherit
     with:
       pr_number: ${{ needs.metadata.outputs.pr_number }}
