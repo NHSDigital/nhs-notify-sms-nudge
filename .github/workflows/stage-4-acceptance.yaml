@@ -27,7 +27,7 @@ jobs:
         run: |
           .github/scripts/dispatch_internal_repo_workflow.sh \
             --infraRepoName "nhs-notify-sms-nudge" \
-            --targetProject "nhs"
+            --targetProject "nhs" \
             --releaseVersion "${{ github.head_ref || github.ref_name }}" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
             --targetEnvironment "pr${{ inputs.pr_number }}" \
