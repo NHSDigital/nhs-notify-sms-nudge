@@ -20,7 +20,7 @@
 # All arguments are required except terraformAction, and internalRef.
 # Example:
 #   ./dispatch_internal_repo_workflow.sh \
-#     --infraRepoName "nhs-notify-web-template-management" \
+#     --infraRepoName "nhs-notify-sms-nudge" \
 #     --releaseVersion "v1.2.3" \
 #     --targetWorkflow "deploy.yaml" \
 #     --targetEnvironment "prod" \
