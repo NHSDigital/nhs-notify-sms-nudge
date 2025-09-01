@@ -140,7 +140,7 @@ jobs:
             --infraRepoName "$(echo ${{ github.repository }} | cut -d'/' -f2)" \
             --releaseVersion "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
             --targetWorkflow "dispatch-deploy-dynamic-env.yaml" \
-            --targetEnvironment "pr${{ github.event.number }}" \
+            --targetEnvironment "pr${{ needs.metadata.outputs.pr_number }}" \
             --targetComponent "nudge" \
             --targetAccountGroup "nhs-notify-smsnudge-dev" \
             --terraformAction "apply" \
