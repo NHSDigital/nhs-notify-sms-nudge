@@ -14,16 +14,22 @@ permissions:
 jobs:
   acceptance-tests:
     name: Acceptance tests
-    # Calls out to the nhs-notify-internal repo.
-    # The nhs-notify-internal repo will run the tests
-    # setup in ./.github/actions/acceptance-tests/action.yaml
-    uses: ./.github/workflows/dispatch_internal_repo_workflow.yaml
-    secrets: inherit
-    with:
-      jobName: Acceptance tests
-      infraRepoName: nhs-notify-sms-nudge
-      releaseVersion: ${{ github.head_ref || github.ref_name }}
-      targetWorkflow: dispatch-contextual-tests-dynamic-env.yaml
-      targetEnvironment: pr${{ inputs.pr_number }}
-      targetAccountGroup: nhs-notify-smsnudge-dev
-      targetComponent: nudge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5.0.0
+      # Calls out to the nhs-notify-internal repo.
+      # The nhs-notify-internal repo will run the tests
+      # setup in ./.github/actions/acceptance-tests/action.yaml
+      - name: Trigger Acceptance Tests
+        shell: bash
+        env:
+          PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
+        run: |
+          .github/scripts/dispatch_internal_repo_workflow.sh \
+            --infraRepoName "nhs-notify-sms-nudge" \
+            --overrideProjectName "nhs" \
+            --releaseVersion "${{ github.head_ref || github.ref_name }}" \
+            --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
+            --targetEnvironment "pr${{ inputs.pr_number }}" \
+            --targetAccountGroup "nhs-notify-smsnudge-dev" \
+            --targetComponent "nudge"
