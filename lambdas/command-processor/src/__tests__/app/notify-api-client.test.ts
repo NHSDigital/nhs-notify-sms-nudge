@@ -10,7 +10,7 @@ import {
   conditionalRetry as _retry,
 } from 'nhs-notify-sms-nudge-utils';
 import type { Logger } from 'nhs-notify-sms-nudge-utils';
-import { mockRequest, mockResponse } from '__tests__/constants';
+import { mockRequest1, mockResponse } from '__tests__/constants';
 import { IAccessTokenRepository, NotifyClient } from 'app/notify-api-client';
 import { RequestAlreadyReceivedError } from 'domain/request-already-received-error';
 
@@ -126,8 +126,8 @@ describe('sendRequest', () => {
     mocks.axiosInstance.post.mockResolvedValueOnce(response);
 
     const actual = await client.sendRequest(
-      mockRequest,
-      mockRequest.data.attributes.messageReference,
+      mockRequest1,
+      mockRequest1.data.attributes.messageReference,
     );
 
     expect(mocks.accessTokenRepository.getAccessToken).toHaveBeenCalledTimes(1);
@@ -135,7 +135,7 @@ describe('sendRequest', () => {
     expect(mocks.axiosInstance.post).toHaveBeenCalledWith(
       '/comms/v1/messages',
       {
-        data: mockRequest.data,
+        data: mockRequest1.data,
       },
       {
         headers: {
@@ -162,8 +162,8 @@ describe('sendRequest', () => {
     mocks.axiosInstance.post.mockResolvedValueOnce(response);
 
     const actual = await client.sendRequest(
-      mockRequest,
-      mockRequest.data.attributes.messageReference,
+      mockRequest1,
+      mockRequest1.data.attributes.messageReference,
     );
 
     expect(mocks.accessTokenRepository.getAccessToken).toHaveBeenCalledTimes(1);
@@ -171,7 +171,7 @@ describe('sendRequest', () => {
     expect(mocks.axiosInstance.post).toHaveBeenCalledWith(
       '/comms/v1/messages',
       {
-        data: mockRequest.data,
+        data: mockRequest1.data,
       },
       {
         headers: {
@@ -202,8 +202,8 @@ describe('sendRequest', () => {
       .mockResolvedValueOnce(response);
 
     await client.sendRequest(
-      mockRequest,
-      mockRequest.data.attributes.messageReference,
+      mockRequest1,
+      mockRequest1.data.attributes.messageReference,
     );
 
     expect(mocks.accessTokenRepository.getAccessToken).toHaveBeenCalledTimes(2);
@@ -224,8 +224,8 @@ describe('sendRequest', () => {
 
       await expect(
         client.sendRequest(
-          mockRequest,
-          mockRequest.data.attributes.messageReference,
+          mockRequest1,
+          mockRequest1.data.attributes.messageReference,
         ),
       ).rejects.toEqual(error);
     },
@@ -243,8 +243,8 @@ describe('sendRequest', () => {
 
     await expect(
       client.sendRequest(
-        mockRequest,
-        mockRequest.data.attributes.messageReference,
+        mockRequest1,
+        mockRequest1.data.attributes.messageReference,
       ),
     ).rejects.toBeInstanceOf(RequestAlreadyReceivedError);
   });
@@ -258,8 +258,8 @@ describe('sendRequest', () => {
 
     await expect(
       client.sendRequest(
-        mockRequest,
-        mockRequest.data.attributes.messageReference,
+        mockRequest1,
+        mockRequest1.data.attributes.messageReference,
       ),
     ).rejects.toEqual(error);
   });
@@ -273,8 +273,8 @@ describe('sendRequest', () => {
 
     await expect(
       client.sendRequest(
-        mockRequest,
-        mockRequest.data.attributes.messageReference,
+        mockRequest1,
+        mockRequest1.data.attributes.messageReference,
       ),
     ).rejects.toEqual(error);
   });
