@@ -128,7 +128,7 @@ variable "apim_auth_token_schedule" {
   default     = "rate(9 minutes)"
 }
 
-variable "force_s3_destroy" {
+variable "force_destroy" {
   type        = bool
   description = "Flag to force deletion of S3 buckets"
   default     = false
