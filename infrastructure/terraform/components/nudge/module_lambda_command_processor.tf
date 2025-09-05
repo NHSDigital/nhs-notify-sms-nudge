@@ -1,5 +1,5 @@
 module "lambda_command_processor" {
-  source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-lambda.zip"
 
   function_name = "command-processor"
   description   = "A function for processing command messages from SQS"
@@ -37,8 +37,8 @@ module "lambda_command_processor" {
 
   lambda_env_vars = {
     "APIM_ACCESS_TOKEN_SSM_PARAMETER_NAME" = local.is_sandbox ? "" : local.apim_access_token_ssm_parameter_name
-    "APIM_BASE_URL" = var.apim_base_url
-    "ROUTING_PLAN_ID"  = local.is_sandbox ? "b838b13c-f98c-4def-93f0-515d4e4f4ee1" : "fc4f8c6b-1547-4216-9237-c7027c97ae60"
+    "APIM_BASE_URL"                        = var.apim_base_url
+    "ROUTING_PLAN_ID"                      = local.is_sandbox ? "b838b13c-f98c-4def-93f0-515d4e4f4ee1" : "fc4f8c6b-1547-4216-9237-c7027c97ae60"
   }
 }
 
