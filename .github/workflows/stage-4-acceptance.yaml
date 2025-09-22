@@ -27,12 +27,15 @@ jobs:
         shell: bash
         env:
           PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
+          TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
+          TARGET_ACCOUNT_GROUP: ${{ inputs.target_account_group }}
+          RELEASE_VERSION: ${{ github.head_ref || github.ref_name }}
         run: |
           .github/scripts/dispatch_internal_repo_workflow.sh \
             --infraRepoName "nhs-notify-sms-nudge" \
             --overrideProjectName "nhs" \
-            --releaseVersion "${{ github.head_ref || github.ref_name }}" \
+            --releaseVersion "$RELEASE_VERSION" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
-            --targetEnvironment "${{ inputs.target_environment }}" \
-            --targetAccountGroup "${{ inputs.target_account_group }}" \
+            --targetEnvironment "$TARGET_ENVIRONMENT" \
+            --targetAccountGroup "$TARGET_ACCOUNT_GROUP" \
             --targetComponent "nudge"
