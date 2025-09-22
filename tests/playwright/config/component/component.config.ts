@@ -10,10 +10,6 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'component:setup',
-      testMatch: 'component.setup.ts',
-    },
-    {
       name: 'component',
       testMatch: '*.component.spec.ts',
       dependencies: ['component:setup'],
