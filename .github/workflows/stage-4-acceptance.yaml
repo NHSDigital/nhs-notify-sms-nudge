@@ -9,6 +9,9 @@ on:
       target_account_group:
         required: true
         type: string
+      pr_trigger_pat:
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -26,7 +29,7 @@ jobs:
       - name: Trigger Acceptance Tests
         shell: bash
         env:
-          PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
+          PR_TRIGGER_PAT: ${{ inputs.PR_TRIGGER_PAT }}
           TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
           TARGET_ACCOUNT_GROUP: ${{ inputs.target_account_group }}
         run: |
