@@ -3,7 +3,10 @@ name: Acceptance stage
 on:
   workflow_call:
     inputs:
-      pr_number:
+      target_environment:
+        required: true
+        type: string
+      target_account_group:
         required: true
         type: string
 
@@ -24,12 +27,14 @@ jobs:
         shell: bash
         env:
           PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
+          TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
+          TARGET_ACCOUNT_GROUP: ${{ inputs.target_account_group }}
         run: |
           .github/scripts/dispatch_internal_repo_workflow.sh \
             --infraRepoName "nhs-notify-sms-nudge" \
             --overrideProjectName "nhs" \
             --releaseVersion "${{ github.head_ref || github.ref_name }}" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
-            --targetEnvironment "pr${{ inputs.pr_number }}" \
-            --targetAccountGroup "nhs-notify-smsnudge-dev" \
+            --targetEnvironment "$TARGET_ENVIRONMENT" \
+            --targetAccountGroup "$TARGET_ACCOUNT_GROUP" \
             --targetComponent "nudge"

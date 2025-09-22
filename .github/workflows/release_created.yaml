@@ -37,3 +37,11 @@ jobs:
             --targetAccountGroup "nhs-notify-smsnudge-nonprod" \
             --targetComponent "${{ matrix.component }}" \
             --terraformAction "apply"
+
+  acceptance-stage:
+    name: "Acceptance stage"
+    needs: [deploy-main]
+    uses: ./.github/workflows/stage-4-acceptance.yaml
+    with:
+      target_environment: "main"
+      target_account_group: nhs-notify-smsnudge-nonprod
