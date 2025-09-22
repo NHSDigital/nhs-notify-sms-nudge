@@ -3,7 +3,7 @@ name: Acceptance stage
 on:
   workflow_call:
     inputs:
-      target_branch:
+      target_environment:
         required: true
         type: string
       target_account_group:
@@ -33,6 +33,6 @@ jobs:
             --overrideProjectName "nhs" \
             --releaseVersion "${{ github.head_ref || github.ref_name }}" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
-            --targetEnvironment "${{ inputs.target_branch }}" \
+            --targetEnvironment "${{ inputs.target_environment }}" \
             --targetAccountGroup "${{ inputs.target_account_group }}" \
             --targetComponent "nudge"

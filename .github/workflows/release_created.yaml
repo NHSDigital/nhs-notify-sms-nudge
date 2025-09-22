@@ -43,5 +43,5 @@ jobs:
     needs: [deploy-main]
     uses: ./.github/workflows/stage-4-acceptance.yaml
     with:
-      target_branch: "main"
+      target_environment: "main"
       target_account_group: nhs-notify-smsnudge-nonprod
