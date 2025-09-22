@@ -7,7 +7,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.10.1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.7 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 6.13 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | ~> 6.0 |
 ## Inputs
 
