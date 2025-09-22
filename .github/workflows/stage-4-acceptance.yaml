@@ -3,7 +3,10 @@ name: Acceptance stage
 on:
   workflow_call:
     inputs:
-      pr_number:
+      target_branch:
+        required: true
+        type: string
+      target_account_group:
         required: true
         type: string
 
@@ -30,6 +33,6 @@ jobs:
             --overrideProjectName "nhs" \
             --releaseVersion "${{ github.head_ref || github.ref_name }}" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
-            --targetEnvironment "pr${{ inputs.pr_number }}" \
-            --targetAccountGroup "nhs-notify-smsnudge-dev" \
+            --targetEnvironment "${{ inputs.target_branch }}" \
+            --targetAccountGroup "${{ inputs.target_account_group }}" \
             --targetComponent "nudge"

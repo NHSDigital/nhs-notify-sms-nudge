@@ -154,4 +154,5 @@ jobs:
     if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened'))
     secrets: inherit
     with:
-      pr_number: ${{ needs.metadata.outputs.pr_number }}
+      target_branch: "pr${{ needs.metadata.outputs.pr_number }}"
+      target_account_group: nhs-notify-smsnudge-dev

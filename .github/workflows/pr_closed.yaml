@@ -61,3 +61,12 @@ jobs:
             --targetAccountGroup "nhs-notify-smsnudge-dev" \
             --targetComponent "${{ matrix.component }}" \
             --terraformAction "apply"
+
+  acceptance-stage:
+  name: "Acceptance stage"
+  needs: [deploy-main]
+  uses: ./.github/workflows/stage-4-acceptance.yaml
+  secrets: inherit
+  with:
+    target_branch: "main"
+    target_account_group: nhs-notify-smsnudge-dev
