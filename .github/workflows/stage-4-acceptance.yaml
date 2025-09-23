@@ -12,9 +12,6 @@ on:
       target_account_group:
         required: true
         type: string
-      pr_trigger_pat:
-        required: true
-        type: string
 
 permissions:
   id-token: write
