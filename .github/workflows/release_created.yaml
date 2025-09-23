@@ -42,7 +42,8 @@ jobs:
     name: "Acceptance stage"
     needs: [deploy-main]
     uses: ./.github/workflows/stage-4-acceptance.yaml
+    secrets:
+      PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
     with:
       target_environment: "main"
       target_account_group: nhs-notify-smsnudge-nonprod
-      pr_trigger_pat: ${{ secrets.PR_TRIGGER_PAT }}

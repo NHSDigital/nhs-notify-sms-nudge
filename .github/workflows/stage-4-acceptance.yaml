@@ -2,6 +2,9 @@ name: Acceptance stage
 
 on:
   workflow_call:
+    secrets:
+      PR_TRIGGER_PAT:
+        required: true
     inputs:
       target_environment:
         required: true
@@ -29,7 +32,7 @@ jobs:
       - name: Trigger Acceptance Tests
         shell: bash
         env:
-          PR_TRIGGER_PAT: ${{ inputs.pr_trigger_pat }}
+          PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
           TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
           TARGET_ACCOUNT_GROUP: ${{ inputs.target_account_group }}
         run: |
