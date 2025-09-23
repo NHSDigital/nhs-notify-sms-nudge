@@ -2,6 +2,9 @@ name: Acceptance stage
 
 on:
   workflow_call:
+    secrets:
+      PR_TRIGGER_PAT:
+        required: true
     inputs:
       target_environment:
         required: true
