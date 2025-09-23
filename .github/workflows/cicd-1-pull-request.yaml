@@ -152,6 +152,7 @@ jobs:
     needs: [metadata, pr-create-dynamic-environment]
     uses: ./.github/workflows/stage-4-acceptance.yaml
     if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened'))
+    secrets: inherit
     with:
       target_environment: "pr${{ needs.metadata.outputs.pr_number }}"
       target_account_group: nhs-notify-smsnudge-dev
