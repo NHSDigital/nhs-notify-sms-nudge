@@ -2,7 +2,7 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "*",
     "aws-lambda": "^1.0.7",
-    "axios": "1.10.0",
+    "axios": "1.12.2",
     "esbuild": "^0.25.9",
     "nhs-notify-sms-nudge-utils": "*",
     "zod": "^3.25.75"
