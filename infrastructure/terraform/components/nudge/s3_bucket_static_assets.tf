@@ -1,5 +1,5 @@
 module "s3bucket_static_assets" {
-  source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/s3bucket?ref=v1.0.9"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-s3bucket.zip"
 
   name = "static-assets"
 
@@ -10,7 +10,7 @@ module "s3bucket_static_assets" {
   component      = var.component
 
   acl           = "private"
-  force_destroy = var.force_s3_destroy
+  force_destroy = var.force_destroy
   versioning    = true
 
   lifecycle_rules = [
@@ -104,7 +104,7 @@ data "aws_iam_policy_document" "static_assets_bucket_policy" {
 }
 
 resource "aws_s3_bucket_cors_configuration" "static_assets" {
-  bucket   = module.s3bucket_static_assets.bucket
+  bucket = module.s3bucket_static_assets.bucket
 
   cors_rule {
     allowed_headers = ["Authorization"]

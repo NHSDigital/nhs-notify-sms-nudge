@@ -1,5 +1,5 @@
 module "s3bucket_cf_logs" {
-  source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/s3bucket?ref=v1.0.9"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-s3bucket.zip"
   providers = {
     aws = aws.us-east-1
   }
@@ -13,7 +13,7 @@ module "s3bucket_cf_logs" {
   component      = var.component
 
   acl           = "private"
-  force_destroy = var.force_s3_destroy
+  force_destroy = var.force_destroy
   versioning    = true
 
   object_ownership = "ObjectWriter"

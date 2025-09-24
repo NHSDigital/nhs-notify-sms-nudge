@@ -9,6 +9,6 @@ resource "aws_acm_certificate" "static_assets_hosting" {
 }
 
 resource "aws_acm_certificate_validation" "static_assets_hosting" {
-  provider                = aws.us-east-1
-  certificate_arn         = aws_acm_certificate.static_assets_hosting.arn
+  provider        = aws.us-east-1
+  certificate_arn = aws_acm_certificate.static_assets_hosting.arn
 }

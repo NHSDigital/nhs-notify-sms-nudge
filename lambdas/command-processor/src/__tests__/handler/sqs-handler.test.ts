@@ -1,11 +1,13 @@
 import { logger } from 'nhs-notify-sms-nudge-utils';
-import type { SQSEvent } from 'aws-lambda';
 import { mock } from 'jest-mock-extended';
 import {
-  mockNudgeCommand,
-  mockRequest,
+  mockNudgeCommand1,
+  mockNudgeCommand2,
+  mockRequest1,
+  mockRequest2,
   mockRoutingPlanId,
-  sqsRecord,
+  multiRecordEvent,
+  singleRecordEvent,
 } from '__tests__/constants';
 import type { CommandProcessorService } from 'app/command-processor-service';
 import { parseSqsRecord } from 'app/parse-nudge-command';
@@ -35,22 +37,20 @@ describe('SQS Handler', () => {
   });
 
   it('processes a single record', async () => {
-    const sqsEvent: SQSEvent = {
-      Records: [{ ...sqsRecord, body: JSON.stringify(mockNudgeCommand) }],
-    };
+    mockedMapper.mockReturnValueOnce(mockRequest1);
+    mockedParse.mockReturnValueOnce(mockNudgeCommand1);
 
-    mockedMapper.mockReturnValueOnce(mockRequest);
-    mockedParse.mockReturnValueOnce(mockNudgeCommand);
-    mockService.process.mockResolvedValueOnce();
+    const response = await handler(singleRecordEvent);
 
-    const response = await handler(sqsEvent);
-
-    expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], mockLogger);
+    expect(mockedParse).toHaveBeenCalledWith(
+      singleRecordEvent.Records[0],
+      mockLogger,
+    );
     expect(mockedMapper).toHaveBeenCalledWith(
-      mockNudgeCommand,
+      mockNudgeCommand1,
       mockRoutingPlanId,
     );
-    expect(mockService.process).toHaveBeenCalledWith(mockRequest);
+    expect(mockService.process).toHaveBeenCalledWith(mockRequest1);
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Received SQS Event of 1 record(s)',
     );
@@ -58,76 +58,66 @@ describe('SQS Handler', () => {
   });
 
   it('processes two records', async () => {
-    const sqsRecord1 = {
-      ...sqsRecord,
-      messageId: '2',
-    };
+    mockedMapper
+      .mockReturnValueOnce(mockRequest1)
+      .mockReturnValueOnce(mockRequest2);
+    mockedParse
+      .mockReturnValueOnce(mockNudgeCommand1)
+      .mockReturnValueOnce(mockNudgeCommand2);
 
-    const incoming1 = mockNudgeCommand;
-    const incoming2 = {
-      ...mockNudgeCommand,
-      nhsNumber: '9999999788',
-    };
+    const response = await handler(multiRecordEvent);
 
-    const request1 = mockRequest;
-    const request2 = {
-      ...mockRequest,
-      recipient: {
-        nhsNumber: '9999999788',
-      },
-    };
+    expect(mockedParse).toHaveBeenCalledWith(
+      multiRecordEvent.Records[0],
+      mockLogger,
+    );
+    expect(mockedParse).toHaveBeenCalledWith(
+      multiRecordEvent.Records[1],
+      mockLogger,
+    );
 
-    const sqsEvent: SQSEvent = {
-      Records: [
-        { ...sqsRecord, body: JSON.stringify(incoming1) },
-        { ...sqsRecord1, body: JSON.stringify(incoming2) },
-      ],
-    };
+    expect(mockedMapper).toHaveBeenCalledWith(
+      mockNudgeCommand1,
+      mockRoutingPlanId,
+    );
+    expect(mockedMapper).toHaveBeenCalledWith(
+      mockNudgeCommand2,
+      mockRoutingPlanId,
+    );
 
-    mockedMapper.mockReturnValueOnce(request1).mockReturnValueOnce(request2);
-    mockedParse.mockReturnValueOnce(incoming1).mockReturnValueOnce(incoming2);
-
-    mockService.process.mockResolvedValueOnce();
-    mockService.process.mockResolvedValueOnce();
-
-    const response = await handler(sqsEvent);
-
-    expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], mockLogger);
-    expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[1], mockLogger);
-
-    expect(mockedMapper).toHaveBeenCalledWith(incoming1, mockRoutingPlanId);
-    expect(mockedMapper).toHaveBeenCalledWith(incoming2, mockRoutingPlanId);
-
-    expect(mockService.process).toHaveBeenCalledWith(request1);
-    expect(mockService.process).toHaveBeenCalledWith(request2);
+    expect(mockService.process).toHaveBeenCalledWith(mockRequest1);
+    expect(mockService.process).toHaveBeenCalledWith(mockRequest2);
 
     expect(mockLogger.info).toHaveBeenCalledWith(
       'Received SQS Event of 2 record(s)',
+    );
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      '2 of 2 records processed successfully',
     );
 
     expect(response).toEqual({ batchItemFailures: [] });
   });
 
-  it('should throw an error if parseSqsRecord throws', async () => {
-    mockedParse.mockImplementationOnce(() => {
-      throw new Error('Test Error');
+  it('should return failed items to the queue if an error occurs while processing them', async () => {
+    mockedParse.mockImplementation((record) => {
+      if (record.messageId === '1') throw new Error('Test Error');
+      return mockNudgeCommand2;
     });
 
-    const sqsEvent = {
-      Records: [{ messageId: 'msg-1', body: '{}' }],
-    } as unknown as SQSEvent;
+    const result = await handler(multiRecordEvent);
 
-    const result = await handler(sqsEvent);
-
-    expect(mockLogger.error).toHaveBeenCalledWith({
+    expect(mockLogger.warn).toHaveBeenCalledWith({
       error: 'Test Error',
       description: 'Failed processing message',
-      messageId: 'msg-1',
+      messageId: '1',
     });
-    expect(mockedParse).toHaveBeenCalledWith(sqsEvent.Records[0], logger);
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      '1 of 2 records processed successfully',
+    );
 
     expect(result).toEqual({
-      batchItemFailures: [{ itemIdentifier: 'msg-1' }],
+      batchItemFailures: [{ itemIdentifier: '1' }],
     });
   });
 });
