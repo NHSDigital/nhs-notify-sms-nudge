@@ -50,6 +50,6 @@ test.describe('SMS Nudge', () => {
       );
 
       expect(filteredLogs.length).toBeGreaterThan(0);
-    });
+    }, 120);
   });
 });

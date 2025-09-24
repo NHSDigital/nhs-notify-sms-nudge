@@ -1,5 +1,5 @@
 module "lambda_apim_key_generation" {
-  source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-lambda.zip"
 
   function_name = "apim-key-generation"
   description   = "A function to generate APIM public and private keys"
@@ -39,8 +39,8 @@ module "lambda_apim_key_generation" {
 
   lambda_env_vars = {
     SSM_PRIVATE_KEY_PARAMETER_NAME = local.apim_private_key_ssm_parameter_name
-    KEYSTORE_S3_BUCKET = local.apim_keystore_s3_bucket
-    ENVIRONMENT = var.environment
+    KEYSTORE_S3_BUCKET             = local.apim_keystore_s3_bucket
+    ENVIRONMENT                    = var.environment
   }
 }
 

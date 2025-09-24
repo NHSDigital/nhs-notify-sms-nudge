@@ -1,8 +1,8 @@
 resource "aws_cloudfront_distribution" "static_assets_hosting" {
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "Static asset hosting for SMS Nudge"
-  price_class         = "PriceClass_100"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "Static asset hosting for SMS Nudge"
+  price_class     = "PriceClass_100"
 
   restrictions {
     geo_restriction {

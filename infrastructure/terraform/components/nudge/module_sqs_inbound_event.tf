@@ -1,5 +1,5 @@
 module "sqs_inbound_event" {
-  source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/sqs?ref=v2.0.10"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-sqs.zip"
 
   aws_account_id = var.aws_account_id
   component      = var.component

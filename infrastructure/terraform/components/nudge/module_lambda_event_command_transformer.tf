@@ -1,5 +1,5 @@
 module "lambda_event_command_transformer" {
-  source = "git::https://github.com/NHSDigital/nhs-notify-shared-modules.git//infrastructure/modules/lambda?ref=v2.0.10"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-lambda.zip"
 
   function_name = "event-command-transformer"
   description   = "A function for transforming inbound unnotified messages from SQS to commands"
@@ -24,7 +24,7 @@ module "lambda_event_command_transformer" {
   function_include_common = true
   handler_function_name   = "handler"
   runtime                 = "nodejs22.x"
-  memory                  = 128
+  memory                  = 1024
   timeout                 = 5
   log_level               = var.log_level
 

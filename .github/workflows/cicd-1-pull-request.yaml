@@ -11,6 +11,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   metadata:
     name: "Set CI/CD metadata"
@@ -120,11 +124,36 @@ jobs:
       terraform_version: "${{ needs.metadata.outputs.terraform_version }}"
       version: "${{ needs.metadata.outputs.version }}"
     secrets: inherit
+  pr-create-dynamic-environment:
+    name: Trigger dynamic environment creation
+    needs: [metadata, build-stage]
+    runs-on: ubuntu-latest
+    if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened'))
+    steps:
+      - uses: actions/checkout@v5.0.0
+      - name: Trigger dynamic environment creation
+        env:
+          PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
+        shell: bash
+        run: |
+          .github/scripts/dispatch_internal_repo_workflow.sh \
+            --infraRepoName "$(echo ${{ github.repository }} | cut -d'/' -f2)" \
+            --releaseVersion "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" \
+            --targetWorkflow "dispatch-deploy-dynamic-env.yaml" \
+            --targetEnvironment "pr${{ needs.metadata.outputs.pr_number }}" \
+            --targetComponent "nudge" \
+            --targetAccountGroup "nhs-notify-smsnudge-dev" \
+            --terraformAction "apply" \
+            --overrideProjectName "nhs" \
+            --overrideRoleName "nhs-main-acct-smsnudge-github-deploy" \
+            --overrides "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
   acceptance-stage: # Recommended maximum execution time is 10 minutes
     name: "Acceptance stage"
-    needs: [metadata, build-stage]
+    needs: [metadata, pr-create-dynamic-environment]
     uses: ./.github/workflows/stage-4-acceptance.yaml
-    if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-    secrets: inherit
+    if: needs.metadata.outputs.does_pull_request_exist == 'true' || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened'))
+    secrets:
+      PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
     with:
-      pr_number: ${{ needs.metadata.outputs.pr_number }}
+      target_environment: "pr${{ needs.metadata.outputs.pr_number }}"
+      target_account_group: nhs-notify-smsnudge-dev
