@@ -1,0 +1,26 @@
+{
+  "name": "supplier-status-event-generator",
+  "version": "1.0.0",
+  "description": "This script generates `SupplierStatusChange` events and sends them to the AWS SQS queue: **`nhs-main-nudge-inbound-event-queue`**",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/cli.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.894.0",
+    "csv-parse": "^6.1.0",
+    "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/csv-parse": "^1.1.12",
+    "@types/node": "^24.5.2",
+    "@types/yargs": "^17.0.33",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
