@@ -69,5 +69,6 @@ jobs:
     secrets:
       PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
     with:
-      target_environment: "main"
+      target_environment: main
       target_account_group: nhs-notify-smsnudge-dev
+      target_release_version: main
