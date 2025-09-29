@@ -12,6 +12,9 @@ on:
       target_account_group:
         required: true
         type: string
+      target_release_version:
+        required: false
+        type: string
 
 permissions:
   id-token: write
@@ -36,7 +39,7 @@ jobs:
           .github/scripts/dispatch_internal_repo_workflow.sh \
             --infraRepoName "nhs-notify-sms-nudge" \
             --overrideProjectName "nhs" \
-            --releaseVersion "${{ github.head_ref || github.ref_name }}" \
+            --releaseVersion "${{ inputs.target_release_version || github.head_ref || github.ref_name }}" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
             --targetEnvironment "$TARGET_ENVIRONMENT" \
             --targetAccountGroup "$TARGET_ACCOUNT_GROUP" \
