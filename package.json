@@ -62,6 +62,7 @@
     "lambdas/key-generation",
     "lambdas/refresh-apim-access-token",
     "utils/utils",
-    "tests/playwright"
+    "tests/playwright",
+    "scripts/supplier-status-event-generator"
   ]
 }

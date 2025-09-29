@@ -20,4 +20,15 @@ It is designed for testing and simulating event-driven flows within the NHS Noti
 
 ## Usage
 
-npm start -- --environment internal-dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 0.7 
+To run this script from anywhere in the directory:
+
+``` shell
+make perf-test
+``` 
+
+If you want to customise the parameters passed in the command line:
+
+``` shell
+cd scripts/supplier-status-event-generator/
+npm start -- --environment dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 1
+```

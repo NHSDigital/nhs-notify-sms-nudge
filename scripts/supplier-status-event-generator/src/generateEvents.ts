@@ -9,7 +9,7 @@ type GenerateEventsParams = {
   delayedFallbackRatio: number;
 };
 
-const CSV_PATH = path.resolve(__dirname, '../../data/nhs_numbers.csv');
+const CSV_PATH = path.resolve(__dirname, '../../supplier-status-event-generator/data/nhs_numbers.csv');
 const nhsNumbers: string[] = loadNhsNumbersFromCsv(CSV_PATH);
 
 export function generateSupplierStatusEvents({

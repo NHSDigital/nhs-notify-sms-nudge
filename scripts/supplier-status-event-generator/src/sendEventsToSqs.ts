@@ -9,10 +9,15 @@ export async function sendEventsToSqs(events: SupplierStatusEvent[], interval: n
 
   // batch events into chunks of 10 for SendMessageBatchCommand
   const batches = batchSupplierStatusEvents(events);
+  
+  let currentBatch = 0
 
   for (const batch of batches) {
-    const entries = batch.map((event, index) => ({
-      Id: `msg-${Date.now()}-${index}`,
+    const numberOfBatches = batches.length;
+    currentBatch += 1;
+
+    const entries = batch.map((event) => ({
+      Id: event.id,
       MessageBody: JSON.stringify(event),
     }));
 
@@ -31,7 +36,7 @@ export async function sendEventsToSqs(events: SupplierStatusEvent[], interval: n
         console.warn("Some messages failed to send:", failed);
       }
 
-      console.log(`Batch sent: ${successful.length} messages`);
+      console.log(`Batch ${currentBatch} of ${numberOfBatches} sent: ${successful.length} messages`);
       
     } catch (err) {
       console.error("Error sending batch:", err);
