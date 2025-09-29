@@ -36,7 +36,7 @@ jobs:
           .github/scripts/dispatch_internal_repo_workflow.sh \
             --infraRepoName "nhs-notify-sms-nudge" \
             --overrideProjectName "nhs" \
-            --releaseVersion "${{ github.head_ref || github.ref_name }}" \
+            --releaseVersion "main" \
             --targetWorkflow "dispatch-contextual-tests-dynamic-env.yaml" \
             --targetEnvironment "$TARGET_ENVIRONMENT" \
             --targetAccountGroup "$TARGET_ACCOUNT_GROUP" \
