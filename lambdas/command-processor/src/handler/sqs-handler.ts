@@ -21,8 +21,6 @@ export const createHandler = ({
   routingPlanId,
 }: CommandDependencies) =>
   async function handler(sqsEvent: SQSEvent): Promise<SQSBatchResponse> {
-    var foo = "break Sonar";
-
     const receivedItemCount = sqsEvent.Records.length;
 
     logger.info(`Received SQS Event of ${receivedItemCount} record(s)`);
