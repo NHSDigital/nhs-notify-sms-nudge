@@ -1,6 +1,6 @@
 import { SQSClient, SendMessageBatchCommand } from '@aws-sdk/client-sqs';
-import { SupplierStatusEvent } from 'src/types';
-import { buildQueueUrl } from 'src/utils/build-queue-url';
+import { SupplierStatusEvent } from 'types';
+import { buildQueueUrl } from 'utils/build-queue-url';
 
 const sqsClient = new SQSClient({ region: 'eu-west-2' });
 

@@ -1,7 +1,7 @@
+import { generateSupplierStatusEvents } from 'generate-events';
+import { sendEventsToSqs } from 'send-events-to-sqs';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { generateSupplierStatusEvents } from 'src/generate-events';
-import { sendEventsToSqs } from 'src/send-events-to-sqs';
 
 const argv = yargs(hideBin(process.argv))
   .option('environment', {

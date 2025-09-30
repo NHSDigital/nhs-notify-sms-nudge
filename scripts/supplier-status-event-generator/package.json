@@ -24,7 +24,8 @@
     "lint:fix": "eslint . --fix",
     "start": "ts-node src/cli.ts",
     "start:dev": "npm start -- --environment dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 1",
-    "test:unit": "echo \"Unit tests not implemented.\""
+    "test:unit": "echo \"Unit tests not implemented.\"",
+    "typecheck": "tsc --noEmit"
   },
   "type": "commonjs",
   "version": "1.0.0"

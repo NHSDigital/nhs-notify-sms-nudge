@@ -1,7 +1,7 @@
-import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { loadNhsNumbersFromCsv } from 'src/utils/loadNhsNumbersFromCsv';
-import { SupplierStatusEvent } from 'src/types';
+import path from 'node:path';
+import { SupplierStatusEvent } from 'types';
+import { loadNhsNumbersFromCsv } from 'utils/load-nhs-numbers-from-csv';
 
 type GenerateEventsParams = {
   numberOfEvents: number;
