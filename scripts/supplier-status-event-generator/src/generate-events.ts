@@ -1,7 +1,7 @@
-import path from 'path';
-import { SupplierStatusEvent } from './types';
-import { randomUUID } from 'crypto';
-import { loadNhsNumbersFromCsv } from './utils/loadNhsNumbersFromCsv';
+import path from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { loadNhsNumbersFromCsv } from 'src/utils/loadNhsNumbersFromCsv';
+import { SupplierStatusEvent } from 'src/types';
 
 type GenerateEventsParams = {
   numberOfEvents: number;
@@ -9,13 +9,16 @@ type GenerateEventsParams = {
   delayedFallbackRatio: number;
 };
 
-const CSV_PATH = path.resolve(__dirname, '../../supplier-status-event-generator/data/nhs_numbers.csv');
+const CSV_PATH = path.resolve(
+  __dirname,
+  '../../supplier-status-event-generator/data/nhs_numbers.csv',
+);
 const nhsNumbers: string[] = loadNhsNumbersFromCsv(CSV_PATH);
 
 export function generateSupplierStatusEvents({
-  numberOfEvents,
-  environment,
   delayedFallbackRatio = 0.5,
+  environment,
+  numberOfEvents,
 }: GenerateEventsParams): SupplierStatusEvent[] {
   const events: SupplierStatusEvent[] = [];
 
@@ -29,6 +32,8 @@ export function generateSupplierStatusEvents({
     // Shared ID for subject and requestItemPlanId
     const sharedPlanId = randomUUID();
 
+    // This is not a security critical application or sensitive data.
+    // eslint-disable-next-line sonarjs/pseudo-random
     const delayedFallback = Math.random() < delayedFallbackRatio;
 
     const nhsNumber = nhsNumbers[i % nhsNumbers.length];
@@ -36,7 +41,7 @@ export function generateSupplierStatusEvents({
     const event: SupplierStatusEvent = {
       version: '0',
       id: eventId,
-      "detail-type": 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
+      'detail-type': 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
       source: 'custom.event',
       account: '257995483745',
       time: now.toISOString(),
@@ -51,10 +56,11 @@ export function generateSupplierStatusEvents({
         subject: sharedPlanId,
         time: now.toISOString(),
         datacontenttype: 'application/json',
-        dataschema: 'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
+        dataschema:
+          'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
         dataschemaversion: '1.0.0',
         data: {
-          nhsNumber: nhsNumber,
+          nhsNumber,
           delayedFallback,
           sendingGroupId,
           clientId: 'apim_integration_test_client_id',

@@ -1,7 +1,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { generateSupplierStatusEvents } from './generateEvents';
-import { sendEventsToSqs } from './sendEventsToSqs';
+import { generateSupplierStatusEvents } from 'src/generate-events';
+import { sendEventsToSqs } from 'src/send-events-to-sqs';
 
 const argv = yargs(hideBin(process.argv))
   .option('environment', {
@@ -27,12 +27,12 @@ const argv = yargs(hideBin(process.argv))
   .help()
   .alias('help', 'h').argv as any;
 
-const { environment, numberOfEvents, interval, delayedFallbackRatio } = argv;
+const { delayedFallbackRatio, environment, interval, numberOfEvents } = argv;
 
 const events = generateSupplierStatusEvents({
   numberOfEvents,
   environment,
-  delayedFallbackRatio
+  delayedFallbackRatio,
 });
 
 sendEventsToSqs(events, interval);

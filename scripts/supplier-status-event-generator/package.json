@@ -11,6 +11,7 @@
     "@types/csv-parse": "^1.1.12",
     "@types/node": "^24.5.2",
     "@types/yargs": "^17.0.33",
+    "eslint": "^9.36.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
@@ -19,9 +20,11 @@
   "main": "index.js",
   "name": "supplier-status-event-generator",
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "ts-node src/cli.ts",
     "start:dev": "npm start -- --environment dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 1",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:unit": "echo \"Unit tests not implemented.\""
   },
   "type": "commonjs",
   "version": "1.0.0"
