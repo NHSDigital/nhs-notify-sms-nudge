@@ -9,7 +9,7 @@ export async function sendEventsToSqs(events: SupplierStatusEvent[], interval: n
 
   // batch events into chunks of 10 for SendMessageBatchCommand
   const batches = batchSupplierStatusEvents(events);
-  
+
   let currentBatch = 0;
   let totalMessagesSuccessfullySent = 0;
 
@@ -29,7 +29,7 @@ export async function sendEventsToSqs(events: SupplierStatusEvent[], interval: n
 
     try {
       const response = await sqsClient.send(command);
-      
+
       const failed = response.Failed ?? [];
       const successful = response.Successful ?? [];
 
@@ -39,7 +39,7 @@ export async function sendEventsToSqs(events: SupplierStatusEvent[], interval: n
 
       console.log(`Batch ${currentBatch} of ${numberOfBatches} sent: ${successful.length} messages`);
       totalMessagesSuccessfullySent += successful.length;
-      
+
     } catch (err) {
       console.error("Error sending batch:", err);
     }

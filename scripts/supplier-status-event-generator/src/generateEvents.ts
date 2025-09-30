@@ -69,5 +69,5 @@ export function generateSupplierStatusEvents({
     events.push(event);
   }
   console.log(`Generated ${events.length} events.`);
-  return events;  
+  return events;
 }

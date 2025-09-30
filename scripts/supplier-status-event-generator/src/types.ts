@@ -25,11 +25,11 @@ type SupplierStatusDetail = {
 }
 
 type SupplierStatusData = {
-  nhsNumber: string;                  
+  nhsNumber: string;
   delayedFallback: boolean;
   sendingGroupId: string;
-  clientId: string;                   
-  supplierStatus: "unnotified";    
+  clientId: string;
+  supplierStatus: "unnotified";
   previousSupplierStatus: "received";
   requestItemId: string;
   requestItemPlanId: string;

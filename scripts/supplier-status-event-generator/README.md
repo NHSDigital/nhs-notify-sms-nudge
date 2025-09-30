@@ -24,7 +24,7 @@ To run this script from anywhere in the directory:
 
 ``` shell
 make perf-test
-``` 
+```
 
 The make command runs the following script, which can be changed in the `package.json`:
 

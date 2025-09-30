@@ -27,7 +27,7 @@ const argv = yargs(hideBin(process.argv))
   .help()
   .alias('help', 'h').argv as any;
 
-const {environment, numberOfEvents, interval, delayedFallbackRatio } = argv;
+const { environment, numberOfEvents, interval, delayedFallbackRatio } = argv;
 
 const events = generateSupplierStatusEvents({
   numberOfEvents,
