@@ -1,28 +1,28 @@
 {
-  "name": "supplier-status-event-generator",
-  "version": "1.0.0",
-  "description": "This script generates `SupplierStatusChange` events and sends them to the AWS SQS queue: **`nhs-main-nudge-inbound-event-queue`**",
-  "main": "index.js",
-  "scripts": {
-    "start": "ts-node src/cli.ts",
-    "start:dev": "npm start -- --environment dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 1",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.894.0",
     "@aws-sdk/client-sts": "^3.896.0",
     "csv-parse": "^6.1.0",
-    "yargs": "^18.0.0"
+    "yargs": "^17.7.2"
   },
+  "description": "This script generates `SupplierStatusChange` events and sends them to the AWS SQS queue: **`nhs-main-nudge-inbound-event-queue`**",
   "devDependencies": {
     "@types/csv-parse": "^1.1.12",
     "@types/node": "^24.5.2",
     "@types/yargs": "^17.0.33",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
-  }
+  },
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "supplier-status-event-generator",
+  "scripts": {
+    "start": "ts-node src/cli.ts",
+    "start:dev": "npm start -- --environment dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "commonjs",
+  "version": "1.0.0"
 }
