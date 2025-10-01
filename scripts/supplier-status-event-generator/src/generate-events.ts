@@ -74,6 +74,23 @@ export function generateSupplierStatusEvents({
 
     events.push(event);
   }
-  console.log(`Generated ${events.length} events.`);
+
+  const totalEvents = events.length;
+  const numberOfEventsWithDelayedFallbackSet = events.filter(
+    (event) => event.detail.data.delayedFallback === true,
+  ).length;
+  const numberOfEventsWithoutDelayedFallbackSet =
+    totalEvents - numberOfEventsWithDelayedFallbackSet;
+
+  console.group('Event generation:');
+  console.log(`Total events generated:\t\t${totalEvents}`);
+  console.log(
+    `Events with delayed fallback set:\t${numberOfEventsWithDelayedFallbackSet}`,
+  );
+  console.log(
+    `Events with delayed fallback not set:\t${numberOfEventsWithoutDelayedFallbackSet}`,
+  );
+  console.groupEnd();
+
   return events;
 }

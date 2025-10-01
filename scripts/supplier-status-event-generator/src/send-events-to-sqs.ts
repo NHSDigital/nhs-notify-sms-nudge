@@ -25,6 +25,8 @@ export async function sendEventsToSqs(
   events: SupplierStatusEvent[],
   interval: number,
 ) {
+  console.group('Event sending:');
+
   const queueUrl = await buildQueueUrl();
 
   // batch events into chunks of 10 for SendMessageBatchCommand
@@ -73,4 +75,5 @@ export async function sendEventsToSqs(
   console.log(
     `Total messages successfully sent: ${totalMessagesSuccessfullySent} out of ${events.length} messages.`,
   );
+  console.groupEnd();
 }
