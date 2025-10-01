@@ -9,6 +9,7 @@
 version.json
 *.code-workspace
 !project.code-workspace
+.vscode
 
 # Please, add your custom content below!
 
