@@ -4,6 +4,7 @@
     "@aws-sdk/client-sqs": "^3.894.0",
     "@aws-sdk/client-sts": "^3.896.0",
     "csv-parse": "^6.1.0",
+    "tsx": "^4.20.6",
     "yargs": "^17.7.2"
   },
   "description": "This script generates `SupplierStatusChange` events and sends them to the AWS SQS queue: **`nhs-main-nudge-inbound-event-queue`**",
@@ -12,7 +13,6 @@
     "@types/node": "^24.5.2",
     "@types/yargs": "^17.0.33",
     "eslint": "^9.36.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
   "keywords": [],
@@ -22,7 +22,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "ts-node src/cli.ts",
+    "start": "tsx src/cli.ts",
     "start:dev": "npm start -- --environment dev --numberOfEvents 2 --interval 2000 --delayedFallbackRatio 1",
     "test:unit": "echo \"Unit tests not implemented.\"",
     "typecheck": "tsc --noEmit"
