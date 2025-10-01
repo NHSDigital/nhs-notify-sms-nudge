@@ -260,7 +260,7 @@ export default defineConfig([
 
   // Allow the supplier-status-event-generator tool to log to the console.
   {
-    files: ["*-test.js", "scripts/supplier-status-event-generator/**/*.ts"],
+    files: ["scripts/supplier-status-event-generator/**/*.ts"],
     rules: {
       "no-console": "off",
     },
