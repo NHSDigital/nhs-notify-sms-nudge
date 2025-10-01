@@ -19,7 +19,7 @@ type SupplierStatusDetail = {
   subject: string;
   time: string;
   datacontenttype: 'application/json';
-  dataschema: string;
+  dataschema: 'https://notify.nhs.uk/events/schemas/supplier-status/v1.json';
   dataschemaversion: '1.0.0';
   data: SupplierStatusData;
 };

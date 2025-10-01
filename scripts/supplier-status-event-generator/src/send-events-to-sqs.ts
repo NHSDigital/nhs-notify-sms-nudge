@@ -30,11 +30,11 @@ export async function sendEventsToSqs(
   // batch events into chunks of 10 for SendMessageBatchCommand
   const batches = batchSupplierStatusEvents(events);
 
+  const numberOfBatches = batches.length;
   let currentBatch = 0;
   let totalMessagesSuccessfullySent = 0;
 
   for (const batch of batches) {
-    const numberOfBatches = batches.length;
     currentBatch += 1;
 
     const entries = batch.map((event) => ({

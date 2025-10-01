@@ -16,7 +16,7 @@ const CSV_PATH = path.resolve(
 const nhsNumbers: string[] = loadNhsNumbersFromCsv(CSV_PATH);
 
 export function generateSupplierStatusEvents({
-  delayedFallbackRatio = 0.5,
+  delayedFallbackRatio,
   environment,
   numberOfEvents,
 }: GenerateEventsParams): SupplierStatusEvent[] {
