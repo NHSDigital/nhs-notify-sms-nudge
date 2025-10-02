@@ -13,9 +13,9 @@ export class CommandProcessorService {
 
   private readonly logger: Logger;
 
-  constructor({ logger, nhsNotifyClient }: Dependencies) {
-    this.nhsNotifyClient = nhsNotifyClient;
-    this.logger = logger;
+  constructor( bob : Dependencies) {
+    this.nhsNotifyClient = dependencies.nhsNotifyClient;
+    this.logger = dependencies.logger;
   }
 
   public async process(payload: SingleMessageRequest): Promise<void> {
