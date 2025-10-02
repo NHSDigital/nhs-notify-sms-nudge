@@ -125,7 +125,7 @@ Main components:
 
 ## Contacts
 
-NHS Notify Team
+NHS Notify Team.
 
 ## Licence
 
