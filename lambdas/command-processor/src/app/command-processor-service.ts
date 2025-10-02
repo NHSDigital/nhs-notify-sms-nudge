@@ -13,7 +13,7 @@ export class CommandProcessorService {
 
   private readonly logger: Logger;
 
-  constructor( bob : Dependencies) {
+  constructor( dependencies : Dependencies) {
     this.nhsNotifyClient = dependencies.nhsNotifyClient;
     this.logger = dependencies.logger;
   }
