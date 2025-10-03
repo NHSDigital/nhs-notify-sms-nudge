@@ -1,3 +1,4 @@
+import { fakeEvent } from '__tests__/helpers/fake-event';
 import { generateSupplierStatusEvents } from 'generate-events';
 
 describe('generateSupplierStatusEvents', () => {
@@ -22,33 +23,21 @@ describe('generateSupplierStatusEvents', () => {
     });
 
     expect(generatedEvents[0]).toStrictEqual({
-      version: '0',
+      ...fakeEvent,
       id: expect.any(String),
-      'detail-type': 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
-      source: 'custom.event',
       account: expect.any(String),
       time: expect.any(String),
-      region: 'eu-west-2',
-      resources: [],
       detail: {
+        ...fakeEvent.detail,
         id: expect.any(String),
         source: `//nhs.notify.uk/supplier-status/${environment}`,
-        specversion: '1.0',
-        type: 'uk.nhs.notify.channels.nhsapp.SupplierStatusChange.v1',
-        plane: 'data',
         subject: expect.any(String),
         time: expect.any(String),
-        datacontenttype: 'application/json',
-        dataschema:
-          'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
-        dataschemaversion: '1.0.0',
         data: {
+          ...fakeEvent.detail.data,
           nhsNumber: expect.any(String),
           delayedFallback: expect.any(Boolean),
           sendingGroupId: expect.any(String),
-          clientId: 'apim_integration_test_client_id',
-          supplierStatus: 'unnotified',
-          previousSupplierStatus: 'received',
           requestItemId: expect.any(String),
           requestItemPlanId: expect.any(String),
         },

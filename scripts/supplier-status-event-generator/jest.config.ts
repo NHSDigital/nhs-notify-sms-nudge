@@ -46,6 +46,8 @@ export const jestConfig: Config = {
   testEnvironment: 'node',
 
   moduleDirectories: ['node_modules', 'src'],
+
+  setupFiles: ['./jest.setup.ts'],
 };
 
 export default jestConfig;

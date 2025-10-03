@@ -1,8 +1,7 @@
 import { SQSClient, SendMessageBatchCommand } from '@aws-sdk/client-sqs';
 import { SupplierStatusEvent } from 'types';
 import { buildQueueUrl } from 'utils/build-queue-url';
-
-const sqsClient = new SQSClient({ region: 'eu-west-2' });
+import { getAccountId } from 'utils/get-account-id';
 
 function batchSupplierStatusEvents(
   events: SupplierStatusEvent[],
@@ -27,7 +26,8 @@ export async function sendEventsToSqs(
 ) {
   console.group('Event sending:');
 
-  const queueUrl = await buildQueueUrl();
+  const accountId = await getAccountId();
+  const queueUrl = buildQueueUrl(accountId);
 
   // batch events into chunks of 10 for SendMessageBatchCommand
   const batches = batchSupplierStatusEvents(events);
@@ -35,6 +35,8 @@ export async function sendEventsToSqs(
   const numberOfBatches = batches.length;
   let currentBatch = 0;
   let totalMessagesSuccessfullySent = 0;
+
+  const sqsClient = new SQSClient({ region: 'eu-west-2' });
 
   for (const batch of batches) {
     currentBatch += 1;
