@@ -1,8 +1,16 @@
-import fs from 'node:fs';
 import { parse } from 'csv-parse/sync';
+import fs from 'node:fs';
+import path from 'node:path';
 
-export function loadNhsNumbersFromCsv(filePath: string): string[] {
-  const csvData = fs.readFileSync(filePath, 'utf8');
+const CSV_PATH = path.resolve(
+  __dirname,
+  '../../supplier-status-event-generator/data/nhs_numbers.csv',
+);
+
+export function loadNhsNumbersFromCsv(): string[] {
+  // This path doesn't contain user-supplied content.
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  const csvData = fs.readFileSync(CSV_PATH, 'utf8');
 
   const records = parse(csvData, {
     columns: true,
