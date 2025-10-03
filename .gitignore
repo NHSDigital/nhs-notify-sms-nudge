@@ -9,6 +9,7 @@
 version.json
 *.code-workspace
 !project.code-workspace
+.vscode
 
 # Please, add your custom content below!
 
@@ -24,3 +25,8 @@ dist
 
 # don't track environment files
 .env
+
+### OSX ###
+**/.DS_Store
+**/.AppleDouble
+**/.LSOverride

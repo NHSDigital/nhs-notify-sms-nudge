@@ -257,4 +257,12 @@ export default defineConfig([
       'import-x/prefer-default-export': "off"
     },
   },
+
+  // Allow the supplier-status-event-generator tool to log to the console.
+  {
+    files: ["scripts/supplier-status-event-generator/**/*.ts"],
+    rules: {
+      "no-console": "off",
+    },
+  },
 ]);
