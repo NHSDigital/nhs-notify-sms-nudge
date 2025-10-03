@@ -1,5 +1,4 @@
 import { randomUUID } from 'node:crypto';
-import path from 'node:path';
 import { SupplierStatusEvent } from 'types';
 import { loadNhsNumbersFromCsv } from 'utils/load-nhs-numbers-from-csv';
 
@@ -9,11 +8,7 @@ type GenerateEventsParams = {
   delayedFallbackRatio: number;
 };
 
-const CSV_PATH = path.resolve(
-  __dirname,
-  '../../supplier-status-event-generator/data/nhs_numbers.csv',
-);
-const nhsNumbers: string[] = loadNhsNumbersFromCsv(CSV_PATH);
+const nhsNumbers: string[] = loadNhsNumbersFromCsv();
 
 export function generateSupplierStatusEvents({
   delayedFallbackRatio,
