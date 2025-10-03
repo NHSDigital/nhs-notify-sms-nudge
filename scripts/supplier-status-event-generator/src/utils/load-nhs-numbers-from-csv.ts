@@ -2,10 +2,7 @@ import { parse } from 'csv-parse/sync';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const CSV_PATH = path.resolve(
-  __dirname,
-  '../../supplier-status-event-generator/data/nhs_numbers.csv',
-);
+const CSV_PATH = path.resolve(__dirname, '../../data/nhs_numbers.csv');
 
 export function loadNhsNumbersFromCsv(): string[] {
   // This path doesn't contain user-supplied content.
