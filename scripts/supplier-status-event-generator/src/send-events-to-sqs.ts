@@ -21,13 +21,14 @@ function wait(interval: number) {
 }
 
 export async function sendEventsToSqs(
+  environment: string,
   events: SupplierStatusEvent[],
   interval: number,
 ) {
   console.group('Event sending:');
 
   const accountId = await getAccountId();
-  const queueUrl = buildQueueUrl(accountId);
+  const queueUrl = buildQueueUrl(accountId, environment);
 
   // batch events into chunks of 10 for SendMessageBatchCommand
   const batches = batchSupplierStatusEvents(events);

@@ -1,6 +1,6 @@
 # Supplier Status Event Generator
 
-This script generates `SupplierStatusChange` events and sends them in batches of 10 to the AWS SQS queue: **`nhs-main-nudge-inbound-event-queue`**
+This script generates `SupplierStatusChange` events and sends them in batches of 10 to the AWS SQS queue: **`nhs-<environment>-nudge-inbound-event-queue`** (where `<environment>` is the environment specified at the command line)
 
 It is designed for testing and simulating event-driven flows within the NHS Notify platform, with support for:
 
@@ -13,10 +13,10 @@ It is designed for testing and simulating event-driven flows within the NHS Noti
 
 | Option                   | Type   | Required | Description                                                                 |
 |--------------------------|--------|----------|-----------------------------------------------------------------------------|
-| `--environment`          | string | ✅        | Target environment                                                          |
-| `--numberOfEvents`       | number | ✅        | Total number of events to generate and send                                 |
-| `--interval`             | number | ❌        | Delay between batches in milliseconds (default: `1000`)                     |
-| `--delayedFallbackRatio` | number | ❌        | Decimal ratio of events where `delayedFallback: true` (default: `0.5`)      |
+| `--numberOfEvents`       | number | ✅        | Total number of events to generate and send                                |
+| `--environment`          | string | ❌        | Target environment (default `main`)                                        |
+| `--interval`             | number | ❌        | Delay between batches in milliseconds (default: `1000`)                    |
+| `--delayedFallbackRatio` | number | ❌        | Decimal ratio of events where `delayedFallback: true` (default: `0.5`)     |
 
 ## Usage
 

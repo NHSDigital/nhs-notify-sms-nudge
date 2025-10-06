@@ -7,6 +7,9 @@ import { mock } from 'jest-mock-extended';
 import { sendEventsToSqs } from 'send-events-to-sqs';
 import { SupplierStatusEvent } from 'types';
 
+const accountId = '257995483745';
+const environment = 'dev';
+
 const mockSqsClient = { send: jest.fn() };
 jest.mock('@aws-sdk/client-sqs', () => {
   const originalModule = jest.requireActual('@aws-sdk/client-sqs');
@@ -18,7 +21,6 @@ jest.mock('@aws-sdk/client-sqs', () => {
   };
 });
 
-const accountId = '257995483745';
 const mockStsClient = {
   send: jest.fn(() => {
     return {
@@ -49,13 +51,13 @@ describe('sendEventsToSqs', () => {
   it('should send the expected request to SQS', async () => {
     mockSqsClient.send.mockResolvedValue(successfulSendResponse);
 
-    await sendEventsToSqs([fakeEvent], 5);
+    await sendEventsToSqs(environment, [fakeEvent], 5);
 
     expect(mockSqsClient.send).toHaveBeenCalled();
     const sendMessageBatchCommand: SendMessageBatchCommand =
       mockSqsClient.send.mock.calls[0][0];
     expect(sendMessageBatchCommand.input.QueueUrl).toBe(
-      `https://sqs.eu-west-2.amazonaws.com/${accountId}/nhs-main-nudge-inbound-event-queue`,
+      `https://sqs.eu-west-2.amazonaws.com/${accountId}/nhs-${environment}-nudge-inbound-event-queue`,
     );
     expect(sendMessageBatchCommand.input.Entries).toStrictEqual([
       {
@@ -74,7 +76,7 @@ describe('sendEventsToSqs', () => {
     );
     mockSqsClient.send.mockResolvedValue(successfulSendResponse);
 
-    await sendEventsToSqs(events, 5);
+    await sendEventsToSqs(environment, events, 5);
 
     // Batch size is 10, so 52 events = 6 batches.
     expect(mockSqsClient.send).toHaveBeenCalledTimes(6);
@@ -93,7 +95,7 @@ describe('sendEventsToSqs', () => {
       () => fakeEvent,
     );
 
-    await sendEventsToSqs(events, 5);
+    await sendEventsToSqs(environment, events, 5);
 
     // Batch size is 10, so 30 events = 3 batches.
     expect(mockSqsClient.send).toHaveBeenCalledTimes(3);
@@ -112,7 +114,7 @@ describe('sendEventsToSqs', () => {
       () => fakeEvent,
     );
 
-    await sendEventsToSqs(events, 5);
+    await sendEventsToSqs(environment, events, 5);
 
     // Batch size is 10, so 30 events = 3 batches.
     expect(mockSqsClient.send).toHaveBeenCalledTimes(3);
@@ -127,7 +129,7 @@ describe('sendEventsToSqs', () => {
       () => fakeEvent,
     );
 
-    await sendEventsToSqs(events, 5);
+    await sendEventsToSqs(environment, events, 5);
 
     // Batch size is 10, so 30 events = 3 batches.
     expect(mockSqsClient.send).toHaveBeenCalledTimes(3);

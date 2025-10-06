@@ -4,20 +4,20 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 const argv = yargs(hideBin(process.argv))
-  .option('environment', {
-    type: 'string',
-    demandOption: true,
-    describe: 'Environment name',
-  })
   .option('numberOfEvents', {
     type: 'number',
     demandOption: true,
     describe: 'Total number of events to generate',
   })
+  .option('environment', {
+    type: 'string',
+    default: 'main',
+    describe: 'Environment name',
+  })
   .option('interval', {
     type: 'number',
     default: 1000,
-    describe: 'Interval between batches in ms (optional)',
+    describe: 'Interval between batches in ms',
   })
   .option('delayedFallbackRatio', {
     type: 'number',
@@ -35,4 +35,4 @@ const events = generateSupplierStatusEvents({
   delayedFallbackRatio,
 });
 
-sendEventsToSqs(events, interval);
+sendEventsToSqs(environment, events, interval);
