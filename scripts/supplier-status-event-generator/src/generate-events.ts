@@ -1,14 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { SupplierStatusEvent } from 'types';
-import { loadNhsNumbersFromCsv } from 'utils/load-nhs-numbers-from-csv';
 
 type GenerateEventsParams = {
   numberOfEvents: number;
   environment: string;
   delayedFallbackRatio: number;
 };
-
-const nhsNumbers: string[] = loadNhsNumbersFromCsv();
 
 export function generateSupplierStatusEvents({
   delayedFallbackRatio,
@@ -30,8 +27,6 @@ export function generateSupplierStatusEvents({
     // This is not a security critical application or sensitive data.
     // eslint-disable-next-line sonarjs/pseudo-random
     const delayedFallback = Math.random() < delayedFallbackRatio;
-
-    const nhsNumber = nhsNumbers[i % nhsNumbers.length];
 
     const event: SupplierStatusEvent = {
       version: '0',
@@ -55,7 +50,7 @@ export function generateSupplierStatusEvents({
           'https://notify.nhs.uk/events/schemas/supplier-status/v1.json',
         dataschemaversion: '1.0.0',
         data: {
-          nhsNumber,
+          nhsNumber: '9001648967',
           delayedFallback,
           sendingGroupId,
           clientId: 'apim_integration_test_client_id',
