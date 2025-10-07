@@ -45,30 +45,15 @@ describe('generateSupplierStatusEvents', () => {
     });
   });
 
-  it('should generate the correct ratio of delayed fallback values (within tolerance)', () => {
-    const numberOfEventsRequested = 10_000;
+  it('should generate the correct ratio of delayed fallback values', () => {
+    const numberOfEventsRequested = 10_001;
     const delayedFallbackRatio = 0.25;
-    const tolerance = 0.05;
 
-    const expectedEventsWithDelayedFallback =
-      numberOfEventsRequested * delayedFallbackRatio;
-    const eventsWithDelayedFallbackTolerance =
-      expectedEventsWithDelayedFallback * tolerance;
-    const expectedMinimumEventsWithDelayedfallback =
-      expectedEventsWithDelayedFallback - eventsWithDelayedFallbackTolerance;
-    const expectedMaximumEventsWithDelayedFallback =
-      expectedEventsWithDelayedFallback + eventsWithDelayedFallbackTolerance;
-
-    const expectedEventsWithoutDelayedFallback =
-      numberOfEventsRequested * (1 - delayedFallbackRatio);
-    const eventsWithoutDelayedFallbackTolerance =
-      expectedEventsWithoutDelayedFallback * tolerance;
-    const expectedMinimumEventsWithoutDelayedFallback =
-      expectedEventsWithoutDelayedFallback -
-      eventsWithoutDelayedFallbackTolerance;
-    const expectedMaximumEventsWithoutDelayedFallback =
-      expectedEventsWithoutDelayedFallback +
-      eventsWithoutDelayedFallbackTolerance;
+    const expectedNumberOfEventsWithDelayedFallback = Math.floor(
+      numberOfEventsRequested * delayedFallbackRatio,
+    );
+    const expectedNumberOfEventsWithoutDelayedFallback =
+      numberOfEventsRequested - expectedNumberOfEventsWithDelayedFallback;
 
     const generatedEvents = generateSupplierStatusEvents({
       delayedFallbackRatio,
@@ -83,18 +68,12 @@ describe('generateSupplierStatusEvents', () => {
       (event) => event.detail.data.delayedFallback === false,
     );
 
-    expect(delayedFallbackEvents.length).toBeGreaterThanOrEqual(
-      expectedMinimumEventsWithDelayedfallback,
-    );
-    expect(delayedFallbackEvents.length).toBeLessThanOrEqual(
-      expectedMaximumEventsWithDelayedFallback,
+    expect(delayedFallbackEvents).toHaveLength(
+      expectedNumberOfEventsWithDelayedFallback,
     );
 
-    expect(nonDelayedFallbackEvents.length).toBeGreaterThanOrEqual(
-      expectedMinimumEventsWithoutDelayedFallback,
-    );
-    expect(nonDelayedFallbackEvents.length).toBeLessThanOrEqual(
-      expectedMaximumEventsWithoutDelayedFallback,
+    expect(nonDelayedFallbackEvents).toHaveLength(
+      expectedNumberOfEventsWithoutDelayedFallback,
     );
   });
 });
