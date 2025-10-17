@@ -3,7 +3,9 @@ name: Acceptance stage
 on:
   workflow_call:
     secrets:
-      PR_TRIGGER_PAT:
+      APP_PEM_FILE:
+        required: true
+      APP_CLIENT_ID:
         required: true
     inputs:
       target_environment:
@@ -32,7 +34,8 @@ jobs:
       - name: Trigger Acceptance Tests
         shell: bash
         env:
-          PR_TRIGGER_PAT: ${{ secrets.PR_TRIGGER_PAT }}
+          APP_PEM_FILE: ${{ secrets.APP_PEM_FILE }}
+          APP_CLIENT_ID: ${{ secrets.APP_CLIENT_ID }}
           TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
           TARGET_ACCOUNT_GROUP: ${{ inputs.target_account_group }}
         run: |
