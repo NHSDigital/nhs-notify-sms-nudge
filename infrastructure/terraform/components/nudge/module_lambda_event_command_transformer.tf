@@ -1,5 +1,5 @@
 module "lambda_event_command_transformer" {
-  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-lambda.zip"
+  source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.29/terraform-lambda.zip"
 
   function_name = "event-command-transformer"
   description   = "A function for transforming inbound unnotified messages from SQS to commands"
@@ -31,7 +31,6 @@ module "lambda_event_command_transformer" {
   force_lambda_code_deploy = var.force_lambda_code_deploy
   enable_lambda_insights   = false
 
-  send_to_firehose          = true
   log_destination_arn       = local.log_destination_arn
   log_subscription_role_arn = local.acct.log_subscription_role_arn
 
