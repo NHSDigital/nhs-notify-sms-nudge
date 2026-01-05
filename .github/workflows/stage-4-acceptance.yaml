@@ -27,7 +27,7 @@ jobs:
     name: Acceptance tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v5
       # Calls out to the nhs-notify-internal repo.
       # The nhs-notify-internal repo will run the tests
       # setup in ./.github/actions/acceptance-tests/action.yaml
