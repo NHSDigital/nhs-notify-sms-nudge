@@ -80,11 +80,9 @@ export class NotifyClient implements INotifyClient, IAccessibleService {
           return response.data;
         },
         (err) =>
-          Boolean(
-            isAxiosError(err) &&
-              err.response?.status ===
-                HTTP2_CONSTANTS.HTTP_STATUS_TOO_MANY_REQUESTS,
-          ),
+          isAxiosError(err) &&
+          err.response?.status ===
+            HTTP2_CONSTANTS.HTTP_STATUS_TOO_MANY_REQUESTS,
         this.backoffConfig,
       );
     } catch (error: any) {
