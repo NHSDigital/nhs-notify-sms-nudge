@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/csv-parse": "^1.1.12",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.5.2",
+    "@types/node": "^25.0.3",
     "@types/yargs": "^17.0.33",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^7.0.1",
