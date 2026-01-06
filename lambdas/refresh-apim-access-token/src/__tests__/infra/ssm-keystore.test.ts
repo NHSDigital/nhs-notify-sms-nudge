@@ -73,7 +73,7 @@ describe('SSMKeyStore', () => {
         [
           [
             PutParameterCommand {
-              "deserialize": [Function],
+              "deserialize": null,
               "input": {
                 "Name": "fake_access_token_parameter_name",
                 "Overwrite": true,
@@ -92,8 +92,15 @@ describe('SSMKeyStore', () => {
                 "resolve": [Function],
                 "use": [Function],
               },
-              "schema": undefined,
-              "serialize": [Function],
+              "schema": [
+                9,
+                "com.amazonaws.ssm",
+                "PutParameter",
+                0,
+                [Function],
+                [Function],
+              ],
+              "serialize": null,
             },
           ],
         ]
@@ -142,7 +149,7 @@ describe('SSMKeyStore', () => {
         [
           [
             GetParameterCommand {
-              "deserialize": [Function],
+              "deserialize": null,
               "input": {
                 "Name": "fake_api_key_parameter_name",
                 "WithDecryption": true,
@@ -160,8 +167,15 @@ describe('SSMKeyStore', () => {
                 "resolve": [Function],
                 "use": [Function],
               },
-              "schema": undefined,
-              "serialize": [Function],
+              "schema": [
+                9,
+                "com.amazonaws.ssm",
+                "GetParameter",
+                0,
+                [Function],
+                [Function],
+              ],
+              "serialize": null,
             },
           ],
         ]

@@ -7,6 +7,9 @@
     "@playwright/test": "^1.55.1",
     "nhs-notify-sms-nudge-utils": "*"
   },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^7.0.1"
+  },
   "name": "nhs-notify-sms-nudge-integration-tests",
   "private": true,
   "scripts": {
