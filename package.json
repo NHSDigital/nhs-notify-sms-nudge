@@ -8,7 +8,7 @@
     "@stylistic/eslint-plugin-ts": "^4.4.1",
     "@tsconfig/node22": "^22.0.2",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.15.34",
+    "@types/node": "^25.0.3",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
     "esbuild": "^0.25.9",
