@@ -8,6 +8,10 @@ repos:
       - id: check-added-large-files
       - id: check-symlinks
       - id: detect-private-key
+        exclude: |
+          (?x)^(
+            .*/validate-private-key\.test\.ts
+          )$
       - id: end-of-file-fixer
       - id: forbid-new-submodules
       - id: mixed-line-ending

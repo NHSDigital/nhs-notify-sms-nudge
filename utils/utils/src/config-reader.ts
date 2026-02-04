@@ -66,6 +66,7 @@ function extendStringResult(
 }
 
 function read(key: string) {
+  // eslint-disable-next-line security/detect-object-injection
   const value = process.env[key];
 
   const result: ConfigResult<string> =

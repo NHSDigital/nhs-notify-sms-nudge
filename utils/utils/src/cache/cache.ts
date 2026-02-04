@@ -29,6 +29,7 @@ const newCache = <KeyType, ValueType>(
     const flatKey: string = typeof key === 'string' ? key : JSON.stringify(key);
 
     const currentTime = getCurrentTime();
+    // eslint-disable-next-line security/detect-object-injection
     const holder: Holder = state[flatKey];
     if (
       holder?.timestamp &&
@@ -49,6 +50,7 @@ const newCache = <KeyType, ValueType>(
       stateCacheTime = cacheTime;
     }
 
+    // eslint-disable-next-line security/detect-object-injection
     state[flatKey] = {
       value: result.value,
       timestamp: currentTime,
