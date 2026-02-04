@@ -32,7 +32,7 @@ describe('mapQueueToRequest', () => {
         ...mockRequest1.data,
         attributes: {
           ...mockRequest1.data.attributes,
-          billingReference: 'test-client-id_test-billing-reference',
+          billingReference: 'test-client-id|test-billing-reference',
         },
       },
     };
@@ -56,7 +56,7 @@ describe('mapQueueToRequest', () => {
         ...mockRequest1.data,
         attributes: {
           ...mockRequest1.data.attributes,
-          billingReference: 'test-client-id_test-campaign-id',
+          billingReference: 'test-client-id|test-campaign-id',
         },
       },
     };
