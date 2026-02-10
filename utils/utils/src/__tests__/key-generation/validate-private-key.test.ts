@@ -1,9 +1,11 @@
+/* eslint-disable sonarjs/hardcoded-secret-signatures */
 import { JWK } from 'node-jose';
 import {
   ValidateKeyResult,
   validatePrivateKey,
 } from '../../key-generation-utils';
 
+// Hardcoded test EC private key for validation testing
 const testPrivateKey = `-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIEpVnqrylY4xEsQdQgJhGFUFKGTGtl5cnKsIq2uNWa56oAoGCCqGSM49
 AwEHoUQDQgAEqoc8zybajz/NEoUzP5G7lchuuD7dej7vKlWConh1mvI9gvmyRheT
