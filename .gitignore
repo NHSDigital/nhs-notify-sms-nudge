@@ -9,8 +9,8 @@
 version.json
 *.code-workspace
 !project.code-workspace
-.DS_Store
 .vscode
+.DS_Store
 
 # Please, add your custom content below!
 
