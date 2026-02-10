@@ -13,8 +13,8 @@ python 3.13.2
 # The section below is reserved for Docker image versions.
 
 # TODO: Move this section - consider using a different file for the repository template dependencies.
-# docker/ghcr.io/anchore/grype v0.92.2@sha256:651e558f9ba84f2a790b3449c8a57cbbf4f34e004f7d3f14ae8f8cbeede4cd33  # SEE: https://github.com/anchore/grype/pkgs/container/grype
-# docker/ghcr.io/anchore/syft v1.26.0@sha256:de078f51704a213906970b1475edd6006b8af50aa159852e125518237487b8c6  # SEE: https://github.com/anchore/syft/pkgs/container/syft
+# docker/ghcr.io/anchore/grype v0.104.3@sha256:d340f4f8b3b7e6e72a6c9c0152f25402ed8a2d7375dba1dfce4e53115242feb6  # SEE: https://github.com/anchore/grype/pkgs/container/grype
+# docker/ghcr.io/anchore/syft v1.39.0@sha256:6f13bb010923c33fb197047c8f88888e77071bd32596b3f605d62a133e493ce4 # SEE: https://github.com/anchore/syft/pkgs/container/syft
 # docker/ghcr.io/gitleaks/gitleaks:v8.24.0@sha256:b8e9bf46893c2f20e10bfb4b2e783adaef519dea981b01ca6221ac325e836040 # SEE: https://github.com/gitleaks/gitleaks/pkgs/container/gitleaks
 # docker/ghcr.io/igorshubovych/markdownlint-cli v0.37.0@sha256:fb3e79946fce78e1cde84d6798c6c2a55f2de11fc16606a40d49411e281d950d # SEE: https://github.com/igorshubovych/markdownlint-cli/pkgs/container/markdownlint-cli
 # docker/ghcr.io/make-ops-tools/gocloc latest@sha256:6888e62e9ae693c4ebcfed9f1d86c70fd083868acb8815fe44b561b9a73b5032 # SEE: https://github.com/make-ops-tools/gocloc/pkgs/container/gocloc
@@ -24,4 +24,4 @@ python 3.13.2
 # docker/jdkato/vale v3.6.0@sha256:0ef22c8d537f079633cfff69fc46f69a2196072f69cab1ab232e8a79a388e425 # SEE: https://hub.docker.com/r/jdkato/vale/tags
 # docker/koalaman/shellcheck latest@sha256:e40388688bae0fcffdddb7e4dea49b900c18933b452add0930654b2dea3e7d5c # SEE: https://hub.docker.com/r/koalaman/shellcheck/tags
 # docker/mstruebing/editorconfig-checker 2.7.1@sha256:dd3ca9ea50ef4518efe9be018d669ef9cf937f6bb5cfe2ef84ff2a620b5ddc24 # SEE: https://hub.docker.com/r/mstruebing/editorconfig-checker/tags
-# docker/sonarsource/sonar-scanner-cli 11.3@sha256:7462f132388135e32b948f8f18ff0db9ae28a87c6777f1df5b2207e04a6d7c5c # SEE: https://hub.docker.com/r/sonarsource/sonar-scanner-cli/tags
+# docker/sonarsource/sonar-scanner-cli 11.4@sha256:14f46a51cbfde162e30cfd673bff542eca59860a0e904bcd2614f192605bd704 # SEE: https://hub.docker.com/r/sonarsource/sonar-scanner-cli/tags

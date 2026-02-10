@@ -36,6 +36,9 @@ version:
 	npm install --verbose
 
 install: .install
+
+perf-test:
+	npm run start:dev --workspace=supplier-status-event-generator
 # ==============================================================================
 
 ${VERBOSE}.SILENT: \
