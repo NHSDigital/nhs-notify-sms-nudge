@@ -17,6 +17,7 @@ repos:
       - id: mixed-line-ending
       - id: pretty-format-json
         args: ['--autofix']
+        exclude: '(^|/)package(-lock)?\.json$'
   - repo: local
     hooks:
       - id: sort-dictionary
