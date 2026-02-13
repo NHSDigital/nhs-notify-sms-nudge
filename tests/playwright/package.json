@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.844.0",
-    "@aws-sdk/client-lambda": "^3.844.0",
-    "@aws-sdk/client-sqs": "^3.844.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.900.0",
+    "@aws-sdk/client-lambda": "^3.900.0",
+    "@aws-sdk/client-sqs": "^3.900.0",
     "@faker-js/faker": "^9.6.0",
     "@playwright/test": "^1.55.1",
     "nhs-notify-sms-nudge-utils": "*"

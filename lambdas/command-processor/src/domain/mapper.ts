@@ -16,7 +16,7 @@ export function mapQueueToRequest(
     command.billingReference,
   ]
     .filter((part) => part?.trim())
-    .join('_');
+    .join('|');
 
   const request: SingleMessageRequest = {
     data: {

@@ -50,11 +50,13 @@ export async function expectToPassEventually<R>(
     } catch (error: unknown) {
       latestCaughtObjects.delete(invocationToken);
       if (Date.now() - startTime > timeout * 1000) {
+        // eslint-disable-next-line no-console
         console.log('Failed to finish test in time', {
           now: new Date().toISOString(),
           timeout,
           delay,
         });
+        // eslint-disable-next-line no-console
         console.error(error);
         throw error;
       } else {

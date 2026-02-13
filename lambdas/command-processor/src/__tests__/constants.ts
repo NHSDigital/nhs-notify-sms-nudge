@@ -33,7 +33,7 @@ export const mockRequest1: SingleMessageRequest = {
       routingPlanId: mockRoutingPlanId,
       messageReference: 'request-item-id_request-item-plan-id',
       billingReference:
-        'test-client-id_test-campaign-id_test-billing-reference',
+        'test-client-id|test-campaign-id|test-billing-reference',
       recipient: {
         nhsNumber: '9999999786',
       },
