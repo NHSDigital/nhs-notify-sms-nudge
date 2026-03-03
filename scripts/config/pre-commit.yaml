@@ -10,7 +10,8 @@ repos:
       - id: detect-private-key
         exclude: |
           (?x)^(
-            .*/validate-private-key\.test\.ts
+            .*/validate-private-key\.test\.ts |
+            utils/utils/src/__tests__/key-generation/get-private-key.test.ts
           )$
       - id: end-of-file-fixer
       - id: forbid-new-submodules
