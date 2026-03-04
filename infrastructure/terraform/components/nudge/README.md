@@ -56,7 +56,6 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_deployment"></a> [deployment](#output\_deployment) | Deployment details used for post-deployment scripts |
-| <a name="output_inbound_event_subscriber_anomaly_alarm"></a> [inbound\_event\_subscriber\_anomaly\_alarm](#output\_inbound\_event\_subscriber\_anomaly\_alarm) | Inbound event subscriber anomaly detection alarm details |
 <!-- vale on -->
 <!-- markdownlint-enable -->
 <!-- END_TF_DOCS -->
