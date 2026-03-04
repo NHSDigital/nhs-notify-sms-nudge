@@ -106,7 +106,6 @@ describe('validatePrivateKey', () => {
   });
 
   it('accepts valid key', async () => {
-    // eslint-disable-next-line sonarjs/hardcoded-secret-signatures
     const testPrivateKeyJwk = await JWK.asKey(testPrivateKey, 'pem');
 
     const testOutput = await validatePrivateKey({
