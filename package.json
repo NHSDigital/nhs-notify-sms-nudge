@@ -51,7 +51,8 @@
     "pretty-format": {
       "react-is": "19.0.0"
     },
-    "react": "^19.0.0"
+    "react": "^19.0.0",
+    "test-exclude": "^8.0.0"
   },
   "scripts": {
     "generate-dependencies": "npm run generate-dependencies --workspaces --if-present",
