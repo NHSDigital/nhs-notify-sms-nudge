@@ -55,7 +55,7 @@ function terraform-destroy() {
 function terraform-fmt() {
   for d in "${PWD}/infrastructure/"*; do
     if [ -d "$d" ]; then
-        terraform fmt --recursive "${d}"
+        _terraform fmt --recursive "${d}"
     fi
   done
 }
