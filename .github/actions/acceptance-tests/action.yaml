@@ -39,7 +39,6 @@ runs:
 
     - name: Archive integration test results
       if: ${{ inputs.testType == 'integration' }}
-      uses: actions/upload-artifact@v4
-      with:
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4      with:
         name: Integration test report
         path: "tests/playwright/playwright-report"
