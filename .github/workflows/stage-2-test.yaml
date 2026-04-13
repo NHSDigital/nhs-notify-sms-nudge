@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: "Repo setup"
         run: |
-          npm ci --verbose
+          npm ci --verbose --ignore-scripts
       - name: "Generate dependencies"
         run: |
           npm run generate-dependencies --workspaces --if-present
@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: "Repo setup"
         run: |
-          npm ci
+          npm ci --ignore-scripts
       - name: "Generate dependencies"
         run: |
           npm run generate-dependencies --workspaces --if-present
@@ -92,7 +92,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: "Repo setup"
         run: |
-          npm ci
+          npm ci --ignore-scripts
       - name: "Generate dependencies"
         run: |
           npm run generate-dependencies --workspaces --if-present
@@ -108,7 +108,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: "Repo setup"
         run: |
-          npm ci
+          npm ci --ignore-scripts
       - name: "Generate dependencies"
         run: |
           npm run generate-dependencies --workspaces --if-present
@@ -148,7 +148,7 @@ jobs:
           name: code-coverage-report
       - name: "Repo setup"
         run: |
-          npm ci
+          npm ci --ignore-scripts
       - name: "Perform static analysis"
         uses: NHSDigital/nhs-notify-shared-modules/.github/actions/perform-static-analysis@3.0.9
         with:
