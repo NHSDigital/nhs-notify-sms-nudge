@@ -33,6 +33,17 @@ on:
         type: string
 
 jobs:
+  # artefact-jekyll-docs:
+  #   name: "Build Docs"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 3
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #     - name: "Build docs"
+  #       uses: NHSDigital/nhs-notify-shared-modules/.github/actions/build-docs@3.0.9
+  #       with:
+  #         version: "${{ inputs.version }}"
   artefact-1:
     name: "Artefact 1"
     runs-on: ubuntu-latest
