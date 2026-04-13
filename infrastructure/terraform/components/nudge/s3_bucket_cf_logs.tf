@@ -1,3 +1,4 @@
+# TODO: CCM-16939 Remove and use vended resources from acct
 module "s3bucket_cf_logs" {
   source = "https://github.com/NHSDigital/nhs-notify-shared-modules/releases/download/v2.0.20/terraform-s3bucket.zip"
   providers = {
