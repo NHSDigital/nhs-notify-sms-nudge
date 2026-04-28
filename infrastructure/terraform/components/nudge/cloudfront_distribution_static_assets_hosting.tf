@@ -22,7 +22,8 @@ resource "aws_cloudfront_distribution" "static_assets_hosting" {
 
   logging_config {
     include_cookies = false
-    bucket          = module.s3bucket_cf_logs.bucket_regional_domain_name # TODO: CCM-16939 Migrate to vended resources from acct
+    bucket          = "${local.acct.additional_s3_buckets_us["smsnudge_cdn-logs"].id}.s3.amazonaws.com"
+    prefix          = "${local.csi}/static-assets/"
   }
 
   origin {
