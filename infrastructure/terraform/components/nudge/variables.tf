@@ -166,3 +166,16 @@ variable "event_anomaly_band_width" {
     error_message = "Band width must be between 2 and 10"
   }
 }
+
+variable "csoc_log_forwarding" {
+  type        = bool
+  description = "Whether to send Shield alarm events to CSOC. Keep false for non-prod until CSOC confirm readiness."
+  default     = false
+}
+
+variable "csoc_destination_account" {
+  type        = string
+  description = "AWS account ID of the CSOC destination account. If null, no CSOC forwarding resources are created."
+  default     = null
+  nullable    = true
+}

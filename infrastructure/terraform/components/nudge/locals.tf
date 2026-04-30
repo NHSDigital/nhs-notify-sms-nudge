@@ -8,4 +8,8 @@ locals {
   apim_keystore_s3_bucket              = "nhs-${var.aws_account_id}-${var.region}-${var.environment}-${var.component}-static-assets"
   root_domain_name                     = "${var.environment}.${local.acct.route53_zone_names["smsnudge"]}" # e.g. [main|dev|abxy0].smsnudge.[dev|nonprod|prod].nhsnotify.national.nhs.uk
   root_domain_id                       = local.acct.route53_zone_ids["smsnudge"]
+  csoc_event_rule_shield_csoc_arn = var.csoc_log_forwarding ? format("arn:aws:events:%s:%s:event-bus/shield-eventbus",
+    var.region,
+    var.csoc_destination_account
+  ) : null
 }
